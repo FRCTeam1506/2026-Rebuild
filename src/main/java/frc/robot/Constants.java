@@ -20,4 +20,11 @@ public class Constants {
         public static final int Left_Back_Shooter_ID = 0;
         public static final int Right_Back_Shooter_ID = 0;
     }
+
+
+    public class VisionConstants {
+        public static final String LL_LEFT = "limelight-left"; //side of the turret
+        public static final String LL_BACK = "limelight-back";
+        public static final String LL_RIGHT = "limelight-right";
+    }
 }

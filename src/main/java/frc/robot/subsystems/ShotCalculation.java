@@ -1,15 +1,27 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.alignVariables;
 
 public class ShotCalculation extends SubsystemBase {
     CommandSwerveDrivetrain drivetrain;
 
+    public static int shootMode = 1;
+    boolean red;
+    Optional<Alliance> alliance = DriverStation.getAlliance();
+
+    public InterpolatingDoubleTreeMap timeOfFlight = new InterpolatingDoubleTreeMap();
 
     //Positions
     //Variables for getting angle to goal.
@@ -43,6 +55,7 @@ public class ShotCalculation extends SubsystemBase {
     double angleToGoal;
     double toDegree;
     double angleToPos;
+    double preHeading;
     public static double wantedHeading;
     double dist;
     Translation2d targetVec;
@@ -73,9 +86,24 @@ public class ShotCalculation extends SubsystemBase {
 
     public ShotCalculation(CommandSwerveDrivetrain drivetrain) {
         this.drivetrain = drivetrain;
+
+        if (alliance.get() == Alliance.Red) {
+            red = true;
+        } else {
+            red = false;
+        }
+
+
+        timeOfFlight.put(1.0, 1.0);
+    }
+
+    public void shootModeUp() {
+        shootMode += 1;
+    }
+    public void shootModeDown() {
+        shootMode -= 1;
     }
     
-
 
     @Override
     public void periodic() {
@@ -88,13 +116,111 @@ public class ShotCalculation extends SubsystemBase {
         vRotationalRobotX = -omega * robotPoseY;
         rotationalVelocityField = new Translation2d(vRotationalRobotX, vRotationalRobotY).rotateBy(drivetrain.getState().Pose.getRotation());
 
+        totalFieldVy = drivetrain.getState().Speeds.vyMetersPerSecond + rotationalVelocityField.getY();
+        totalFieldVx = drivetrain.getState().Speeds.vxMetersPerSecond + rotationalVelocityField.getX();
+        
+        //Times time of flight
+        vRobotY = robotPose.getY() + (totalFieldVy * timeOfFlight.get(alignVariables.distToGoal) * flightTimeMultiplier);
+        vRobotX = robotPose.getX() + (totalFieldVx * timeOfFlight.get(alignVariables.distToGoal) * flightTimeMultiplier);
+        vRobotPose = new Translation2d(vRobotX, vRobotY);
+
+        switch (shootMode) {
+            case 0: //Keep turret at zero
+              break;
+            case 1: //Change goal based on robot position
+                if(red == true) {
+                    if (robotPoseX > redLine) {
+                        goalLocation = new Translation2d(goalRedX, goalRedY);
+                        thetaX = goalLocation.getX() - vRobotX;
+                        thetaY = goalLocation.getY() - vRobotY;
+                    }
+                    if(robotPoseY < 4 && robotPoseX < redLine) {//left (from red perspective)
+                        goalLocation = new Translation2d(goalLeftRedX, goalLeftRedY);
+                        thetaX = goalLocation.getX() - vRobotX;
+                        thetaY = goalLocation.getY() - vRobotY;
+                    }
+                    if(robotPoseY > 4 && robotPoseX < redLine) { 
+                        goalLocation = new Translation2d(goalRightRedX, goalRightRedY);
+                        thetaX = goalLocation.getX() - vRobotX;
+                        thetaY = goalLocation.getY() - vRobotY;
+                    }
+                }
+                else { //blue
+                    if (robotPoseX < blueLine) {
+                        goalLocation = new Translation2d(goalBlueX, goalBlueY);
+                        thetaX = goalLocation.getX() - vRobotX;
+                        thetaY = goalLocation.getY() - vRobotY;
+                    }
+                    if(robotPoseY < 4 && robotPoseX > blueLine) { //left (from red perspective)
+                        goalLocation = new Translation2d(goalLeftBlueX, goalLeftBlueY);
+                        thetaX = goalLocation.getX() - vRobotX;
+                        thetaY = goalLocation.getY() - vRobotY;
+                    }
+                    if(robotPoseY > 4 && robotPoseX > blueLine) {
+                        goalLocation = new Translation2d(goalRightBlueX, goalRightBlueY);
+                        thetaX = goalLocation.getX() - vRobotX;
+                        thetaY = goalLocation.getY() - vRobotY;
+                    }
+                    
+                }
+                //Constants.manualTurret = false;
+                break;
+            case 2: //Goal only
+                if (red == true) {
+                    goalLocation = new Translation2d(goalRedX, goalRedY);
+                    thetaX = goalLocation.getX() - vRobotX;
+                    thetaY = goalLocation.getY() - vRobotY;
+                } else {
+                    goalLocation = new Translation2d(goalBlueX, goalBlueY);
+                    thetaX = goalLocation.getX() - vRobotX;
+                    thetaY = goalLocation.getY() - vRobotY;
+                }
+                //Constants.manualTurret = false;
+                break;
+            case 3: //Aim to the left side for mailing DRIVER PERSPECTIVE
+                if (red == true) {
+                goalLocation = new Translation2d(goalLeftRedX, goalLeftRedY);
+                thetaX = goalLocation.getX() - vRobotX;
+                thetaY = goalLocation.getY() - vRobotY;
+                } else {
+                goalLocation = new Translation2d(goalLeftBlueX, goalLeftBlueY);
+                thetaX = goalLocation.getX() - vRobotX;
+                thetaY = goalLocation.getY() - vRobotY;
+                }
+                //Constants.manualTurret = false;
+                break;
+            case 4: //Aim to the right side for mailing DRIVER PERSPECTIVE
+                if (red == true) {
+                goalLocation = new Translation2d(goalRightRedX, goalRightRedY);
+                thetaX = goalLocation.getX() - vRobotX;
+                thetaY = goalLocation.getY() - vRobotY;
+                } else {
+                goalLocation = new Translation2d(goalRightBlueX, goalRightBlueY);
+                thetaX = goalLocation.getX() - vRobotX;
+                thetaY = goalLocation.getY() - vRobotY;
+                }
+                //Constants.manualTurret = false;
+                break;
+        
+            default: //Anything else stop turret
+                //Constants.manualTurret = true;
+                break;
+        }
+
         heading = drivetrain.getState().Pose.getRotation().getDegrees();
-        theta = Math.atan2(thetaY, thetaX);
-        toDegree = Math.toDegrees(theta);
-        wantedHeading = toDegree - heading;
+        theta = Math.toDegrees(Math.atan2(thetaY, thetaX)); //degree value of theta
+        //toDegree = Math.toDegrees(theta);
+        //preHeading = toDegree - heading; 
+        //wantedHeading = MathUtil.inputModulus(preHeading, -180, 180);
 
         targetVec = goalLocation.minus(vRobotPose);
         dist = targetVec.getNorm();
-        distToGoal = dist;
+        alignVariables.distToGoal = dist;
+
+        if (alliance.get() == Alliance.Red) {
+            red = true;
+        } else {
+            red = false;
+        }
     }
 }

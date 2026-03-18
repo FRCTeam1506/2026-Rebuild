@@ -6,13 +6,22 @@ package frc.robot;
 
 /** Add your docs here. */
 public class Constants {
+    public class alignVariables {
+        public static double distToGoal;
+    }
     public class IntakeConstants {
         public static final int Intake_Motor_ID = 0;
         public static final int Intake_Lift_Motor_ID = 0;
         public static final int Intake_Lift_Encoder_ID = 0;
+
+
+        public static final double intakeSpeed = 0.6;
+        public static final int intakeUpPose = 0;
+        public static final int intakeDownPose = 0;
     }
     public class HopperConstants {
         public static final int Hopper_Motor_ID = 0;
+        public static final double hopperSpeed = 0;
     }
     public class ShooterConstants {
         public static final int Left_Front_Shooter_ID = 0;
@@ -26,5 +35,11 @@ public class Constants {
         public static final String LL_LEFT = "limelight-left"; //side of the turret
         public static final String LL_BACK = "limelight-back";
         public static final String LL_RIGHT = "limelight-right";
+    }
+
+    public class presetShots {
+        public static final double closeShot = 0;
+        public static final double midShot = 0;
+        public static final double farShot = 0;
     }
 }

@@ -24,9 +24,12 @@ public class Intake extends SubsystemBase {
   private TalonFX intakeLift = new TalonFX(IntakeConstants.Intake_Lift_Motor_ID);
   private CANcoder liftEncoder = new CANcoder(IntakeConstants.Intake_Lift_Encoder_ID);
 
+  final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
+
+
 
   public Intake() {
-      final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
+      // final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
       CANcoderConfiguration encoderConfigs = new CANcoderConfiguration();
       encoderConfigs.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
       liftEncoder.getConfigurator().apply(encoderConfigs);
@@ -53,6 +56,8 @@ public class Intake extends SubsystemBase {
       config.Slot0 = slot0Configs;
       config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
+      m_motmag.EnableFOC = true;//from 2025 code
+
 
       intakeLift.getConfigurator().apply(motionMagicConfigs);
       intakeLift.getConfigurator().apply(slot0Configs); 
@@ -73,6 +78,10 @@ public class Intake extends SubsystemBase {
 
   public void stopIntakeLift() {
     intakeLift.set(0);
+  }
+
+  public void setIntakeLift(double Pos) {
+    intakeLift.setControl(m_motmag.withPosition(Pos));
   }
 
   @Override

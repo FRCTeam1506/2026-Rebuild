@@ -6,10 +6,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.alignVariables;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
@@ -17,6 +21,11 @@ public class Shooter extends SubsystemBase {
   private TalonFX shooterRightBack = new TalonFX(ShooterConstants.Right_Back_Shooter_ID);
   private TalonFX shooterLeftFront = new TalonFX(ShooterConstants.Left_Front_Shooter_ID);
   private TalonFX shooterRightFront = new TalonFX(ShooterConstants.Right_Front_Shooter_ID);
+
+  public InterpolatingDoubleTreeMap shooterPower = new InterpolatingDoubleTreeMap();
+
+  final VelocityVoltage speedControl = new VelocityVoltage(0);
+
 
   public Shooter() {
     TalonFXConfiguration shooterConfigs = new TalonFXConfiguration();
@@ -49,13 +58,23 @@ public class Shooter extends SubsystemBase {
     shooterLeftBack.getConfigurator().apply(shooterConfigs);
     shooterRightBack.getConfigurator().apply(shooterConfigs);
 
+
+
+    shooterPower.put(1.0, 1.0);
   }
 
-  public void runAllShooters(double speed) {
+  public void runAllShootersSpeed(double speed) {
     shooterLeftFront.set(speed);
     shooterRightFront.set(speed);
     shooterLeftBack.set(speed);
     shooterRightBack.set(speed);
+  }
+
+  public void runAllShootersRPS(double speed) {
+    shooterLeftFront.setControl(speedControl.withVelocity(speed));
+    shooterRightFront.setControl(speedControl.withVelocity(speed));
+    shooterLeftBack.setControl(speedControl.withVelocity(speed));
+    shooterRightBack.setControl(speedControl.withVelocity(speed));
   }
 
   public void stopAllShooters() {
@@ -65,6 +84,16 @@ public class Shooter extends SubsystemBase {
     shooterRightBack.set(0);
   }
 
+  public void autoShooterPower() {
+    shooterLeftFront.set(alignVariables.distToGoal);
+    shooterRightFront.set(alignVariables.distToGoal);
+    shooterLeftBack.set(alignVariables.distToGoal);
+    shooterRightBack.set(alignVariables.distToGoal);
+  }
+
+  public double shooterSpeed() {
+    return shooterLeftFront.getVelocity().getValueAsDouble();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -13,7 +13,7 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.alignVariables;
+import frc.robot.Constants.fieldConstants;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
@@ -85,10 +85,10 @@ public class Shooter extends SubsystemBase {
   }
 
   public void autoShooterPower() {
-    shooterLeftFront.set(alignVariables.distToGoal);
-    shooterRightFront.set(alignVariables.distToGoal);
-    shooterLeftBack.set(alignVariables.distToGoal);
-    shooterRightBack.set(alignVariables.distToGoal);
+    shooterLeftFront.set(fieldConstants.distToGoal);
+    shooterRightFront.set(fieldConstants.distToGoal);
+    shooterLeftBack.set(fieldConstants.distToGoal);
+    shooterRightBack.set(fieldConstants.distToGoal);
   }
 
   public double shooterSpeed() {

@@ -6,7 +6,7 @@ package frc.robot.Commands.Shoot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.HopperConstants;
-import frc.robot.Constants.alignVariables;
+import frc.robot.Constants.fieldConstants;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
@@ -31,7 +31,7 @@ public class AutoShoot extends Command {
   @Override
   public void execute() {
     shooter.autoShooterPower();
-    if (shooter.shooterSpeed() > shooter.shooterPower.get(alignVariables.distToGoal) - 5) {
+    if (shooter.shooterSpeed() > shooter.shooterPower.get(fieldConstants.distToGoal) - 5) {
       hopper.runHopper(HopperConstants.hopperSpeed);
     }
   }

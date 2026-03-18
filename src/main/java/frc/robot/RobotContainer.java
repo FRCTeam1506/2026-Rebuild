@@ -12,8 +12,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,8 +20,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.Commands.Align.AutoAlign;
+import frc.robot.Commands.AutoAlign;
 import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.OuttakeCommand;
 import frc.robot.Commands.Shoot.AutoShoot;
@@ -116,7 +113,7 @@ public class RobotContainer {
         driver.L1().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
-        driver.R1().whileTrue(new AutoAlign(drivetrain));
+        driver.R1().whileTrue(new AutoAlign(drivetrain, true));
 
 
         //Operator Controls
@@ -124,22 +121,22 @@ public class RobotContainer {
         //Shoot
         operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
         operator.a().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
-        operator.a().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
-        operator.a().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
+        operator.x().whileTrue(new ShootManual(shooter, hopper, presetShots.midShot));
+        operator.y().whileTrue(new ShootManual(shooter, hopper, presetShots.farShot));
 
         //Intake
         operator.leftTrigger().whileTrue(new IntakeCommand(intake));
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
-        operator.rightBumper().whileTrue(new AutoAlign(drivetrain));
+        operator.rightBumper().whileTrue(new AutoAlign(drivetrain, true));
 
 
         //Testing Controls
         testing.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
         testing.a().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
-        testing.a().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
-        testing.a().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
+        testing.x().whileTrue(new ShootManual(shooter, hopper, presetShots.midShot));
+        testing.y().whileTrue(new ShootManual(shooter, hopper, presetShots.farShot));
 
         //Intake
         testing.leftTrigger().whileTrue(new IntakeCommand(intake));
@@ -148,7 +145,7 @@ public class RobotContainer {
         testing.povRight().onFalse(new InstantCommand(() -> intake.stopIntake()));
 
         //Align
-        testing.rightBumper().whileTrue(new AutoAlign(drivetrain));
+        testing.rightBumper().whileTrue(new AutoAlign(drivetrain, true));
 
         //Hopper
         testing.leftStick().whileTrue(new InstantCommand(() -> hopper.runHopper(0.5)));

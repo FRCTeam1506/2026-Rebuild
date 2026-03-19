@@ -9,7 +9,28 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 /** Add your docs here. */
 public class Constants {
-    public class fieldConstants {
+
+    public static class EquationConstants {
+    // Equation: RPS = ax^2 + bx + c
+    public static final double sA = 0;
+    public static final double sB = 0;
+    public static final double sC = 0;    
+    
+    public static double calculateRPS(double distance) {
+        return sA * Math.pow(distance, 2) + sB * distance + sC;
+        }
+
+    public static final double tA = 0;
+    public static final double tB = 0;
+    public static final double tC = 0;
+
+    public static double calculateTimeOfFlight(double distance) {
+        return tA * Math.pow(distance, 2) + tB * distance + tC;
+    
+        }
+    }
+
+    public class FieldConstants {
         public static double distToGoal;
         //Positions
         //Variables for getting angle to goal.
@@ -36,34 +57,6 @@ public class Constants {
         public static final double goalLeftBlueX = 1.5;
     }
 
-    public class alignCalculations{
-        public static double theta;
-        public static double thetaX, thetaY;
-        public static double toDegree;
-        public static double preHeading;
-        public static double wantedHeading;
-        public static double dist;
-        public static Translation2d targetVec;
-        public static double distToGoal;
-
-        //Robot Poses
-        public static Pose2d robotPose;
-        public static double robotPoseX;
-        public static double robotPoseY;
-        public static double omega;
-        public static double heading;
-
-        public static Translation2d rotationalVelocityField;
-
-        //Virtual Robot Poses
-        public static double vRobotY;
-        public static double vRobotX;
-        public static double vRotationalRobotY;
-        public static double vRotationalRobotX;
-        public static double totalFieldVy;
-        public static double totalFieldVx;
-        public static Translation2d vRobotPose;
-    }
     public class IntakeConstants {
         public static final int Intake_Motor_ID = 0;
         public static final int Intake_Lift_Motor_ID = 0;
@@ -78,6 +71,8 @@ public class Constants {
         public static final double hopperSpeed = 0;
     }
     public class ShooterConstants {
+        public static final double kRPSTolerance = 2.0;
+
         public static final int Left_Front_Shooter_ID = 0;
         public static final int Right_Front_Shooter_ID = 0;
         public static final int Left_Back_Shooter_ID = 0;
@@ -95,9 +90,18 @@ public class Constants {
         public static final String LL_RIGHT = "limelight-right";
     }
 
-    public class presetShots {
+    public class AlignConstants {
+        public static final double alignToleranceDegrees = 2.0;
+        public static final double aimControllerP = 0.05;
+        public static final double aimControllerI = 0;
+        public static final double aimControllerD = 0.001;
+        public static final double alignMaxCorrectionSpeed = 0.5;
+        public static final double alignMaxAcceleration = 0.1; 
+    }
+
+    public class PresetShots {
         public static final double closeShot = 0;
-        public static final double midShot = 0;
-        public static final double farShot = 0;
+        public static final double trenchShot = 0;
+        public static final double cornerShot = 0;
     }
 }

@@ -5,8 +5,11 @@
 package frc.robot.Commands.Shoot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.EquationConstants;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.HopperConstants;
-import frc.robot.Constants.fieldConstants;
+import frc.robot.Constants.ShooterConstants;
+
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
@@ -30,8 +33,8 @@ public class AutoShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.autoShooterPower();
-    if (shooter.shooterSpeed() > shooter.shooterPower.get(fieldConstants.distToGoal) - 5) {
+    shooter.setShooterRPS(EquationConstants.calculateRPS(FieldConstants.distToGoal));
+    if (shooter.isAtVelocity(EquationConstants.calculateRPS(FieldConstants.distToGoal), ShooterConstants.kRPSTolerance)) {
       hopper.runHopper(HopperConstants.hopperSpeed);
     }
   }

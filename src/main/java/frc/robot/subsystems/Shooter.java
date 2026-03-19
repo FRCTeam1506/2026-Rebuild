@@ -12,8 +12,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.fieldConstants;
+import frc.robot.Constants.FieldConstants;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
@@ -70,7 +71,7 @@ public class Shooter extends SubsystemBase {
     shooterRightBack.set(speed);
   }
 
-  public void runAllShootersRPS(double speed) {
+  public void setShooterRPS(double speed) {
     shooterLeftFront.setControl(speedControl.withVelocity(speed));
     shooterRightFront.setControl(speedControl.withVelocity(speed));
     shooterLeftBack.setControl(speedControl.withVelocity(speed));
@@ -85,14 +86,19 @@ public class Shooter extends SubsystemBase {
   }
 
   public void autoShooterPower() {
-    shooterLeftFront.set(fieldConstants.distToGoal);
-    shooterRightFront.set(fieldConstants.distToGoal);
-    shooterLeftBack.set(fieldConstants.distToGoal);
-    shooterRightBack.set(fieldConstants.distToGoal);
+    shooterLeftFront.set(FieldConstants.distToGoal);
+    shooterRightFront.set(FieldConstants.distToGoal);
+    shooterLeftBack.set(FieldConstants.distToGoal);
+    shooterRightBack.set(FieldConstants.distToGoal);
   }
 
-  public double shooterSpeed() {
-    return shooterLeftFront.getVelocity().getValueAsDouble();
+  public double avgShooterSpeed() {
+    return (shooterLeftFront.getVelocity().getValueAsDouble() + shooterRightFront.getVelocity().getValueAsDouble() + shooterLeftBack.getVelocity().getValueAsDouble() + shooterRightBack.getVelocity().getValueAsDouble()) / 4.0;
+  }
+
+  public boolean isAtVelocity(double targetRPS, double tolerance) {
+    double currentRPS = avgShooterSpeed();
+    return Math.abs(currentRPS - targetRPS) <= tolerance;
   }
   @Override
   public void periodic() {

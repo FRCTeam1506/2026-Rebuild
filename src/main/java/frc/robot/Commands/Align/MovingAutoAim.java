@@ -2,7 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands;
+package frc.robot.Commands.Align;
+
+import static edu.wpi.first.units.Units.MetersPerSecond;
 
 import java.util.Optional;
 
@@ -16,13 +18,23 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.alignCalculations;
-import frc.robot.Constants.fieldConstants;
+import frc.robot.Constants.AlignConstants;
+import frc.robot.Constants.EquationConstants;
+import frc.robot.Constants.FieldConstants;
+import frc.robot.Constants.FieldConstants;
+import frc.robot.generated.TunerConstants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoAlign extends Command {
+/**
+ * AutoAim command aligns the robot's drivetrain to a target on the field.
+ * @param drivetrain The swerve drivetrain subsystem to control.
+ * @param hub Whether to aim at a specific hub configuration (true) or just the main goal (false).
+ * It calculates the necessary rotation to face a specific goal or hub 
+ * based on the robot's current position and velocity (correcting for time of flight).
+ */
+public class MovingAutoAim extends Command {
   private final CommandSwerveDrivetrain drivetrain;
 
   private final ProfiledPIDController thetaController;
@@ -33,115 +45,114 @@ public class AutoAlign extends Command {
   double rotationalVelocity;
   double toRadians;
   boolean hub;
-  public InterpolatingDoubleTreeMap timeOfFlight = new InterpolatingDoubleTreeMap();
 
-
-  public static double theta;
-  public static double thetaX, thetaY;
-  public static double toDegree;
-  public static double preHeading;
-  public static double wantedHeading;
-  public static double dist;
-  public static Translation2d targetVec;
-  public static double distToGoal;
+  private double theta;
+  private double thetaX, thetaY;
+  private double toDegree;
+  private double preHeading;
+  private double wantedHeading;
+  private double dist;
+  private Translation2d targetVec;
+  private double distToGoal;
 
   //Robot Poses
   public static Pose2d robotPose;
   public static double robotPoseX;
   public static double robotPoseY;
-  public static double omega;
-  public static double heading;
-
-  public static Translation2d rotationalVelocityField;
+  private static double omega;
+  private static double heading;
+  private static Translation2d rotationalVelocityField;
 
   //Virtual Robot Poses
   public static double vRobotY;
   public static double vRobotX;
-  public static double vRotationalRobotY;
-  public static double vRotationalRobotX;
-  public static double totalFieldVy;
-  public static double totalFieldVx;
-  public static Translation2d vRobotPose;
-  public static boolean red;
+  private static double vRotationalRobotY;
+  private static double vRotationalRobotX;
+  private static double totalFieldVy;
+  private static double totalFieldVx;
+  private static Translation2d vRobotPose;
+  private static boolean isRed;
 
   Translation2d goalLocation = new Translation2d(0, 0);
 
 
   Optional<Alliance> alliance = DriverStation.getAlliance();
 
-  /** Creates a new AutoAlign. */
-  public AutoAlign(CommandSwerveDrivetrain drivetrain, boolean hub) {
+  /**
+   * Creates a new AutoAim command.
+   *
+   * @param drivetrain The swerve drivetrain subsystem to control.
+   * @param hub        Whether to aim at a specific hub configuration (true) or just the main goal (false).
+   */
+  public MovingAutoAim(CommandSwerveDrivetrain drivetrain, boolean hub) {
     this.drivetrain = drivetrain;
     this.hub = hub;
     alignRequest = new SwerveRequest.FieldCentric();
 
-    thetaController = new ProfiledPIDController(4, 0, 0, new TrapezoidProfile.Constraints(2, 2));
+    thetaController = new ProfiledPIDController(AlignConstants.aimControllerP, AlignConstants.aimControllerI, AlignConstants.aimControllerD, new TrapezoidProfile.Constraints(AlignConstants.alignMaxCorrectionSpeed, AlignConstants.alignMaxAcceleration));
     thetaController.enableContinuousInput(-180, 180); 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    var allianceColor = DriverStation.getAlliance();
+    isRed = allianceColor.isPresent() && allianceColor.get() == Alliance.Red;
   }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (alliance.get() == Alliance.Red) {
-            red = true;
-    } else {
-            red = false;
-  }
-
+  
     omega = drivetrain.getState().Speeds.omegaRadiansPerSecond;
     robotPose = drivetrain.getState().Pose;
     robotPoseX = drivetrain.getState().Pose.getX();
     robotPoseY = drivetrain.getState().Pose.getY();
 
-    vRotationalRobotY = alignCalculations.omega * alignCalculations.robotPoseX;
-    vRotationalRobotX = -alignCalculations.omega * alignCalculations.robotPoseY;
+    vRotationalRobotY = omega * robotPoseX;
+    vRotationalRobotX = -omega * robotPoseY;
     rotationalVelocityField = new Translation2d(vRotationalRobotX, vRotationalRobotY).rotateBy(drivetrain.getState().Pose.getRotation());
 
     totalFieldVy = drivetrain.getState().Speeds.vyMetersPerSecond + rotationalVelocityField.getY();
     totalFieldVx = drivetrain.getState().Speeds.vxMetersPerSecond + rotationalVelocityField.getX();
     
     //Times time of flight
-    vRobotY = robotPose.getY() + (totalFieldVy * timeOfFlight.get(fieldConstants.distToGoal));
-    vRobotX = robotPose.getX() + (totalFieldVx * timeOfFlight.get(fieldConstants.distToGoal));
+    vRobotY = robotPose.getY() + (totalFieldVy * EquationConstants.calculateTimeOfFlight(FieldConstants.distToGoal));
+    vRobotX = robotPose.getX() + (totalFieldVx * EquationConstants.calculateTimeOfFlight(FieldConstants.distToGoal));
     vRobotPose = new Translation2d(vRobotX, vRobotY);
 
       if(hub == true) {
-        if(red == true) {
-                  if (robotPoseX > fieldConstants.redLine) {
-                      goalLocation = new Translation2d(fieldConstants.goalRedX, fieldConstants.goalRedY);
+        if(isRed == true) {
+                  if (robotPoseX > FieldConstants.redLine) {
+                      goalLocation = new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY);
                       thetaX = goalLocation.getX() - vRobotX;
                       thetaY = goalLocation.getY() - vRobotY;
                   }
-                  if(robotPoseY < 4 && robotPoseX < fieldConstants.redLine) {//left (from red perspective)
-                      goalLocation = new Translation2d(fieldConstants.goalLeftRedX, fieldConstants.goalLeftRedY);
+                  if(robotPoseY < 4 && robotPoseX < FieldConstants.redLine) {//left (from red perspective)
+                      goalLocation = new Translation2d(FieldConstants.goalLeftRedX, FieldConstants.goalLeftRedY);
                       thetaX = goalLocation.getX() - vRobotX;
                       thetaY = goalLocation.getY() - vRobotY;
                   }
-                  if(robotPoseY > 4 && robotPoseX < fieldConstants.redLine) { 
-                      goalLocation = new Translation2d(fieldConstants.goalRightRedX, fieldConstants.goalRightRedY);
+                  if(robotPoseY > 4 && robotPoseX < FieldConstants.redLine) { 
+                      goalLocation = new Translation2d(FieldConstants.goalRightRedX, FieldConstants.goalRightRedY);
                       thetaX = goalLocation.getX() - vRobotX;
                       thetaY = goalLocation.getY() - vRobotY;
                   }
               }
               else { //blue
-                  if (robotPoseX < fieldConstants.blueLine) {
-                      goalLocation = new Translation2d(fieldConstants.goalBlueX, fieldConstants.goalBlueY);
+                  if (robotPoseX < FieldConstants.blueLine) {
+                      goalLocation = new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
                       thetaX = goalLocation.getX() - vRobotX;
                       thetaY = goalLocation.getY() - vRobotY;
                   }
-                  if(robotPoseY < 4 && robotPoseX > fieldConstants.blueLine) { //left (from red perspective)
-                      goalLocation = new Translation2d(fieldConstants.goalLeftBlueX, fieldConstants.goalLeftBlueY);
+                  if(robotPoseY < 4 && robotPoseX > FieldConstants.blueLine) { //left (from red perspective)
+                      goalLocation = new Translation2d(FieldConstants.goalLeftBlueX, FieldConstants.goalLeftBlueY);
                       thetaX = goalLocation.getX() - vRobotX;
                       thetaY = goalLocation.getY() - vRobotY;
                   }
-                  if(robotPoseY > 4 && robotPoseX > fieldConstants.blueLine) {
-                      goalLocation = new Translation2d(fieldConstants.goalRightBlueX, fieldConstants.goalRightBlueY);
+                  if(robotPoseY > 4 && robotPoseX > FieldConstants.blueLine) {
+                      goalLocation = new Translation2d(FieldConstants.goalRightBlueX, FieldConstants.goalRightBlueY);
                       thetaX = goalLocation.getX() - vRobotX;
                       thetaY = goalLocation.getY() - vRobotY;
                   }
@@ -150,12 +161,12 @@ public class AutoAlign extends Command {
       }
       else {
         //Goal only
-              if (red == true) {
-                  goalLocation = new Translation2d(fieldConstants.goalRedX, fieldConstants.goalRedY);
+              if (isRed == true) {
+                  goalLocation = new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY);
                   thetaX = goalLocation.getX() - vRobotX;
                   thetaY = goalLocation.getY() - vRobotY;
               } else {
-                  goalLocation = new Translation2d(fieldConstants.goalBlueX, fieldConstants.goalBlueY);
+                  goalLocation = new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
                   thetaX = goalLocation.getX() - vRobotX;
                   thetaY = goalLocation.getY() - vRobotY;
               }
@@ -164,12 +175,12 @@ public class AutoAlign extends Command {
         theta = Math.toDegrees(Math.atan2(thetaY, thetaX)); //degree value of theta
         targetVec = goalLocation.minus(vRobotPose);
         dist = targetVec.getNorm();
-        fieldConstants.distToGoal = dist;
+        FieldConstants.distToGoal = dist;
 
         if (alliance.get() == Alliance.Red) {
-            red = true;
+            isRed = true;
         } else {
-            red = false;
+            isRed = false;
         }
     wantedHeading = theta;
     currentHeading = drivetrain.getState().Pose.getRotation().getDegrees();
@@ -178,8 +189,8 @@ public class AutoAlign extends Command {
     toRadians = Math.toRadians(rotationalVelocity);
 
     drivetrain.setControl(alignRequest
-            .withVelocityX(RobotContainer.driver.getLeftY())//forwards and backwards? YES
-            .withVelocityY(RobotContainer.driver.getLeftX()) 
+            .withVelocityX(RobotContainer.driver.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))//forwards and backwards? YES
+            .withVelocityY(RobotContainer.driver.getLeftX() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))
             .withRotationalRate(toRadians));
     }  
 

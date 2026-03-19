@@ -20,12 +20,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import frc.robot.Commands.AutoAlign;
+import frc.robot.Commands.Align.MovingAutoAim;
+import frc.robot.Commands.Align.StationaryAutoAim;
 import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.OuttakeCommand;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.Commands.Shoot.ShootManual;
-import frc.robot.Constants.presetShots;
+import frc.robot.Constants.PresetShots;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
@@ -105,38 +106,40 @@ public class RobotContainer {
 
         //Shoot
         driver.R2().whileTrue(new AutoShoot(shooter, hopper)); // Main/automatic
-        driver.square().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
-        driver.triangle().whileTrue(new ShootManual(shooter, hopper, presetShots.midShot));
+        driver.square().whileTrue(new ShootManual(shooter, hopper, PresetShots.closeShot));
+        driver.triangle().whileTrue(new ShootManual(shooter, hopper, PresetShots.trenchShot));
 
         //Intake
         driver.L2().whileTrue(new IntakeCommand(intake));
         driver.L1().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
-        driver.R1().whileTrue(new AutoAlign(drivetrain, true));
+        driver.R1().whileTrue(new MovingAutoAim(drivetrain, true));
 
 
         //Operator Controls
 
         //Shoot
         operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
-        operator.a().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
-        operator.x().whileTrue(new ShootManual(shooter, hopper, presetShots.midShot));
-        operator.y().whileTrue(new ShootManual(shooter, hopper, presetShots.farShot));
+        operator.a().whileTrue(new ShootManual(shooter, hopper, PresetShots.closeShot));
+        operator.x().whileTrue(new ShootManual(shooter, hopper, PresetShots.trenchShot));
+        operator.y().whileTrue(new ShootManual(shooter, hopper, PresetShots.cornerShot));
 
         //Intake
         operator.leftTrigger().whileTrue(new IntakeCommand(intake));
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
-        operator.rightBumper().whileTrue(new AutoAlign(drivetrain, true));
+        operator.rightBumper().whileTrue(new MovingAutoAim(drivetrain, true));
+        // Aim while holding the right bumper
+        driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
 
 
         //Testing Controls
         testing.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
-        testing.a().whileTrue(new ShootManual(shooter, hopper, presetShots.closeShot));
-        testing.x().whileTrue(new ShootManual(shooter, hopper, presetShots.midShot));
-        testing.y().whileTrue(new ShootManual(shooter, hopper, presetShots.farShot));
+        testing.a().whileTrue(new ShootManual(shooter, hopper, PresetShots.closeShot));
+        testing.x().whileTrue(new ShootManual(shooter, hopper, PresetShots.trenchShot));
+        testing.y().whileTrue(new ShootManual(shooter, hopper, PresetShots.cornerShot));
 
         //Intake
         testing.leftTrigger().whileTrue(new IntakeCommand(intake));
@@ -145,23 +148,21 @@ public class RobotContainer {
         testing.povRight().onFalse(new InstantCommand(() -> intake.stopIntake()));
 
         //Align
-        testing.rightBumper().whileTrue(new AutoAlign(drivetrain, true));
+        testing.rightBumper().whileTrue(new MovingAutoAim(drivetrain, true));
 
         //Hopper
         testing.leftStick().whileTrue(new InstantCommand(() -> hopper.runHopper(0.5)));
         testing.leftStick().onFalse(new InstantCommand(() -> hopper.stopHopper()));
 
         //Just shooter to power
-        testing.povDown().whileTrue(new InstantCommand(() -> shooter.runAllShootersRPS(presetShots.closeShot)));
+        testing.povDown().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.closeShot)));
         testing.povDown().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
 
-        testing.povRight().whileTrue(new InstantCommand(() -> shooter.runAllShootersRPS(presetShots.midShot)));
+        testing.povRight().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.trenchShot)));
         testing.povRight().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
 
-        testing.povUp().whileTrue(new InstantCommand(() -> shooter.runAllShootersRPS(presetShots.farShot)));
+        testing.povUp().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.cornerShot)));
         testing.povUp().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
-
-        
 
         /* Macros:
          * MACRO SHOT:

@@ -80,7 +80,7 @@ public class StationaryAimAndShoot extends Command {
     boolean isSpunUp = shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance);
 
     if (isAligned && isSpunUp) {
-        RobotContainer.driver.getHID().setRumble(edu.wpi.first.wpilibj.GenericHID.RumbleType.kBothRumble, 1.0);
+        RobotContainer.driver.getHID().setRumble(edu.wpi.first.wpilibj.GenericHID.RumbleType.kBothRumble, 1.0); //This is playstation controler and won't rumble without DS for windows
     } else {
         RobotContainer.driver.getHID().setRumble(edu.wpi.first.wpilibj.GenericHID.RumbleType.kBothRumble, 0);
     }

@@ -25,6 +25,7 @@ import frc.robot.Constants.FieldConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 /**
@@ -34,7 +35,8 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
  * It calculates the necessary rotation to face a specific goal or hub 
  * based on the robot's current position and velocity (correcting for time of flight).
  */
-public class MovingAutoAim extends Command {
+public class MovingAutoAimAndShoot extends Command {
+  Shooter shooter;
   private final CommandSwerveDrivetrain drivetrain;
 
   private final ProfiledPIDController thetaController;
@@ -78,19 +80,24 @@ public class MovingAutoAim extends Command {
 
   Optional<Alliance> alliance = DriverStation.getAlliance();
 
+  double targetRPS;
+
   /**
    * Creates a new AutoAim command.
    *
    * @param drivetrain The swerve drivetrain subsystem to control.
    * @param hub        Whether to aim at a specific hub configuration (true) or just the main goal (false).
    */
-  public MovingAutoAim(CommandSwerveDrivetrain drivetrain, boolean hub) {
+  public MovingAutoAimAndShoot(CommandSwerveDrivetrain drivetrain, Shooter shooter, boolean hub) {
+    this.shooter = shooter;
     this.drivetrain = drivetrain;
     this.hub = hub;
     alignRequest = new SwerveRequest.FieldCentric();
 
     thetaController = new ProfiledPIDController(AlignConstants.aimControllerP, AlignConstants.aimControllerI, AlignConstants.aimControllerD, new TrapezoidProfile.Constraints(AlignConstants.alignMaxCorrectionSpeed, AlignConstants.alignMaxAcceleration));
     thetaController.enableContinuousInput(-180, 180); 
+
+    addRequirements(drivetrain, shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -193,7 +200,12 @@ public class MovingAutoAim extends Command {
             .withVelocityX(RobotContainer.driver.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))//forwards and backwards? YES
             .withVelocityY(RobotContainer.driver.getLeftX() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))
             .withRotationalRate(toRadians));
-    }  
+
+    
+
+    //shooter.setShooterRPS(EquationConstants.calculateRPS(dist)); //Math
+    shooter.setShooterRPS(EquationConstants.quadraticRPS(dist)); //Quadratic regression
+  }  
 
   // Called once the command ends or is interrupted.
   @Override

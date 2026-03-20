@@ -2,6 +2,8 @@ package frc.robot.Commands.Align;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
+import org.ejml.equation.Equation;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -63,6 +65,7 @@ public class StationaryAimAndShoot extends Command {
     double distance = robotPose.getTranslation().getDistance(goalLocation);
     double targetRPS = EquationConstants.calculateRPS(distance);
     shooter.setShooterRPS(targetRPS);
+    // shooter.setShooterRPS(EquationConstants.quadraticRPS(distance)); //For quadratic regression formula (Just in case).
 
     // Find heading to goal
     double xDistToGoal = goalLocation.getX() - robotPose.getX();

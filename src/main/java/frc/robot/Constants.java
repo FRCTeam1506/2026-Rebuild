@@ -18,7 +18,10 @@ public class Constants {
     
     public static double calculateRPS(double distance) {
         return sA * Math.pow(distance, 2) + sB * distance + sC;
-        }
+    }
+    public static double quadraticRPS (double dist) {
+        return dist; //Placeholder for quadratic regression formula
+    }
 
     public static final double tA = 0;
     public static final double tB = 0;

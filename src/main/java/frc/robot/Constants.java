@@ -71,19 +71,18 @@ public class Constants {
     }
     public class HopperConstants {
         public static final int Hopper_Motor_ID = 0;
-        public static final double hopperSpeed = 0;
+        public static final double hopperSpeed = 0.5;
     }
     public class ShooterConstants {
-        public static final double kRPSTolerance = 2.0;
+        public static final double kRPSTolerance = 5.0;
 
         public static final int Left_Front_Shooter_ID = 0;
         public static final int Right_Front_Shooter_ID = 0;
         public static final int Left_Back_Shooter_ID = 0;
         public static final int Right_Back_Shooter_ID = 0;
 
-        //TESTING:
-        public static final int Left_Shooter_ID = 0;
-        public static final int Right_Shooter_ID = 0;
+        public static final int Tower_Hopper_ID = 0;
+
     }
 
 
@@ -103,8 +102,8 @@ public class Constants {
     }
 
     public class PresetShots {
-        public static final double closeShot = 0;
-        public static final double trenchShot = 0;
-        public static final double cornerShot = 0;
+        public static final double closeShotRPS = 0;
+        public static final double trenchShotRPS = 0;
+        public static final double cornerShotRPS = 0;
     }
 }

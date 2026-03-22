@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,7 +17,13 @@ import frc.robot.Constants.ShooterConstants;
 public class Hopper extends SubsystemBase {
   /** Creates a new Hopper. */
   private TalonFX hopper = new TalonFX(HopperConstants.Hopper_Motor_ID);
+  private TalonFX towerHopper = new TalonFX(ShooterConstants.Tower_Hopper_ID);
+
   public Hopper() {
+    TalonFXConfiguration towerHopperConfigs = new TalonFXConfiguration();
+    towerHopperConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    towerHopper.getConfigurator().apply(towerHopperConfigs);
+
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.CurrentLimits.StatorCurrentLimitEnable = true;
     config.CurrentLimits.StatorCurrentLimit = 80;
@@ -34,9 +41,11 @@ public class Hopper extends SubsystemBase {
 
   public void runHopper(double speed) {
     hopper.set(speed);
+    towerHopper.set(speed);
   }
   public void stopHopper() {
     hopper.set(0);
+    towerHopper.set(0);
   }
 
   @Override

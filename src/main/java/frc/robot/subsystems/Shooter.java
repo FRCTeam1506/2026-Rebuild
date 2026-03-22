@@ -8,6 +8,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,7 +30,10 @@ public class Shooter extends SubsystemBase {
 
 
   public Shooter() {
+    
+
     TalonFXConfiguration shooterConfigs = new TalonFXConfiguration();
+
     final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
 
 
@@ -44,7 +48,6 @@ public class Shooter extends SubsystemBase {
     // set slot 0 gains
     var slot0Configs = shooterConfigs.Slot0;
     
-    // Values based on a typical 1:1 or 2:1 geared 4-motor drum shooter
     slot0Configs.kS = 0.25; // Voltage to break static friction (typical range 0.1 - 0.3)
     slot0Configs.kV = 0.11; // Voltage per RPS (approx 11-12V for ~100 RPS / 6000 RPM)
     slot0Configs.kP = 0.50; // Proportional gain (start low; 4 motors have massive torque)

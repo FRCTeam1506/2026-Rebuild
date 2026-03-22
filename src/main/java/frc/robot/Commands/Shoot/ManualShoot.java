@@ -11,12 +11,12 @@ import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShootManual extends Command {
+public class ManualShoot extends Command {
   Shooter shooter;
   Hopper hopper;
   double speed;
   /** Creates a new Shoot. */
-  public ShootManual(Shooter shooter, Hopper hopper, double speed) {
+  public ManualShoot(Shooter shooter, Hopper hopper, double speed) {
     this.shooter = shooter;
     this.hopper = hopper;
     this.speed = speed;

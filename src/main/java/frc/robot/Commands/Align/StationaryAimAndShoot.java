@@ -79,7 +79,7 @@ public class StationaryAimAndShoot extends Command {
         .withTargetDirection(goalHeading));
 
     //goals attained?
-    boolean isAligned = Math.abs(robotPose.getRotation().minus(goalHeading).getDegrees()) < AlignConstants.alignToleranceDegrees;
+    boolean isAligned = Math.abs(robotPose.getRotation().minus(goalHeading).getDegrees()) <= AlignConstants.alignToleranceDegrees;
     boolean isSpunUp = shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance);
 
     if (isAligned && isSpunUp) {

@@ -44,7 +44,7 @@ public class AlignToTag extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-    rotationalVelocity = thetaController.calculate(0, LimelightHelpers.getTX(VisionConstants.LL_BACK));
+    rotationalVelocity = thetaController.calculate(LimelightHelpers.getTX(VisionConstants.LL_BACK), 0);
     radians = Math.toRadians(rotationalVelocity);
 
 

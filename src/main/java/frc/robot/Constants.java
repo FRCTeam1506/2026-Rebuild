@@ -61,8 +61,8 @@ public class Constants {
     }
 
     public class IntakeConstants {
-        public static final int Intake_Motor_ID = 0;
-        public static final int Intake_Lift_Motor_ID = 0;
+        public static final int Intake_Motor_ID = 60;
+        public static final int Intake_Lift_Motor_ID = 14;
         public static final int Intake_Lift_Encoder_ID = 0;
 
         public static final double intakeSpeed = 0.6;
@@ -70,18 +70,18 @@ public class Constants {
         public static final int intakeDownPose = 0;
     }
     public class HopperConstants {
-        public static final int Hopper_Motor_ID = 0;
+        public static final int Hopper_Motor_ID = 25;
         public static final double hopperSpeed = 0.5;
     }
     public class ShooterConstants {
         public static final double kRPSTolerance = 5.0;
 
-        public static final int Left_Front_Shooter_ID = 0;
-        public static final int Right_Front_Shooter_ID = 0;
-        public static final int Left_Back_Shooter_ID = 0;
-        public static final int Right_Back_Shooter_ID = 0;
+        public static final int Left_Front_Shooter_ID = 59;
+        public static final int Right_Front_Shooter_ID = 61;
+        public static final int Left_Back_Shooter_ID = 62;
+        //public static final int Right_Back_Shooter_ID = 0;
 
-        public static final int Tower_Hopper_ID = 0;
+        public static final int Tower_Hopper_ID = 15;
 
     }
 

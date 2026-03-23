@@ -178,7 +178,7 @@ public class MovingAutoAimAndShoot extends Command {
                   thetaY = goalLocation.getY() - vRobotY;
               }
       }
-        heading = drivetrain.getState().Pose.getRotation().getDegrees();
+        //heading = drivetrain.getState().Pose.getRotation().getDegrees(); //Don't need?
         theta = Math.toDegrees(Math.atan2(thetaY, thetaX)); //degree value of theta
         targetVec = goalLocation.minus(vRobotPose);
         // dist = targetVec.getNorm();

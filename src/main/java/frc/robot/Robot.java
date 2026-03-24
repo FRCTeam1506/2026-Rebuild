@@ -9,6 +9,7 @@ import com.ctre.phoenix6.HootAutoReplay;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.VisionConstants;
@@ -23,7 +24,7 @@ public class Robot extends TimedRobot {
         .withTimestampReplay()
         .withJoystickReplay();
 
-    private final boolean kUseLimelight = false;
+    private final boolean kUseLimelight = true;
 
     public Robot() {
         m_robotContainer = new RobotContainer();
@@ -31,6 +32,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
+        SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
+
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run();
 
@@ -49,12 +53,12 @@ public class Robot extends TimedRobot {
         double yawRateDegPerSec = Math.toDegrees(driveState.Speeds.omegaRadiansPerSecond);
         m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.05, 0.05, 999999));
 
-        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_LEFT, driveState.Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_RIGHT, driveState.Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, driveState.Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_LEFT, m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_RIGHT, m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
         
         var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_LEFT); //TEST THIS
-        var llMeasurement_back = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_BACK);
+        var llMeasurement_back = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_BACK);
         var llMeasurement_right = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_RIGHT);
 
         if (llMeasurement_left != null && llMeasurement_left.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_LEFT) > 0.33)  {
@@ -97,13 +101,16 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().cancel(m_autonomousCommand);
         }
     }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+
+    }
 
     @Override
     public void teleopExit() {}

@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.FieldConstants;
@@ -19,10 +20,11 @@ import frc.robot.Constants.FieldConstants;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
-  private TalonFX shooterLeftBack = new TalonFX(ShooterConstants.Left_Back_Shooter_ID);
+  private TalonFX shooterLeft = new TalonFX(ShooterConstants.Shooter_Left_ID);
   //private TalonFX shooterRightBack = new TalonFX(ShooterConstants.Right_Back_Shooter_ID);
-  private TalonFX shooterLeftFront = new TalonFX(ShooterConstants.Left_Front_Shooter_ID);
-  private TalonFX shooterRightFront = new TalonFX(ShooterConstants.Right_Front_Shooter_ID);
+  private TalonFX shooterTop = new TalonFX(ShooterConstants.Top_Shooter_ID);
+  private TalonFX shooterRight = new TalonFX(ShooterConstants.Shooter_Right_ID);
+
 
   public InterpolatingDoubleTreeMap shooterPower = new InterpolatingDoubleTreeMap();
 
@@ -57,9 +59,9 @@ public class Shooter extends SubsystemBase {
   
     m_motmag.EnableFOC = true;
 
-    shooterLeftFront.getConfigurator().apply(shooterConfigs);
-    shooterRightFront.getConfigurator().apply(shooterConfigs);
-    shooterLeftBack.getConfigurator().apply(shooterConfigs);
+    shooterTop.getConfigurator().apply(shooterConfigs);
+    shooterRight.getConfigurator().apply(shooterConfigs);
+    shooterLeft.getConfigurator().apply(shooterConfigs);
     //shooterRightBack.getConfigurator().apply(shooterConfigs);
 
 
@@ -68,30 +70,27 @@ public class Shooter extends SubsystemBase {
   }
 
   public void runAllShootersSpeed(double speed) {
-    shooterLeftFront.set(speed);
-    shooterRightFront.set(speed);
-    shooterLeftBack.set(speed);
-    //shooterRightBack.set(speed);
+    shooterTop.set(speed);
+    shooterRight.set(speed);
+    shooterLeft.set(speed);
   }
 
   public void setShooterRPS(double speed) {
-    shooterLeftFront.setControl(speedControl.withVelocity(speed));
-    shooterRightFront.setControl(speedControl.withVelocity(speed));
-    shooterLeftBack.setControl(speedControl.withVelocity(speed));
-    //shooterRightBack.setControl(speedControl.withVelocity(speed));
+    shooterTop.setControl(speedControl.withVelocity(speed));
+    shooterRight.setControl(speedControl.withVelocity(speed));
+    shooterLeft.setControl(speedControl.withVelocity(speed));
   }
 
   public void stopAllShooters() {
-    shooterLeftFront.set(0);
-    shooterRightFront.set(0);
-    shooterLeftBack.set(0);
-    //shooterRightBack.set(0);
+    shooterTop.set(0);
+    shooterRight.set(0);
+    shooterLeft.set(0);
   }
 
   public void autoShooterPower() {
-    shooterLeftFront.set(FieldConstants.distToGoal);
-    shooterRightFront.set(FieldConstants.distToGoal);
-    shooterLeftBack.set(FieldConstants.distToGoal);
+    shooterTop.set(FieldConstants.distToGoal);
+    shooterRight.set(FieldConstants.distToGoal);
+    shooterLeft.set(FieldConstants.distToGoal);
     //shooterRightBack.set(FieldConstants.distToGoal);
   }
 
@@ -99,7 +98,7 @@ public class Shooter extends SubsystemBase {
   //   return (shooterLeftFront.getVelocity().getValueAsDouble() + shooterRightFront.getVelocity().getValueAsDouble() + shooterLeftBack.getVelocity().getValueAsDouble() + shooterRightBack.getVelocity().getValueAsDouble()) / 4.0;
   // }
   public double avgShooterSpeed() { //Three motors
-    return (shooterLeftFront.getVelocity().getValueAsDouble() + shooterRightFront.getVelocity().getValueAsDouble() + shooterLeftBack.getVelocity().getValueAsDouble()) / 3.0;
+    return (shooterTop.getVelocity().getValueAsDouble() + shooterRight.getVelocity().getValueAsDouble() + shooterLeft.getVelocity().getValueAsDouble()) / 3.0;
   }
 
   public boolean isAtVelocity(double targetRPS, double tolerance) {

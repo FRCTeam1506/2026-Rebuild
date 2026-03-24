@@ -32,9 +32,9 @@ public class ManualShoot extends Command {
   @Override
   public void execute() {
     shooter.runAllShootersSpeed(speed);
-    if (shooter.isAtVelocity(speed, ShooterConstants.kRPSTolerance)) {
-      hopper.runHopper(HopperConstants.hopperSpeed);
-    }
+    //if (shooter.isAtVelocity(speed, ShooterConstants.kRPSTolerance)) {
+    hopper.runHopper(-HopperConstants.hopperSpeed);
+    //}
   }
 
   // Called once the command ends or is interrupted.

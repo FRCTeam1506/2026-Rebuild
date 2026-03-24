@@ -74,8 +74,8 @@ public class StationaryAimAndShoot extends Command {
 
     // Set heading
     drivetrain.setControl(alignRequest
-        .withVelocityX(RobotContainer.driver.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))
-        .withVelocityY(RobotContainer.driver.getLeftX() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))
+        .withVelocityX(0)
+        .withVelocityY(0)
         .withTargetDirection(goalHeading));
 
     //goals attained?

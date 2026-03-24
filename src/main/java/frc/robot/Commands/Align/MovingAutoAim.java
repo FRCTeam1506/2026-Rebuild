@@ -190,8 +190,8 @@ public class MovingAutoAim extends Command {
     toRadians = Math.toRadians(rotationalVelocity);
 
     drivetrain.setControl(alignRequest
-            .withVelocityX(RobotContainer.driver.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))//forwards and backwards? YES
-            .withVelocityY(RobotContainer.driver.getLeftX() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond))
+            .withVelocityX(-RobotContainer.driver.getLeftY())//forwards and backwards? YES
+            .withVelocityY(-RobotContainer.driver.getLeftX())
             .withRotationalRate(toRadians));
     }  
 

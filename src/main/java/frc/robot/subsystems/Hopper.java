@@ -22,12 +22,13 @@ public class Hopper extends SubsystemBase {
   public Hopper() {
     TalonFXConfiguration towerHopperConfigs = new TalonFXConfiguration();
     towerHopperConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    towerHopperConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    towerHopperConfigs.CurrentLimits.StatorCurrentLimit = 120;
     towerHopper.getConfigurator().apply(towerHopperConfigs);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.CurrentLimits.StatorCurrentLimitEnable = true;
-    config.CurrentLimits.StatorCurrentLimit = 80;
-    hopper.getConfigurator().apply(config);
+    config.CurrentLimits.StatorCurrentLimit = 100;
     var slot0Configs = config.Slot0;
     slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
     slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
@@ -37,11 +38,12 @@ public class Hopper extends SubsystemBase {
     slot0Configs.kD = 0.1;
     hopper.getConfigurator().apply(slot0Configs); 
     hopper.getConfigurator().apply(config);
+    towerHopper.getConfigurator().apply(config);
   }
 
   public void runHopper(double speed) {
-    hopper.set(speed);
-    towerHopper.set(speed);
+    hopper.set(-speed);
+    towerHopper.set(-speed);
   }
   public void stopHopper() {
     hopper.set(0);

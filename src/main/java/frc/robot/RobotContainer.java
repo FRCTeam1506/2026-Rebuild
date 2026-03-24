@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.time.Instant;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -22,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Commands.Align.MovingAutoAim;
 import frc.robot.Commands.Align.StationaryAutoAim;
+import frc.robot.Commands.Align.align;
 import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.OuttakeCommand;
 import frc.robot.Commands.Shoot.AutoShoot;
@@ -114,13 +117,16 @@ public class RobotContainer {
         driver.L1().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
-        driver.R1().whileTrue(new MovingAutoAim(drivetrain, true));
+        driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
 
 
         //Operator Controls
 
         //Shoot
-        operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
+        //operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
+        //operator.rightTrigger().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(0.5)));
+        //operator.rightTrigger().whileFalse(new InstantCommand(() -> shooter.runAllShootersSpeed(0)));
+
         operator.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.trenchShotRPS));
         operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
@@ -130,12 +136,15 @@ public class RobotContainer {
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
-        operator.rightBumper().whileTrue(new MovingAutoAim(drivetrain, true));
+        operator.rightBumper().whileTrue(new StationaryAutoAim(drivetrain));
         // Aim while holding the right bumper
-        driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
+        driver.R1().whileTrue(new align(drivetrain));
 
 
         //TESTING CONTROLS:
+        //testing.rightTrigger().whileTrue(new InstantCommand(() -> shooter.setShooterRPS(50)).alongWith(new InstantCommand(() -> hopper.runHopper(0.5))));
+        //testing.rightTrigger().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()).alongWith(new InstantCommand(() -> hopper.stopHopper())));
+
         testing.rightTrigger().whileTrue(new ManualShoot(shooter, hopper, 50));
         testing.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         testing.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.trenchShotRPS));

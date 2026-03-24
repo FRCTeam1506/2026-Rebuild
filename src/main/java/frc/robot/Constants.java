@@ -66,19 +66,19 @@ public class Constants {
         public static final int Intake_Lift_Encoder_ID = 0;
 
         public static final double intakeSpeed = 0.6;
-        public static final int intakeUpPose = 0;
-        public static final int intakeDownPose = 0;
+        public static final double intakeUpPose = -0.368;
+        public static final double intakeDownPose = 0;
     }
     public class HopperConstants {
         public static final int Hopper_Motor_ID = 25;
         public static final double hopperSpeed = 0.5;
     }
     public class ShooterConstants {
-        public static final double kRPSTolerance = 5.0;
+        public static final double kRPSTolerance = 10.0;
 
-        public static final int Left_Front_Shooter_ID = 59;
-        public static final int Right_Front_Shooter_ID = 61;
-        public static final int Left_Back_Shooter_ID = 62;
+        public static final int Top_Shooter_ID = 59;
+        public static final int Shooter_Right_ID = 61;
+        public static final int Shooter_Left_ID = 62;
         //public static final int Right_Back_Shooter_ID = 0;
 
         public static final int Tower_Hopper_ID = 15;
@@ -94,16 +94,16 @@ public class Constants {
 
     public class AlignConstants {
         public static final double alignToleranceDegrees = 2.0;
-        public static final double aimControllerP = 0.05;
+        public static final double aimControllerP = 2;
         public static final double aimControllerI = 0;
-        public static final double aimControllerD = 0.001;
-        public static final double alignMaxCorrectionSpeed = 0.5;
-        public static final double alignMaxAcceleration = 0.1; 
+        public static final double aimControllerD = 0.5;
+        public static final double alignMaxCorrectionSpeed = 5;
+        public static final double alignMaxAcceleration = 3; 
     }
 
     public class PresetShots {
-        public static final double closeShotRPS = 0;
-        public static final double trenchShotRPS = 0;
-        public static final double cornerShotRPS = 0;
+        public static final double closeShotRPS = 30;
+        public static final double trenchShotRPS = 75;
+        public static final double cornerShotRPS = 100;
     }
 }

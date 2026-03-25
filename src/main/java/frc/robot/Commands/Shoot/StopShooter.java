@@ -5,25 +5,18 @@
 package frc.robot.Commands.Shoot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.AlignConstants;
-import frc.robot.Constants.EquationConstants;
-import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.ShooterConstants;
-
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoShoot extends Command {
+public class StopShooter extends Command {
   Shooter shooter;
-  Hopper hopper;
-
   /** Creates a new Shoot. */
-  public AutoShoot(Shooter shooter, Hopper hopper) {
+  public StopShooter(Shooter shooter) {
     this.shooter = shooter;
-    this.hopper = hopper;
-    addRequirements(shooter, hopper);
+    addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -34,25 +27,12 @@ public class AutoShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Autoshoot!");
-
-    //if(AlignConstants.isAligned) {
-      System.out.println("Running shooter!");
-
-      shooter.setShooterRPS(EquationConstants.calculateRPS(FieldConstants.distToGoal));
-      if (shooter.isAtVelocity(EquationConstants.calculateRPS(FieldConstants.distToGoal), ShooterConstants.kRPSTolerance)) {
-        hopper.runHopper(-HopperConstants.hopperSpeed);
-      }
-    //}
+    shooter.stopAllShooters();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("end");
-
-    shooter.stopAllShooters();
-    hopper.stopHopper();
   }
 
   // Returns true when the command should end.
@@ -60,5 +40,4 @@ public class AutoShoot extends Command {
   public boolean isFinished() {
     return false;
   }
-
 }

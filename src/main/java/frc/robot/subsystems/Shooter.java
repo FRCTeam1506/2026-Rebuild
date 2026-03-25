@@ -16,6 +16,7 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.EquationConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.PresetShots;
 import frc.robot.Constants.ShooterConstants;
@@ -97,10 +98,10 @@ public class Shooter extends SubsystemBase {
   }
 
   public void upPower() {
-    PresetShots.tunerPower += 0.5;
+    PresetShots.tunerPower += 0.25;
   }
   public void downPower() {
-    PresetShots.tunerPower -= 0.5;
+    PresetShots.tunerPower -= 0.25;
   }
 
   // public double avgShooterSpeed() { //Four motors
@@ -120,6 +121,7 @@ public class Shooter extends SubsystemBase {
   }
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("set shooter speed", EquationConstants.calculateRPS(FieldConstants.distToGoal));
     targetVec = Constants.FieldConstants.goalLocation.minus(drivetrain.getState().Pose.getTranslation());
     dist = targetVec.getNorm();
     FieldConstants.distToGoal = dist;

@@ -30,6 +30,7 @@ public class StationaryAutoAim extends Command {
 
   private Translation2d goalLocation;
   private boolean isRed;
+  public static boolean isAligned;
   SwerveRequest.ApplyRobotSpeeds request;
 
   double rotationalVelocity;
@@ -49,16 +50,19 @@ public class StationaryAutoAim extends Command {
   @Override
   public void initialize() {
     // Determine alliance once at start to select the correct goal
+    thetaController.setTolerance(AlignConstants.alignToleranceRadians);
     var alliance = DriverStation.getAlliance();
     isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
     
     goalLocation = isRed ? 
         new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
         new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
+        thetaController.reset(0);;
   }
 
   @Override
   public void execute() {
+    System.out.println("stationary auto aim");
     Pose2d robotPose = drivetrain.getState().Pose;
 
     double xDistToGoal = goalLocation.getX() - robotPose.getX();
@@ -73,11 +77,19 @@ public class StationaryAutoAim extends Command {
     //     .withVelocityX(0)
     //     .withVelocityY(0)
     //     .withRotationalRate(rotationalVelocity));
-    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(-0, 0, rotationalVelocity)));
 
-    System.out.println("rotational rate" + toRadians);
-    System.out.println("current heading" + robotPose.getRotation().getDegrees());
-    System.out.println("goal heading" + goalHeading.getDegrees());
+    isAligned = Math.abs(robotPose.getRotation().getDegrees()) - (goalHeading.getDegrees() * -1) <= AlignConstants.alignToleranceRadians;
+    System.out.println(robotPose.getRotation().getDegrees());
+    System.out.println(goalHeading.getDegrees());
+
+
+    AlignConstants.isAligned = isAligned;
+    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, rotationalVelocity)));
+    System.out.println("isALigned" + AlignConstants.isAligned);
+
+    // System.out.println("rotational rate" + toRadians);
+    // System.out.println("current heading" + robotPose.getRotation().getDegrees());
+    // System.out.println("goal heading" + goalHeading.getDegrees());
 
     double angleError = Math.abs(robotPose.getRotation().minus(goalHeading).getDegrees());
   }
@@ -85,5 +97,12 @@ public class StationaryAutoAim extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.driver.getHID().setRumble(edu.wpi.first.wpilibj.GenericHID.RumbleType.kBothRumble, 0);
+    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
+
+  }
+  @Override
+  public boolean isFinished() {
+    return thetaController.atGoal();
+    //return isAligned;
   }
 }

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import frc.robot.Commands.AlignandShoot;
 import frc.robot.Commands.Align.MovingAutoAim;
 import frc.robot.Commands.Align.StationaryAimAndShoot;
 import frc.robot.Commands.Align.StationaryAutoAim;
@@ -111,7 +112,8 @@ public class RobotContainer {
         driver.cross().whileTrue(drivetrain.applyRequest(() -> brake));
 
         //Shoot
-        driver.R2().whileTrue(new AutoShoot(shooter, hopper)); // Main/automatic
+        //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); // Main/automatic
+        driver.R2().whileTrue(new AlignandShoot(drivetrain, shooter, hopper));
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
 
@@ -151,7 +153,9 @@ public class RobotContainer {
         //Align
         //operator.rightBumper().whileTrue(new StationaryAutoAim(drivetrain));
         // Aim while holding the right bumper
-        operator.rightBumper().whileTrue(new StationaryAimAndShoot(drivetrain, shooter, hopper));
+        operator.rightTrigger().whileTrue(new AlignandShoot(drivetrain, shooter, hopper));
+        //operator.rightBumper().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()).alongWith(new InstantCommand(() -> hopper.stopHopper())));
+
     
         //driver.R1().whileTrue(new align(drivetrain));
 

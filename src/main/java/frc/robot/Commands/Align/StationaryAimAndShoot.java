@@ -25,6 +25,7 @@ import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Commands.Shoot.AutoShoot;
+import frc.robot.Commands.Shoot.StopShooter;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
@@ -103,12 +104,12 @@ public class StationaryAimAndShoot extends Command {
 
     //goals attained?
     //boolean isAligned = Math.abs(robotPose.getRotation().minus(goalHeading).getDegrees()) <= AlignConstants.alignToleranceDegrees;
-    boolean isAligned = Math.abs((robotPose.getRotation().getDegrees() + 180) - goalHeading.getDegrees()) <= AlignConstants.alignToleranceDegrees;
+    boolean isAligned = Math.abs((robotPose.getRotation().getDegrees() + 180) - goalHeading.getDegrees()) <= AlignConstants.alignToleranceRadians;
     boolean isSpunUp = shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance);
 
-    System.out.println("current heading" + robotPose.getRotation());
-    System.out.println("goal heading " + goalHeading.getDegrees());
-    System.out.println("off by" + Math.abs(robotPose.getRotation().getDegrees() - goalHeading.getDegrees()));
+    // System.out.println("current heading" + robotPose.getRotation());
+    // System.out.println("goal heading " + goalHeading.getDegrees());
+    // System.out.println("off by" + Math.abs(robotPose.getRotation().getDegrees() - goalHeading.getDegrees()));
 
     if (isAligned == true) {
       CommandScheduler.getInstance().schedule(new AutoShoot(shooter, hopper));
@@ -120,6 +121,7 @@ public class StationaryAimAndShoot extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.stopAllShooters();
+    System.out.println("autoaimshoot end");
+    CommandScheduler.getInstance().schedule(new StopShooter(shooter));
   }
 }

@@ -49,7 +49,7 @@ public class Intake extends SubsystemBase {
       slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
       slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
       // PID runs on position
-      slot0Configs.kP = 2; //4.8
+      slot0Configs.kP = 0.8; //4.8
       slot0Configs.kI = 0;
       slot0Configs.kD = 0.1;
 

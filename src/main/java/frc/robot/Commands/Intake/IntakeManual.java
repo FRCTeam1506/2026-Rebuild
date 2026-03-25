@@ -29,14 +29,14 @@ public class IntakeManual extends Command {
   @Override
   public void execute() {
     intake.runIntake(-0.8);
-    intake.runIntakeLift(0.2);
+    intake.runIntakeLift(0.15);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     intake.runIntake(0);
-    intake.runIntakeLift(0.2);
+    intake.runIntakeLift(0.15);
   }
 
   // Returns true when the command should end.

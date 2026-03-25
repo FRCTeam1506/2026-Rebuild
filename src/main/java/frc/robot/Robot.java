@@ -54,17 +54,28 @@ public class Robot extends TimedRobot {
         if (kUseLimelight) {
         var driveState = m_robotContainer.drivetrain.getState();
         double headingDeg = driveState.Pose.getRotation().getDegrees();
+        double pigeonYaw = m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble();
         double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
         double yawRateDegPerSec = Math.toDegrees(driveState.Speeds.omegaRadiansPerSecond);
         m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.05, 0.05, 999999));
 
-        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_LEFT, m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
-        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_RIGHT, m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
-        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
+        SmartDashboard.putNumber("Pigeon Yaw LL", pigeonYaw);
+        SmartDashboard.putNumber("Pose Yaw LL", headingDeg);
+
+        // if(headingDeg > 0){
+        //     headingDeg -= 180;
+        // }
+        // else{
+        //     headingDeg += 180;
+        // }
+
+        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_LEFT, headingDeg, 0, 0, 0, 0, 0); 
+        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_RIGHT, headingDeg, 0, 0, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, headingDeg, 0, 0, 0, 0, 0);
         
-        var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_LEFT); //TEST THIS
+        var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_LEFT); //TEST THIS
         var llMeasurement_back = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_BACK);
-        var llMeasurement_right = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_RIGHT);
+        var llMeasurement_right = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_RIGHT);
 
         if (llMeasurement_left != null && llMeasurement_left.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_LEFT) > 0.33)  {
             m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_left.pose, llMeasurement_left.timestampSeconds);

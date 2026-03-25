@@ -48,7 +48,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Auto Align And Shoot"
+                  "name": "AlignAndShoot"
                 }
               }
             ]
@@ -58,6 +58,18 @@
           "type": "path",
           "data": {
             "pathName": "LeftFourth"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftFifth"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlignAndShoot"
           }
         }
       ]

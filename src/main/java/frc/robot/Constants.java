@@ -6,15 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.Commands.Align.StationaryAutoAim;
 
 /** Add your docs here. */
 public class Constants {
 
     public static class EquationConstants {
     // Equation: RPS = ax^2 + bx + c
-    public static final double sA = 1.41868;
-    public static final double sB = -4.53572;
-    public static final double sC = 52.23682; 
+    public static final double sA = 1.49877;//1.41868
+    public static final double sB = -4.57313;//-4.53572
+    public static final double sC = 52.23682;//52.23682  //47.16806
        
     
     public static double calculateRPS(double distance) {
@@ -96,12 +97,13 @@ public class Constants {
     }
 
     public class AlignConstants {
-        public static final double alignToleranceDegrees = 10.0;
+        public static final double alignToleranceRadians = 0.034;
         public static final double aimControllerP = 5;
         public static final double aimControllerI = 0;
-        public static final double aimControllerD = 0.5;
-        public static final double alignMaxCorrectionSpeed = 7;
-        public static final double alignMaxAcceleration = 3; 
+        public static final double aimControllerD = 0;
+        public static final double alignMaxCorrectionSpeed = 3;
+        public static final double alignMaxAcceleration = 5; 
+        public static boolean isAligned;
     }
 
     public class PresetShots {

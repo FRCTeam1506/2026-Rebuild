@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import frc.robot.Commands.AlignandShoot;
+import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
@@ -37,7 +39,8 @@ public class Autos {
     }
 
     public void makeNamedCommands(){
-
+        NamedCommands.registerCommand("AlignAndShoot", new AlignandShoot(drivetrain, shooter, hopper));
+        NamedCommands.registerCommand("Intake", new IntakeManual(intake));
     }
 
     public SendableChooser<Command> configureChooser(SendableChooser<Command> chooser){

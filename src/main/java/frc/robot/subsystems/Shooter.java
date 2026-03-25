@@ -9,12 +9,15 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.swerve.jni.SwerveJNI.DriveState;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.FieldConstants;
+import frc.robot.Constants.PresetShots;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.FieldConstants;
 
@@ -29,10 +32,11 @@ public class Shooter extends SubsystemBase {
   public InterpolatingDoubleTreeMap shooterPower = new InterpolatingDoubleTreeMap();
 
   final VelocityVoltage speedControl = new VelocityVoltage(0);
-
-
-  public Shooter() {
-    
+  Translation2d targetVec;
+  double dist;
+  CommandSwerveDrivetrain drivetrain;
+  public Shooter(CommandSwerveDrivetrain drivetrain) {
+    this.drivetrain = drivetrain;
 
     TalonFXConfiguration shooterConfigs = new TalonFXConfiguration();
 
@@ -52,7 +56,7 @@ public class Shooter extends SubsystemBase {
     
     slot0Configs.kS = 0.25; // Voltage to break static friction (typical range 0.1 - 0.3)
     slot0Configs.kV = 0.11; // Voltage per RPS (approx 11-12V for ~100 RPS / 6000 RPM)
-    slot0Configs.kP = 0.50; // Proportional gain (start low; 4 motors have massive torque)
+    slot0Configs.kP = 0.5; //.5 // Proportional gain (start low; 4 motors have massive torque)
     slot0Configs.kI = 0.0;  // Leave at 0 to avoid oscillation/overshoot
     slot0Configs.kD = 0.01; // Tiny bit of D can help dampen the 4-motor kickback
 
@@ -63,8 +67,6 @@ public class Shooter extends SubsystemBase {
     shooterRight.getConfigurator().apply(shooterConfigs);
     shooterLeft.getConfigurator().apply(shooterConfigs);
     //shooterRightBack.getConfigurator().apply(shooterConfigs);
-
-
 
     shooterPower.put(1.0, 1.0);
   }
@@ -94,6 +96,13 @@ public class Shooter extends SubsystemBase {
     //shooterRightBack.set(FieldConstants.distToGoal);
   }
 
+  public void upPower() {
+    PresetShots.tunerPower += 0.5;
+  }
+  public void downPower() {
+    PresetShots.tunerPower -= 0.5;
+  }
+
   // public double avgShooterSpeed() { //Four motors
   //   return (shooterLeftFront.getVelocity().getValueAsDouble() + shooterRightFront.getVelocity().getValueAsDouble() + shooterLeftBack.getVelocity().getValueAsDouble() + shooterRightBack.getVelocity().getValueAsDouble()) / 4.0;
   // }
@@ -101,12 +110,26 @@ public class Shooter extends SubsystemBase {
     return (shooterTop.getVelocity().getValueAsDouble() + shooterRight.getVelocity().getValueAsDouble() + shooterLeft.getVelocity().getValueAsDouble()) / 3.0;
   }
 
+  // public double singleMotorSpeed() { //Three motors
+  //   return (shooterTop.getVelocity().getValueAsDouble());
+  // }
+
   public boolean isAtVelocity(double targetRPS, double tolerance) {
     double currentRPS = avgShooterSpeed();
     return Math.abs(currentRPS - targetRPS) <= tolerance;
   }
   @Override
   public void periodic() {
+    targetVec = Constants.FieldConstants.goalLocation.minus(drivetrain.getState().Pose.getTranslation());
+    dist = targetVec.getNorm();
+    FieldConstants.distToGoal = dist;
+    double[] FieldLocation = {FieldConstants.goalLocation.getMeasureX().baseUnitMagnitude(), FieldConstants.goalLocation.getMeasureY().baseUnitMagnitude()};
+    SmartDashboard.putNumber("distance to goal", dist);
+    SmartDashboard.putNumberArray("goal", FieldLocation);
+
+
+    SmartDashboard.putNumber("Tuner Power", PresetShots.tunerPower);
+    SmartDashboard.putNumber("Shooter Power", avgShooterSpeed());
     // This method will be called once per scheduler run
   }
 }

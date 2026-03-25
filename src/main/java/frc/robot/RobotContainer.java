@@ -23,12 +23,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Commands.Align.MovingAutoAim;
+import frc.robot.Commands.Align.StationaryAimAndShoot;
 import frc.robot.Commands.Align.StationaryAutoAim;
 import frc.robot.Commands.Align.align;
 import frc.robot.Commands.Intake.IntakeCommand;
+import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.OuttakeCommand;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.Commands.Shoot.ManualShoot;
+import frc.robot.Commands.Shoot.TunerShoot;
 import frc.robot.Constants.PresetShots;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -59,7 +62,7 @@ public class RobotContainer {
 
 
     Intake intake = new Intake();
-    Shooter shooter = new Shooter();
+    Shooter shooter = new Shooter(drivetrain);
     Hopper hopper = new Hopper();
     private boolean m_isAutoMode = false; 
 
@@ -110,7 +113,7 @@ public class RobotContainer {
         //Shoot
         driver.R2().whileTrue(new AutoShoot(shooter, hopper)); // Main/automatic
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
-        driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.trenchShotRPS));
+        driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
 
         //Intake
         driver.L2().whileTrue(new IntakeCommand(intake));
@@ -118,6 +121,12 @@ public class RobotContainer {
 
         //Align
         driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
+
+        driver.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
+        driver.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
+        driver.povRight().whileTrue(new TunerShoot(shooter, hopper));
+
+        
 
 
         //Operator Controls
@@ -127,18 +136,24 @@ public class RobotContainer {
         //operator.rightTrigger().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(0.5)));
         //operator.rightTrigger().whileFalse(new InstantCommand(() -> shooter.runAllShootersSpeed(0)));
 
+        operator.b().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(-0.25)).alongWith(new InstantCommand(() -> hopper.runHopper(0.5))));
+        operator.b().whileFalse(new InstantCommand(() -> shooter.runAllShootersSpeed(0)).alongWith(new InstantCommand(() -> hopper.runHopper(0))));
+
+
         operator.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.trenchShotRPS));
         operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
 
         //Intake
-        operator.leftTrigger().whileTrue(new IntakeCommand(intake));
+        operator.leftTrigger().whileTrue(new IntakeManual(intake));
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
-        operator.rightBumper().whileTrue(new StationaryAutoAim(drivetrain));
+        //operator.rightBumper().whileTrue(new StationaryAutoAim(drivetrain));
         // Aim while holding the right bumper
-        driver.R1().whileTrue(new align(drivetrain));
+        operator.rightBumper().whileTrue(new StationaryAimAndShoot(drivetrain, shooter, hopper));
+    
+        //driver.R1().whileTrue(new align(drivetrain));
 
 
         //TESTING CONTROLS:

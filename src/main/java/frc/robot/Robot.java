@@ -7,11 +7,15 @@ package frc.robot;
 import com.ctre.phoenix6.HootAutoReplay;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.VisionConstants;
 
 public class Robot extends TimedRobot {
@@ -25,6 +29,7 @@ public class Robot extends TimedRobot {
         .withJoystickReplay();
 
     private final boolean kUseLimelight = true;
+
 
     public Robot() {
         m_robotContainer = new RobotContainer();
@@ -57,9 +62,9 @@ public class Robot extends TimedRobot {
         LimelightHelpers.SetRobotOrientation(VisionConstants.LL_RIGHT, m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
         LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble(), 0, 0, 0, 0, 0);
         
-        var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_LEFT); //TEST THIS
+        var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_LEFT); //TEST THIS
         var llMeasurement_back = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_BACK);
-        var llMeasurement_right = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_RIGHT);
+        var llMeasurement_right = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_RIGHT);
 
         if (llMeasurement_left != null && llMeasurement_left.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_LEFT) > 0.33)  {
             m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_left.pose, llMeasurement_left.timestampSeconds);
@@ -86,6 +91,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        boolean isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+         FieldConstants.goalLocation = isRed ? 
+            new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
+            new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
+        
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         if (m_autonomousCommand != null) {
@@ -101,7 +111,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        
+         
+    boolean isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+        FieldConstants.goalLocation = isRed ? 
+        new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
+        new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
+
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().cancel(m_autonomousCommand);
         }

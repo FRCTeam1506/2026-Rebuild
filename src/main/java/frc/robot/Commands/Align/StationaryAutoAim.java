@@ -65,7 +65,7 @@ public class StationaryAutoAim extends Command {
     double yDistToGoal = goalLocation.getY() - robotPose.getY();
     Rotation2d goalHeading = new Rotation2d(Math.atan2(yDistToGoal, xDistToGoal));
 
-    rotationalVelocity = thetaController.calculate(robotPose.getRotation().getRadians(), goalHeading.getRadians());
+    rotationalVelocity = thetaController.calculate(robotPose.getRotation().getRadians(), goalHeading.getRadians() + Math.PI);
     //toRadians = Math.toRadians(rotationalVelocity);
 
     

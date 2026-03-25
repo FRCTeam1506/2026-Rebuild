@@ -5,21 +5,18 @@
 package frc.robot.Commands.Shoot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.EquationConstants;
-import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.HopperConstants;
+import frc.robot.Constants.PresetShots;
 import frc.robot.Constants.ShooterConstants;
-
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoShoot extends Command {
+public class TunerShoot extends Command {
   Shooter shooter;
   Hopper hopper;
-
   /** Creates a new Shoot. */
-  public AutoShoot(Shooter shooter, Hopper hopper) {
+  public TunerShoot(Shooter shooter, Hopper hopper) {
     this.shooter = shooter;
     this.hopper = hopper;
     addRequirements(shooter, hopper);
@@ -33,8 +30,8 @@ public class AutoShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setShooterRPS(EquationConstants.calculateRPS(FieldConstants.distToGoal));
-    if (shooter.isAtVelocity(EquationConstants.calculateRPS(FieldConstants.distToGoal), ShooterConstants.kRPSTolerance)) {
+    shooter.setShooterRPS(PresetShots.tunerPower);
+    if (shooter.isAtVelocity(PresetShots.tunerPower, ShooterConstants.kRPSTolerance)) {
       hopper.runHopper(-HopperConstants.hopperSpeed);
     }
   }

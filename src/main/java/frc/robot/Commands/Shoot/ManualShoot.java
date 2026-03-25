@@ -31,10 +31,10 @@ public class ManualShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.runAllShootersSpeed(speed);
-    //if (shooter.isAtVelocity(speed, ShooterConstants.kRPSTolerance)) {
+    shooter.setShooterRPS(speed);
+    if (shooter.isAtVelocity(speed, ShooterConstants.kRPSTolerance)) {
     hopper.runHopper(-HopperConstants.hopperSpeed);
-    //}
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -12,9 +12,10 @@ public class Constants {
 
     public static class EquationConstants {
     // Equation: RPS = ax^2 + bx + c
-    public static final double sA = 0;
-    public static final double sB = 0;
-    public static final double sC = 0;    
+    public static final double sA = 1.41868;
+    public static final double sB = -4.53572;
+    public static final double sC = 52.23682; 
+       
     
     public static double calculateRPS(double distance) {
         return sA * Math.pow(distance, 2) + sB * distance + sC;
@@ -34,12 +35,14 @@ public class Constants {
     }
 
     public class FieldConstants {
+        public static Translation2d goalLocation = new Translation2d(0,0);
+
         public static double distToGoal;
         //Positions
         //Variables for getting angle to goal.
-        public static double goalRedX = 12; //Red Goal
-        public static double goalRedY = 4.034536;
-        public static double goalBlueX = -12; //Blue Goal
+        public static double goalRedX = 11.95; //Red Goal //12 //11.2 
+        public static double goalRedY = 4; //4.034536
+        public static double goalBlueX = 4.55; //Blue Goal
         public static double goalBlueY = 4.034536;
 
         //FIELD LOCATIONS:
@@ -66,15 +69,15 @@ public class Constants {
         public static final int Intake_Lift_Encoder_ID = 0;
 
         public static final double intakeSpeed = 0.6;
-        public static final double intakeUpPose = -0.368;
-        public static final double intakeDownPose = 0;
+        public static final double intakeUpPose = -0.317871;
+        public static final double intakeDownPose = 3.485352;
     }
     public class HopperConstants {
         public static final int Hopper_Motor_ID = 25;
         public static final double hopperSpeed = 0.5;
     }
     public class ShooterConstants {
-        public static final double kRPSTolerance = 10.0;
+        public static final double kRPSTolerance = 0.35;
 
         public static final int Top_Shooter_ID = 59;
         public static final int Shooter_Right_ID = 61;
@@ -93,17 +96,19 @@ public class Constants {
     }
 
     public class AlignConstants {
-        public static final double alignToleranceDegrees = 2.0;
-        public static final double aimControllerP = 2;
+        public static final double alignToleranceDegrees = 10.0;
+        public static final double aimControllerP = 5;
         public static final double aimControllerI = 0;
         public static final double aimControllerD = 0.5;
-        public static final double alignMaxCorrectionSpeed = 5;
+        public static final double alignMaxCorrectionSpeed = 7;
         public static final double alignMaxAcceleration = 3; 
     }
 
     public class PresetShots {
-        public static final double closeShotRPS = 30;
-        public static final double trenchShotRPS = 75;
-        public static final double cornerShotRPS = 100;
+        public static final double closeShotRPS = 53; //51
+        public static final double trenchShotRPS = 53;
+        public static final double cornerShotRPS = 60;
+
+        public static double tunerPower = 50;
     }
 }

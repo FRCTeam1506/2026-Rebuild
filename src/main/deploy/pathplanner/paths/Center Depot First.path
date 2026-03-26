@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.606027410714285,
-        "y": 7.178929241071429
+        "x": 3.5460281696428577,
+        "y": 4.005198571428572
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.329602857142858,
-        "y": 6.967282410714286
+        "x": 3.2961092233365332,
+        "y": 4.011564125382188
       },
       "isLocked": false,
-      "linkedName": "Left First End"
+      "linkedName": "Center First Start"
     },
     {
       "anchor": {
-        "x": 7.4987665625,
-        "y": 4.848384642857143
+        "x": 1.7565252678571435,
+        "y": 4.048605
       },
       "prevControl": {
-        "x": 8.019238794642858,
-        "y": 4.874987276785714
+        "x": 2.006192122705649,
+        "y": 4.035703000540417
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Fifth End"
+      "linkedName": "Center Depot First End"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Left",
+  "folder": "Center Depot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 180.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

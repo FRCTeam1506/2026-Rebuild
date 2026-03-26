@@ -116,6 +116,7 @@ public class RobotContainer {
         driver.R2().whileTrue(new AlignandShoot(drivetrain, shooter, hopper));
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
+        driver.povUp().onTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
 
         //Intake
         driver.L2().whileTrue(new IntakeCommand(intake));
@@ -124,9 +125,10 @@ public class RobotContainer {
         //Align
         driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
 
-        driver.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
-        driver.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
-        driver.povRight().whileTrue(new TunerShoot(shooter, hopper));
+        //Testing stuff
+        // driver.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
+        // driver.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
+        // driver.povRight().whileTrue(new TunerShoot(shooter, hopper));
 
         
 
@@ -143,8 +145,9 @@ public class RobotContainer {
 
 
         operator.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
-        operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.trenchShotRPS));
-        operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
+        operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
+        operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
+        operator.rightBumper().whileTrue(new AutoShoot(shooter, hopper));
 
         //Intake
         operator.leftTrigger().whileTrue(new IntakeManual(intake));
@@ -182,15 +185,20 @@ public class RobotContainer {
         testing.leftStick().whileTrue(new InstantCommand(() -> hopper.runHopper(0.5)));
         testing.leftStick().onFalse(new InstantCommand(() -> hopper.stopHopper()));
 
+        //Tuning
+        testing.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
+        testing.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
+        testing.povRight().whileTrue(new TunerShoot(shooter, hopper));
+
         //Just shooter to power
-        testing.povDown().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.closeShotRPS)));
-        testing.povDown().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
+        // testing.povDown().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.closeShotRPS)));
+        // testing.povDown().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
 
-        testing.povRight().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.trenchShotRPS)));
-        testing.povRight().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
+        // testing.povRight().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.trenchShotRPS)));
+        // testing.povRight().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
 
-        testing.povUp().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.cornerShotRPS)));
-        testing.povUp().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
+        // testing.povUp().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(PresetShots.cornerShotRPS)));
+        // testing.povUp().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()));
 
         /* Macros:
          * MACRO SHOT:

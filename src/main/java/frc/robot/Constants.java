@@ -110,6 +110,7 @@ public class Constants {
         public static final double closeShotRPS = 53; //51
         public static final double trenchShotRPS = 53;
         public static final double cornerShotRPS = 60;
+        public static final double passingShotRPS = 60;
 
         public static double tunerPower = 50;
     }

@@ -3,7 +3,11 @@
   "robotLength": 0.866839,
   "holonomicMode": true,
   "pathFolders": [
-    "Left"
+    "Center",
+    "Center Depot",
+    "Left",
+    "Center HP",
+    "Right"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.5,

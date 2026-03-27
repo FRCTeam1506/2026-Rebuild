@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5392421875000004,
-        "y": 5.939659508928571
+        "x": 1.309048192771084,
+        "y": 5.980132530120482
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4797362946428576,
-        "y": 5.665737410714286
+        "x": 0.9265783132530121,
+        "y": 6.012915662650602
       },
       "isLocked": false,
       "linkedName": "Center Depot Second End"
     },
     {
       "anchor": {
-        "x": 1.7565252678571435,
-        "y": 4.048605
+        "x": 0.555036144578313,
+        "y": 5.980132530120482
       },
       "prevControl": {
-        "x": 1.6679712946428578,
-        "y": 4.331961517857143
+        "x": 0.804009446195239,
+        "y": 6.002766466631111
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Center Depot First End"
+      "linkedName": "Center Depot Third End"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
+    "maxVelocity": 1.0,
     "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -50,5 +50,5 @@
     "velocity": 0,
     "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

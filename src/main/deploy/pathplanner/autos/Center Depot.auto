@@ -23,7 +23,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Auto Align And Shoot"
+                  "name": "AlignAndShoot"
                 }
               }
             ]
@@ -36,9 +36,28 @@
           }
         },
         {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center Depot Third"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Manual"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Center Depot Third"
+            "pathName": "Center Depot Fourth"
           }
         },
         {
@@ -54,7 +73,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Auto Align And Shoot"
+                  "name": "AlignAndShoot"
                 }
               }
             ]

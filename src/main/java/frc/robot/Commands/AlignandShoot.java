@@ -32,7 +32,7 @@ public class AlignandShoot extends SequentialCommandGroup {
     this.shooter = shooter;
     this.hopper = hopper;
     addCommands(new StationaryAutoAim(drivetrain),
-    
+
         new AutoShoot(shooter, hopper)
      
      );

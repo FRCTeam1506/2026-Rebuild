@@ -43,7 +43,7 @@ public class Constants {
         //Variables for getting angle to goal.
         public static double goalRedX = 11.95; //Red Goal //12 //11.2 
         public static double goalRedY = 4; //4.034536
-        public static double goalBlueX = 4.55; //Blue Goal
+        public static double goalBlueX = 4.6; //Blue Goal
         public static double goalBlueY = 4.034536;
 
         //FIELD LOCATIONS:
@@ -78,7 +78,7 @@ public class Constants {
         public static final double hopperSpeed = 0.5;
     }
     public class ShooterConstants {
-        public static final double kRPSTolerance = 0.35;
+        public static final double kRPSTolerance = 0.2;
 
         public static final int Top_Shooter_ID = 59;
         public static final int Shooter_Right_ID = 61;
@@ -97,20 +97,20 @@ public class Constants {
     }
 
     public class AlignConstants {
-        public static final double alignToleranceRadians = 0.034;
+        public static final double alignToleranceRadians = 0.05;
         public static final double aimControllerP = 5;
         public static final double aimControllerI = 0;
         public static final double aimControllerD = 0;
         public static final double alignMaxCorrectionSpeed = 3;
-        public static final double alignMaxAcceleration = 5; 
+        public static final double alignMaxAcceleration = 7; 
         public static boolean isAligned;
     }
 
     public class PresetShots {
-        public static final double closeShotRPS = 53; //51
-        public static final double trenchShotRPS = 53;
-        public static final double cornerShotRPS = 60;
-        public static final double passingShotRPS = 60;
+        public static final double closeShotRPS = 52.5; //51
+        public static final double trenchShotRPS = 56;
+        public static final double cornerShotRPS = 70.75;
+        public static final double passingShotRPS = 90;
 
         public static double tunerPower = 50;
     }

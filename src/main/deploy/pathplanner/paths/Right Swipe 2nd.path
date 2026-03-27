@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.461349397590361,
-        "y": 0.8222530120481917
+        "x": 7.1609518072289156,
+        "y": 0.636481927710844
       },
       "isLocked": false,
       "linkedName": "Right First End"
     },
     {
       "anchor": {
-        "x": 7.592481927710843,
-        "y": 2.6581084337349408
+        "x": 7.515987951807228,
+        "y": 3.390265060240964
       },
       "prevControl": {
-        "x": 8.521337349397589,
-        "y": 2.1007951807228915
+        "x": 7.625265060240962,
+        "y": 2.242855421686747
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Right Second End"
+      "linkedName": "Right Swipe 2nd End"
     }
   ],
   "rotationTargets": [],
@@ -42,12 +42,12 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 88.63607246839723
   },
   "reversed": false,
   "folder": "RightReal",
   "idealStartingState": {
-    "velocity": 0.4,
+    "velocity": 0,
     "rotation": 90.0
   },
   "useDefaultConstraints": true

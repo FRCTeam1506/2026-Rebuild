@@ -14,9 +14,11 @@ import frc.robot.subsystems.Shooter;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeManual extends Command {
   Intake intake;
+  double liftSpeed;
   /** Creates a new Shoot. */
-  public IntakeManual(Intake intake) {
+  public IntakeManual(Intake intake, double liftSpeed) {
     this.intake = intake;
+    this.liftSpeed = liftSpeed;
     addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -29,14 +31,14 @@ public class IntakeManual extends Command {
   @Override
   public void execute() {
     intake.runIntake(-0.8);
-    intake.runIntakeLift(0.15);
+    intake.runIntakeLift(liftSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     intake.runIntake(0);
-    intake.runIntakeLift(0.15);
+    intake.runIntakeLift(-0.1);
   }
 
   // Returns true when the command should end.

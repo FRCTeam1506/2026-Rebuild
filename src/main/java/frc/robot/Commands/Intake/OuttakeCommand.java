@@ -32,7 +32,7 @@ public class OuttakeCommand extends Command {
   public void execute() {
     intake.runIntake(0.6);
     intake.setIntakeLift(IntakeConstants.intakeDownPose);
-    hopper.runHopper(-0.5);
+    hopper.runHopper(0.5);
   }
 
   // Called once the command ends or is interrupted.

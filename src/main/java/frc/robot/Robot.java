@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
-        SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
+        //SmartDashboard.putNumber("heading", );
 
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run();

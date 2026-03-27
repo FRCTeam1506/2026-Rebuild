@@ -5,9 +5,10 @@
   "pathFolders": [
     "Center",
     "Center Depot",
-    "Left",
     "Center HP",
-    "Right"
+    "Left",
+    "LeftReal",
+    "RightReal"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.5,

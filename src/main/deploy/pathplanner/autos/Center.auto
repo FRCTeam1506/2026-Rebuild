@@ -23,7 +23,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Auto Align And Shoot"
+                  "name": "AlignAndShoot"
                 }
               }
             ]

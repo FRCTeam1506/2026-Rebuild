@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.robot.Commands.AlignandShoot;
+import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -40,7 +41,8 @@ public class Autos {
 
     public void makeNamedCommands(){
         NamedCommands.registerCommand("AlignAndShoot", new AlignandShoot(drivetrain, shooter, hopper));
-        NamedCommands.registerCommand("Intake", new IntakeManual(intake));
+        NamedCommands.registerCommand("Intake Manual", new IntakeManual(intake, 0.3));
+        NamedCommands.registerCommand("Intake Position", new IntakeCommand(intake));
     }
 
     public SendableChooser<Command> configureChooser(SendableChooser<Command> chooser){

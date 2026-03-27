@@ -7,7 +7,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left First Steal"
+            "pathName": "LeftFirst"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftSecond"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Manual"
+                }
+              }
+            ]
           }
         },
         {
@@ -23,13 +42,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.0
+                  "waitTime": 5.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Auto Align And Shoot"
+                  "name": "AlignAndShoot"
                 }
               }
             ]
@@ -38,7 +57,26 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Second Steal"
+            "pathName": "LeftFourth"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftFifth"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Manual"
+                }
+              }
+            ]
           }
         },
         {
@@ -54,13 +92,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.0
+                  "waitTime": 5.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Auto Align And Shoot"
+                  "name": "AlignAndShoot"
                 }
               }
             ]

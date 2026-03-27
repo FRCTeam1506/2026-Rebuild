@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -12,6 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlignConstants;
 import frc.robot.Constants.FieldConstants;
@@ -35,7 +37,7 @@ public class StationaryAutoAim extends Command {
 
   double rotationalVelocity;
   double toRadians;
-  public StationaryAutoAim(CommandSwerveDrivetrain drivetrain) {
+  public StationaryAutoAim(CommandSwerveDrivetrain drivetrain) { //consider making align degrees tolerance a parameter
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
 
@@ -45,6 +47,11 @@ public class StationaryAutoAim extends Command {
     thetaController = new ProfiledPIDController(AlignConstants.aimControllerP, AlignConstants.aimControllerI, AlignConstants.aimControllerD, new TrapezoidProfile.Constraints(AlignConstants.alignMaxCorrectionSpeed, AlignConstants.alignMaxAcceleration));
     thetaController.enableContinuousInput(-Math.PI, Math.PI); 
     request = new SwerveRequest.ApplyRobotSpeeds();
+
+    var currentRotation = drivetrain.getState().Pose.getRotation().getRadians();
+    var currentVelocity = drivetrain.getState().Speeds.omegaRadiansPerSecond;
+    
+    thetaController.reset(currentRotation, currentVelocity);
   }
 
   @Override
@@ -57,7 +64,7 @@ public class StationaryAutoAim extends Command {
     goalLocation = isRed ? 
         new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
         new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
-        thetaController.reset(0);;
+        //thetaController.reset(0);
   }
 
   @Override
@@ -69,7 +76,9 @@ public class StationaryAutoAim extends Command {
     double yDistToGoal = goalLocation.getY() - robotPose.getY();
     Rotation2d goalHeading = new Rotation2d(Math.atan2(yDistToGoal, xDistToGoal));
 
-    rotationalVelocity = thetaController.calculate(robotPose.getRotation().getRadians(), goalHeading.getRadians() + Math.PI);
+    double targetAngle = MathUtil.angleModulus(goalHeading.getRadians() + Math.PI);
+    rotationalVelocity = thetaController.calculate(robotPose.getRotation().getRadians(), targetAngle);
+    // SmartDashboard.putNumber("heading", robotPose.getRotation().getRadians());
     //toRadians = Math.toRadians(rotationalVelocity);
 
     
@@ -88,7 +97,8 @@ public class StationaryAutoAim extends Command {
     System.out.println("isALigned" + AlignConstants.isAligned);
 
     // System.out.println("rotational rate" + toRadians);
-    // System.out.println("current heading" + robotPose.getRotation().getDegrees());
+    System.out.println("current heading" + robotPose.getRotation().getRadians());
+    System.out.println("goal heading" + goalHeading);
     // System.out.println("goal heading" + goalHeading.getDegrees());
 
     double angleError = Math.abs(robotPose.getRotation().minus(goalHeading).getDegrees());

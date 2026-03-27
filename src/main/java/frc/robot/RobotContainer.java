@@ -29,6 +29,7 @@ import frc.robot.Commands.Align.StationaryAutoAim;
 import frc.robot.Commands.Align.align;
 import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeManual;
+import frc.robot.Commands.Intake.IntakeTime;
 import frc.robot.Commands.Intake.OuttakeCommand;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.Commands.Shoot.ManualShoot;
@@ -150,7 +151,8 @@ public class RobotContainer {
         operator.rightBumper().whileTrue(new AutoShoot(shooter, hopper));
 
         //Intake
-        operator.leftTrigger().whileTrue(new IntakeManual(intake));
+        operator.leftTrigger().whileTrue(new IntakeManual(intake,0.6)).onFalse(new IntakeTime(intake));
+        
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align

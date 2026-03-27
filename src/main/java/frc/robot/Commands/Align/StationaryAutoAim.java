@@ -36,7 +36,7 @@ public class StationaryAutoAim extends Command {
   SwerveRequest.ApplyRobotSpeeds request;
 
   double rotationalVelocity;
-  double toRadians;
+  
   public StationaryAutoAim(CommandSwerveDrivetrain drivetrain) { //consider making align degrees tolerance a parameter
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
@@ -47,17 +47,17 @@ public class StationaryAutoAim extends Command {
     thetaController = new ProfiledPIDController(AlignConstants.aimControllerP, AlignConstants.aimControllerI, AlignConstants.aimControllerD, new TrapezoidProfile.Constraints(AlignConstants.alignMaxCorrectionSpeed, AlignConstants.alignMaxAcceleration));
     thetaController.enableContinuousInput(-Math.PI, Math.PI); 
     request = new SwerveRequest.ApplyRobotSpeeds();
-
-    var currentRotation = drivetrain.getState().Pose.getRotation().getRadians();
-    var currentVelocity = drivetrain.getState().Speeds.omegaRadiansPerSecond;
     
-    thetaController.reset(currentRotation, currentVelocity);
   }
 
   @Override
   public void initialize() {
+    var currentRotation = drivetrain.getState().Pose.getRotation().getRadians();
+    var currentVelocity = drivetrain.getState().Speeds.omegaRadiansPerSecond;
+    thetaController.reset(currentRotation, currentVelocity);
+
     // Determine alliance once at start to select the correct goal
-    thetaController.setTolerance(AlignConstants.alignToleranceRadians);
+    thetaController.setTolerance(AlignConstants.alignToleranceRadians, 0.01);
     var alliance = DriverStation.getAlliance();
     isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
     
@@ -79,7 +79,6 @@ public class StationaryAutoAim extends Command {
     double targetAngle = MathUtil.angleModulus(goalHeading.getRadians() + Math.PI);
     rotationalVelocity = thetaController.calculate(robotPose.getRotation().getRadians(), targetAngle);
     // SmartDashboard.putNumber("heading", robotPose.getRotation().getRadians());
-    //toRadians = Math.toRadians(rotationalVelocity);
 
     
     // drivetrain.setControl(alignRequest
@@ -87,7 +86,12 @@ public class StationaryAutoAim extends Command {
     //     .withVelocityY(0)
     //     .withRotationalRate(rotationalVelocity));
 
-    isAligned = Math.abs(robotPose.getRotation().getDegrees()) - (goalHeading.getDegrees() * -1) <= AlignConstants.alignToleranceRadians;
+    //Not being used, old version - isAligned = Math.abs(robotPose.getRotation().getDegrees()) - (goalHeading.getDegrees() * -1) <= AlignConstants.alignToleranceRadians;
+    // Correct isAlign code if ever used:
+    double angleError = Math.abs(MathUtil.angleModulus(robotPose.getRotation().getRadians() - targetAngle));
+    isAligned = angleError <= AlignConstants.alignToleranceRadians;
+    AlignConstants.isAligned = isAligned;
+     
     System.out.println(robotPose.getRotation().getDegrees());
     System.out.println(goalHeading.getDegrees());
 
@@ -96,12 +100,10 @@ public class StationaryAutoAim extends Command {
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, rotationalVelocity)));
     System.out.println("isALigned" + AlignConstants.isAligned);
 
-    // System.out.println("rotational rate" + toRadians);
     System.out.println("current heading" + robotPose.getRotation().getRadians());
     System.out.println("goal heading" + goalHeading);
     // System.out.println("goal heading" + goalHeading.getDegrees());
 
-    double angleError = Math.abs(robotPose.getRotation().minus(goalHeading).getDegrees());
   }
 
   @Override

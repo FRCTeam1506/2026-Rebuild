@@ -26,7 +26,6 @@ import frc.robot.Commands.AlignandShoot;
 import frc.robot.Commands.Align.MovingAutoAim;
 import frc.robot.Commands.Align.StationaryAimAndShoot;
 import frc.robot.Commands.Align.StationaryAutoAim;
-import frc.robot.Commands.Align.align;
 import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeTime;

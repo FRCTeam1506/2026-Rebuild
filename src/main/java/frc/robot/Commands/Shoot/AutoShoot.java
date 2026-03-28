@@ -34,13 +34,10 @@ public class AutoShoot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("Autoshoot!");
-
     //if(AlignConstants.isAligned) {
-      System.out.println("Running shooter!");
-
-      shooter.setShooterRPS(EquationConstants.calculateRPS(FieldConstants.distToGoal) + 0.25); //tune 0.25 value
-      if (shooter.isAtVelocity(EquationConstants.calculateRPS(FieldConstants.distToGoal), ShooterConstants.kRPSTolerance)) {
+    double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 0.5; //tune constant rps value
+    shooter.setShooterRPS(targetRPS);
+      if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {
         hopper.runHopper(-HopperConstants.hopperSpeed);
       }
     //}

@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right Second"
+                  "pathName": "Right Swipe 1"
                 }
               },
               {
@@ -82,7 +82,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Third 2nd"
+            "pathName": "Right Third 2"
           }
         },
         {

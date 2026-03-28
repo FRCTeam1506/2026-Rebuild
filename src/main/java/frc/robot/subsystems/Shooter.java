@@ -11,6 +11,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.swerve.jni.SwerveJNI.DriveState;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,8 +31,8 @@ public class Shooter extends SubsystemBase {
   private TalonFX shooterTop = new TalonFX(ShooterConstants.Top_Shooter_ID);
   private TalonFX shooterRight = new TalonFX(ShooterConstants.Shooter_Right_ID);
 
-
-  public InterpolatingDoubleTreeMap shooterPower = new InterpolatingDoubleTreeMap();
+  //More info on debouncer: https://docs.wpilib.org/en/stable/docs/software/advanced-controls/filters/debouncer.html
+  private final Debouncer velocityDebouncer = new Debouncer(0.1, DebounceType.kRising);
 
   final VelocityVoltage speedControl = new VelocityVoltage(0);
   Translation2d targetVec;
@@ -104,9 +106,6 @@ public class Shooter extends SubsystemBase {
     PresetShots.tunerPower -= 0.25;
   }
 
-  // public double avgShooterSpeed() { //Four motors
-  //   return (shooterLeftFront.getVelocity().getValueAsDouble() + shooterRightFront.getVelocity().getValueAsDouble() + shooterLeftBack.getVelocity().getValueAsDouble() + shooterRightBack.getVelocity().getValueAsDouble()) / 4.0;
-  // }
   public double avgShooterSpeed() { //Three motors
     return (shooterTop.getVelocity().getValueAsDouble() + shooterRight.getVelocity().getValueAsDouble() + shooterLeft.getVelocity().getValueAsDouble()) / 3.0;
   }
@@ -118,7 +117,14 @@ public class Shooter extends SubsystemBase {
   public boolean isAtVelocity(double targetRPS, double tolerance) {
     double currentRPS = avgShooterSpeed();
     return Math.abs(currentRPS - targetRPS) <= tolerance;
+    /* new isatvelocity:
+     * double currentRPS = avgShooterSpeed();
+    boolean isWithinTolerance = Math.abs(currentRPS - targetRPS) <= tolerance;
+    return velocityDebouncer.calculate(isWithinTolerance);
+      essentially starts a timer from when when isWithinTolerance is true and only returns true if it continues to be true for 0.1 seconds
+     */
   }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("set shooter speed", EquationConstants.calculateRPS(FieldConstants.distToGoal));

@@ -57,9 +57,9 @@ public class Shooter extends SubsystemBase {
     // set slot 0 gains
     var slot0Configs = shooterConfigs.Slot0;
     
-    slot0Configs.kS = 0.25; // Voltage to break static friction (typical range 0.1 - 0.3)
+    slot0Configs.kS = 0.26; // Voltage to break static friction (typical range 0.1 - 0.3)
     slot0Configs.kV = 0.11; // Voltage per RPS (approx 11-12V for ~100 RPS / 6000 RPM)
-    slot0Configs.kP = 0.5; //.5 // Proportional gain (start low; 4 motors have massive torque)
+    slot0Configs.kP = 0.5; // Proportional gain (start low; 4 motors have massive torque)
     slot0Configs.kI = 0.0;  // Leave at 0 to avoid oscillation/overshoot
     slot0Configs.kD = 0.01; // Tiny bit of D can help dampen the 4-motor kickback
 
@@ -114,14 +114,15 @@ public class Shooter extends SubsystemBase {
   // }
 
   public boolean isAtVelocity(double targetRPS, double tolerance) {
-    double currentRPS = avgShooterSpeed();
-    return Math.abs(currentRPS - targetRPS) <= tolerance;
-    /* new isatvelocity:
-     * double currentRPS = avgShooterSpeed();
-    boolean isWithinTolerance = Math.abs(currentRPS - targetRPS) <= tolerance;
-    return velocityDebouncer.calculate(isWithinTolerance);
-      essentially starts a timer from when when isWithinTolerance is true and only returns true if it continues to be true for 0.1 seconds
-     */
+    //original isAtVelocity:
+    //double currentRPS = avgShooterSpeed();
+    //return Math.abs(currentRPS - targetRPS) <= tolerance;
+    // new isatvelocity:
+      double currentRPS = avgShooterSpeed();
+      boolean isWithinTolerance = Math.abs(currentRPS - targetRPS) <= tolerance;
+      return velocityDebouncer.calculate(isWithinTolerance);
+      //essentially starts a timer from when when isWithinTolerance is true and only returns true if it continues to be true for 0.1 seconds
+     
   }
 
   @Override

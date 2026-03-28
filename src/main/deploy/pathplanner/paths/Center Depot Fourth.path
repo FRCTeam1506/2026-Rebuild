@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.555036144578313,
-        "y": 5.980132530120482
+        "x": 0.5844365192582024,
+        "y": 5.684679029957205
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.49553025172117,
-        "y": 5.706210431906197
+        "x": 2.5249306264010594,
+        "y": 5.410756931742919
       },
       "isLocked": false,
-      "linkedName": "Center Depot Third End"
+      "linkedName": "Center Depot Second End"
     },
     {
       "anchor": {
-        "x": 1.7565252678571435,
-        "y": 4.048605
+        "x": 1.8653637660485018,
+        "y": 4.00265335235378
       },
       "prevControl": {
-        "x": 1.6679712946428578,
-        "y": 4.331961517857143
+        "x": 1.7768097928342161,
+        "y": 4.286009870210923
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Center Depot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 163.17859010995917
   },
   "useDefaultConstraints": true
 }

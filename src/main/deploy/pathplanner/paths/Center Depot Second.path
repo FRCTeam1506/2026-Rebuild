@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.7565252678571435,
-        "y": 4.048605
+        "x": 1.8653637660485018,
+        "y": 4.00265335235378
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.855433734939759,
-        "y": 4.319120481927711
+        "x": 2.064772877649275,
+        "y": 4.396616112696148
       },
       "isLocked": false,
       "linkedName": "Center Depot First End"
     },
     {
       "anchor": {
-        "x": 1.309048192771084,
-        "y": 5.980132530120482
+        "x": 1.7565252678571435,
+        "y": 5.5811697574893016
       },
       "prevControl": {
-        "x": 1.4729638554216864,
-        "y": 5.608590361445783
+        "x": 1.9914736237292476,
+        "y": 5.495733991717626
+      },
+      "nextControl": {
+        "x": 1.5215769119850349,
+        "y": 5.666605523260979
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.5844365192582024,
+        "y": 5.684679029957205
+      },
+      "prevControl": {
+        "x": 0.8561483594864476,
+        "y": 5.749372325249644
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,11 +45,25 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.7248500999333898,
+      "constraints": {
+        "maxVelocity": 5.0,
+        "maxAcceleration": 7.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
+    "maxVelocity": 1.0,
     "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,7 +72,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 163.17859010995917
   },
   "reversed": false,
   "folder": "Center Depot",
@@ -50,5 +80,5 @@
     "velocity": 0,
     "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

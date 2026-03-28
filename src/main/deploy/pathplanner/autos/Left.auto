@@ -50,6 +50,12 @@
                 "data": {
                   "name": "AlignAndShoot"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Manual"
+                }
               }
             ]
           }
@@ -67,7 +73,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftFifth"
+                  "pathName": "Left Swipe 2"
                 }
               },
               {
@@ -92,13 +98,19 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 5.0
+                  "waitTime": 3.0
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "AlignAndShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Manual"
                 }
               }
             ]

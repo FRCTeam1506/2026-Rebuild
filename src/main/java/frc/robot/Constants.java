@@ -97,9 +97,9 @@ public class Constants {
     }
 
     public class AlignConstants {
-        public static final double alignToleranceRadians = 0.05;
-        public static final double aimControllerP = 5;
-        public static final double aimControllerI = 0;
+        public static final double alignToleranceRadians = 0.0567;
+        public static final double aimControllerP = 6;
+        public static final double aimControllerI = 0.01;
         public static final double aimControllerD = 0;
         public static final double alignMaxCorrectionSpeed = 3;
         public static final double alignMaxAcceleration = 7; 
@@ -110,7 +110,7 @@ public class Constants {
         public static final double closeShotRPS = 52.5; //51
         public static final double trenchShotRPS = 56;
         public static final double cornerShotRPS = 70.75;
-        public static final double passingShotRPS = 90;
+        public static final double passingShotRPS = 85; //90
 
         public static double tunerPower = 50;
     }

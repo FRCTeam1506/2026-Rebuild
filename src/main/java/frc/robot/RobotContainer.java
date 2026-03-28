@@ -119,7 +119,9 @@ public class RobotContainer {
         driver.povUp().onTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
 
         //Intake
-        driver.L2().whileTrue(new IntakeCommand(intake));
+        //driver.L2().whileTrue(new IntakeCommand(intake));
+        driver.L2().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
+
         driver.L1().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
@@ -150,7 +152,7 @@ public class RobotContainer {
         operator.rightBumper().whileTrue(new AutoShoot(shooter, hopper));
 
         //Intake
-        operator.leftTrigger().whileTrue(new IntakeManual(intake,0.6)).onFalse(new IntakeTime(intake));
+        operator.leftTrigger().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
         
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));
 

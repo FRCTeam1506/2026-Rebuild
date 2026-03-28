@@ -16,21 +16,41 @@
     },
     {
       "anchor": {
-        "x": 3.560156626506024,
-        "y": 0.7348313253012042
+        "x": 6.171879518072289,
+        "y": 0.6364819277108438
       },
       "prevControl": {
-        "x": 6.05167469879518,
-        "y": 0.876891566265059
+        "x": 6.512497364563185,
+        "y": 0.7281867325353161
+      },
+      "nextControl": {
+        "x": 5.887759036144579,
+        "y": 0.5599879518072293
+      },
+      "isLocked": false,
+      "linkedName": "Right Third End"
+    },
+    {
+      "anchor": {
+        "x": 2.9700602409638552,
+        "y": 0.7785421686746998
+      },
+      "prevControl": {
+        "x": 3.7459277108433735,
+        "y": 0.41792771084337454
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Right Third End"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5852459016393387,
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 0.75,
       "rotationDegrees": -90.0
     }
   ],

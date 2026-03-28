@@ -39,7 +39,7 @@ public class AutoShoot extends Command {
     //if(AlignConstants.isAligned) {
       System.out.println("Running shooter!");
 
-      shooter.setShooterRPS(EquationConstants.calculateRPS(FieldConstants.distToGoal));
+      shooter.setShooterRPS(EquationConstants.calculateRPS(FieldConstants.distToGoal) + 0.25); //tune 0.25 value
       if (shooter.isAtVelocity(EquationConstants.calculateRPS(FieldConstants.distToGoal), ShooterConstants.kRPSTolerance)) {
         hopper.runHopper(-HopperConstants.hopperSpeed);
       }

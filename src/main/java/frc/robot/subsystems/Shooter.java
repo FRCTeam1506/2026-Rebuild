@@ -71,7 +71,6 @@ public class Shooter extends SubsystemBase {
     shooterLeft.getConfigurator().apply(shooterConfigs);
     //shooterRightBack.getConfigurator().apply(shooterConfigs);
 
-    shooterPower.put(1.0, 1.0);
   }
 
   public void runAllShootersSpeed(double speed) {

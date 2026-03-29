@@ -4,25 +4,31 @@
 
 package frc.robot.Commands.Shoot;
 
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlignConstants;
 import frc.robot.Constants.EquationConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.ShooterConstants;
-
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoShoot extends Command {
-  Shooter shooter;
-  Hopper hopper;
+  private final Shooter shooter;
+  private final Hopper hopper;
+  // private final CommandSwerveDrivetrain drivetrain;
+  // private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+
 
   /** Creates a new Shoot. */
   public AutoShoot(Shooter shooter, Hopper hopper) {
     this.shooter = shooter;
     this.hopper = hopper;
+    //this.drivetrain = drivetrain;
     addRequirements(shooter, hopper);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -35,6 +41,8 @@ public class AutoShoot extends Command {
   @Override
   public void execute() {
     //if(AlignConstants.isAligned) {
+    //drivetrain.applyRequest(() -> brake);
+
     double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 0.5; //tune constant rps value
     shooter.setShooterRPS(targetRPS);
       if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {

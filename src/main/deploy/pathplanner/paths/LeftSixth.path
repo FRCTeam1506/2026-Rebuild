@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.7340228245363765,
-        "y": 4.300242510699002
+        "x": 6.380955777460769,
+        "y": 4.2484878744650505
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.820870185449357,
-        "y": 5.089500713266761
+        "x": 6.678544935805991,
+        "y": 5.218887303851641
       },
       "isLocked": false,
       "linkedName": "Left Fifth End"
@@ -69,7 +69,7 @@
   "folder": "Left",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -157.1663458220824
   },
   "useDefaultConstraints": true
 }

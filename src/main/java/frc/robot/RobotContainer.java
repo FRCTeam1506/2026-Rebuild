@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Commands.AlignandShoot;
 import frc.robot.Commands.Align.MovingAutoAim;
-import frc.robot.Commands.Align.StationaryAimAndShoot;
 import frc.robot.Commands.Align.StationaryAutoAim;
 import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeManual;
@@ -145,7 +144,6 @@ public class RobotContainer {
 
         operator.b().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(-0.25)).alongWith(new InstantCommand(() -> hopper.runHopper(0.5))));
         operator.b().whileFalse(new InstantCommand(() -> shooter.runAllShootersSpeed(0)).alongWith(new InstantCommand(() -> hopper.runHopper(0))));
-
 
         operator.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));

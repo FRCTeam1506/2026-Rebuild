@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.AlignConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.RobotContainer;
@@ -34,6 +35,8 @@ public class StationaryAutoAim extends Command {
   private boolean isRed;
   public static boolean isAligned;
   SwerveRequest.ApplyRobotSpeeds request;
+    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+
 
   double rotationalVelocity;
   
@@ -109,12 +112,14 @@ public class StationaryAutoAim extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.driver.getHID().setRumble(edu.wpi.first.wpilibj.GenericHID.RumbleType.kBothRumble, 0);
-    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
-
+    //CommandScheduler.getInstance().;
+    // drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
+    
   }
   @Override
   public boolean isFinished() {
     return thetaController.atGoal();
+
     //return isAligned;
   }
 }

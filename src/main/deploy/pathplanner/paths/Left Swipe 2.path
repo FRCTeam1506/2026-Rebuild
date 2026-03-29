@@ -3,32 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.7340228245363765,
-        "y": 7.4702139800285305
+        "x": 6.445072289156626,
+        "y": 7.597433734939759
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.721084165477888,
-        "y": 6.3963052781740375
+        "x": 8.127097966760054,
+        "y": 7.7445447295601815
       },
       "isLocked": false,
       "linkedName": "Left First End"
     },
     {
       "anchor": {
-        "x": 5.7340228245363765,
-        "y": 4.300242510699002
+        "x": 7.855962910128387,
+        "y": 4.843666191155493
       },
       "prevControl": {
-        "x": 5.746961483594864,
-        "y": 5.141255349500715
+        "x": 8.287936197490147,
+        "y": 5.337349948140364
+      },
+      "nextControl": {
+        "x": 7.493680456490727,
+        "y": 4.42962910128388
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.380955777460769,
+        "y": 4.2484878744650505
+      },
+      "prevControl": {
+        "x": 7.027888730385164,
+        "y": 4.054407988587732
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "Left Fifth End"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -90.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -157.1663458220824
   },
   "reversed": false,
   "folder": "Left",

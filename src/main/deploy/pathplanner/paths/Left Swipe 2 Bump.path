@@ -1,0 +1,91 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.445072289156626,
+        "y": 7.597433734939759
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.445072289156626,
+        "y": 7.597433734939759
+      },
+      "isLocked": false,
+      "linkedName": "Left First End"
+    },
+    {
+      "anchor": {
+        "x": 8.357421686746987,
+        "y": 5.980132530120482
+      },
+      "prevControl": {
+        "x": 8.33121400414783,
+        "y": 6.923609103690062
+      },
+      "nextControl": {
+        "x": 8.379277108433735,
+        "y": 5.1933373493975905
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.08422891566265,
+        "y": 4.231698795180723
+      },
+      "prevControl": {
+        "x": 8.252438566574202,
+        "y": 4.532073171808499
+      },
+      "nextControl": {
+        "x": 7.931240963855422,
+        "y": 3.958506024096385
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.073530120481928,
+        "y": 4.75622891566265
+      },
+      "prevControl": {
+        "x": 6.7510481927710835,
+        "y": 3.455831325301205
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Left Swipe 2 Bump End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.396721311475404,
+      "rotationDegrees": -90.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.5,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 154.59228189105156
+  },
+  "reversed": false,
+  "folder": "Left Bump",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}

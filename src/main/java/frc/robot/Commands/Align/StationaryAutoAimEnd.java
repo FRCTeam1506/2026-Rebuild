@@ -1,0 +1,128 @@
+package frc.robot.Commands.Align;
+
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.AlignConstants;
+import frc.robot.Constants.FieldConstants;
+import frc.robot.RobotContainer;
+import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+
+public class StationaryAutoAimEnd extends Command {
+  private final CommandSwerveDrivetrain drivetrain;
+  private final ProfiledPIDController thetaController;
+
+  public static boolean atGoal;
+  
+  //Pretty cool CTRE thing - https://api.ctr-electronics.com/phoenix6/2024-alpha/java/com/ctre/phoenix6/mechanisms/swerve/SwerveRequest.FieldCentricFacingAngle.html
+  // private final SwerveRequest.FieldCentricFacingAngle alignRequest = 
+  //     new SwerveRequest.FieldCentricFacingAngle();
+  private final SwerveRequest.FieldCentric alignRequest;
+
+  private Translation2d goalLocation;
+  private boolean isRed;
+  public static boolean isAligned;
+  SwerveRequest.ApplyRobotSpeeds request;
+    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+
+
+  double rotationalVelocity;
+  
+  public StationaryAutoAimEnd(CommandSwerveDrivetrain drivetrain) { //consider making align degrees tolerance a parameter
+    this.drivetrain = drivetrain;
+    addRequirements(drivetrain);
+
+    alignRequest = new SwerveRequest.FieldCentric();
+    // alignRequest.HeadingController.setPID(AlignConstants.aimControllerP, AlignConstants.aimControllerI, AlignConstants.aimControllerD);
+    // alignRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+    thetaController = new ProfiledPIDController(AlignConstants.aimControllerP, AlignConstants.aimControllerI, AlignConstants.aimControllerD, new TrapezoidProfile.Constraints(AlignConstants.alignMaxCorrectionSpeed, AlignConstants.alignMaxAcceleration));
+    thetaController.enableContinuousInput(-Math.PI, Math.PI); 
+    request = new SwerveRequest.ApplyRobotSpeeds();
+    
+  }
+
+  @Override
+  public void initialize() {
+    var currentRotation = drivetrain.getState().Pose.getRotation().getRadians();
+    var currentVelocity = drivetrain.getState().Speeds.omegaRadiansPerSecond;
+    thetaController.reset(currentRotation, currentVelocity);
+
+    // Determine alliance once at start to select the correct goal
+    thetaController.setTolerance(AlignConstants.alignToleranceRadians, 0.01);
+    var alliance = DriverStation.getAlliance();
+    isRed = alliance.isPresent() && alliance.get() == Alliance.Red;
+    
+    goalLocation = isRed ? 
+        new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
+        new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
+        //thetaController.reset(0);
+  }
+
+  @Override
+  public void execute() {
+    System.out.println("stationary auto aim");
+    Pose2d robotPose = drivetrain.getState().Pose;
+
+    double xDistToGoal = goalLocation.getX() - robotPose.getX();
+    double yDistToGoal = goalLocation.getY() - robotPose.getY();
+    Rotation2d goalHeading = new Rotation2d(Math.atan2(yDistToGoal, xDistToGoal));
+
+    double targetAngle = MathUtil.angleModulus(goalHeading.getRadians() + Math.PI);
+    rotationalVelocity = thetaController.calculate(robotPose.getRotation().getRadians(), targetAngle);
+    // SmartDashboard.putNumber("heading", robotPose.getRotation().getRadians());
+
+    
+    // drivetrain.setControl(alignRequest
+    //     .withVelocityX(0)
+    //     .withVelocityY(0)
+    //     .withRotationalRate(rotationalVelocity));
+
+    //Not being used, old version - isAligned = Math.abs(robotPose.getRotation().getDegrees()) - (goalHeading.getDegrees() * -1) <= AlignConstants.alignToleranceRadians;
+    // Correct isAlign code if ever used:
+    double angleError = Math.abs(MathUtil.angleModulus(robotPose.getRotation().getRadians() - targetAngle));
+    isAligned = angleError <= AlignConstants.alignToleranceRadians;
+    AlignConstants.isAligned = isAligned;
+     
+    System.out.println(robotPose.getRotation().getDegrees());
+    System.out.println(goalHeading.getDegrees());
+
+
+    AlignConstants.isAligned = isAligned;
+    drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, rotationalVelocity)));
+    System.out.println("isALigned" + AlignConstants.isAligned);
+
+    System.out.println("current heading" + robotPose.getRotation().getRadians());
+    System.out.println("goal heading" + goalHeading);
+    atGoal = thetaController.atGoal();
+    // System.out.println("goal heading" + goalHeading.getDegrees());
+
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    RobotContainer.driver.getHID().setRumble(edu.wpi.first.wpilibj.GenericHID.RumbleType.kBothRumble, 0);
+    //CommandScheduler.getInstance().;
+    // drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
+    
+  }
+//   @Override
+//   public boolean isFinished() {
+//     //return thetaController.atGoal();
+//     return false;
+//     //return isAligned;
+//   }
+}

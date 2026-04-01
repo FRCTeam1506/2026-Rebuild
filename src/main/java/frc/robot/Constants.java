@@ -75,7 +75,7 @@ public class Constants {
     }
     public class HopperConstants {
         public static final int Hopper_Motor_ID = 25;
-        public static final double hopperSpeed = 0.5;
+        public static final double hopperSpeed = 0.5; //0.5
     }
     public class ShooterConstants {
         public static final double kRPSTolerance = 1;
@@ -98,10 +98,10 @@ public class Constants {
 
     public class AlignConstants {
         public static final double alignToleranceRadians = 0.0567;
-        public static final double aimControllerP = 6;
+        public static final double aimControllerP = 15; //6
         public static final double aimControllerI = 0.01;
-        public static final double aimControllerD = 0;
-        public static final double alignMaxCorrectionSpeed = 5.5; //4.5
+        public static final double aimControllerD = 0.1;
+        public static final double alignMaxCorrectionSpeed = 7.5; //5.5
         public static final double alignMaxAcceleration = 7; 
         public static boolean isAligned;
     }

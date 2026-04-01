@@ -121,6 +121,8 @@ public class RobotContainer {
         //Intake
         //driver.L2().whileTrue(new IntakeCommand(intake));
         driver.L2().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
+        //driver.L2().whileTrue(new IntakeCommand(intake));
+
 
         driver.L1().whileTrue(new OuttakeCommand(intake, hopper));
 
@@ -154,7 +156,9 @@ public class RobotContainer {
 
         //Intake
         operator.leftTrigger().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
-        
+        //operator.leftTrigger().whileTrue(new IntakeCommand(intake));
+
+
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align

@@ -28,6 +28,8 @@ public class AlignOnTheMove extends Command {
   private final DoubleSupplier xSupplier, ySupplier;
   private final SwerveRequest.ApplyRobotSpeeds request = new SwerveRequest.ApplyRobotSpeeds();
 
+  public static double vGoalDist;
+
   public AlignOnTheMove(CommandSwerveDrivetrain drivetrain, DoubleSupplier x, DoubleSupplier y) {
     this.drivetrain = drivetrain;
     this.xSupplier = x;
@@ -63,12 +65,14 @@ public class AlignOnTheMove extends Command {
     double targetRPS = EquationConstants.calculateRPS(distance);
     //Wheel Circ 4in * RPS * slip efficiency (0.80), so just doing rotations per second times circumference to get linear velocity
     double ballSpeed = targetRPS * (0.1016 * Math.PI) * 0.80; 
-    double timeOfFlight = distance / ballSpeed;
+    double timeOfFlight = EquationConstants.calculateTimeOfFlight(distance);//(distance / ballSpeed) + 0.5;
 
     Translation2d virtualGoal = new Translation2d(
-        realGoal.getX() - (fieldSpeeds.vxMetersPerSecond * timeOfFlight),
-        realGoal.getY() - (fieldSpeeds.vyMetersPerSecond * timeOfFlight)
+        realGoal.getX() + (fieldSpeeds.vxMetersPerSecond * timeOfFlight),
+        realGoal.getY() + (fieldSpeeds.vyMetersPerSecond * timeOfFlight)
     );
+
+    vGoalDist = robotPose.getTranslation().getDistance(virtualGoal);
 
     double targetAngle = MathUtil.angleModulus(
         Math.atan2(virtualGoal.getY() - robotPose.getY(), virtualGoal.getX() - robotPose.getX()) + Math.PI
@@ -77,8 +81,8 @@ public class AlignOnTheMove extends Command {
     double rotVelocity = thetaController.calculate(robotPose.getRotation().getRadians(), targetAngle);
 
     double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
-    double xDrive = xSupplier.getAsDouble() * maxSpeed;
-    double yDrive = ySupplier.getAsDouble() * maxSpeed;
+    double xDrive = xSupplier.getAsDouble() * maxSpeed * 0.5;
+    double yDrive = ySupplier.getAsDouble() * maxSpeed * 0.5;
 
     drivetrain.setControl(request.withSpeeds(
         ChassisSpeeds.fromFieldRelativeSpeeds(

@@ -23,13 +23,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Commands.AlignandShoot;
+import frc.robot.Commands.AlignandShootNew;
 import frc.robot.Commands.TeleopAutoAim;
-import frc.robot.Commands.Align.MovingAutoAim;
+import frc.robot.Commands.Align.AlignOnTheMove;
 import frc.robot.Commands.Align.StationaryAutoAim;
 import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeTime;
 import frc.robot.Commands.Intake.OuttakeCommand;
+import frc.robot.Commands.Shoot.AutoSOTM;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.Commands.Shoot.ManualShoot;
 import frc.robot.Commands.Shoot.TunerShoot;
@@ -114,10 +116,12 @@ public class RobotContainer {
 
         //Shoot
         //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); // Main/automatic
-        driver.R2().whileTrue(new AlignandShoot(drivetrain, shooter, hopper));
+        driver.R2().whileTrue(new AlignandShootNew(drivetrain, shooter, hopper));
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
         driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
+
+        //driver.povRight().whileTrue(new MovingAutoAim(drivetrain, true));
 
         //Intake
         //driver.L2().whileTrue(new IntakeCommand(intake));
@@ -128,7 +132,7 @@ public class RobotContainer {
         driver.L1().whileTrue(new OuttakeCommand(intake, hopper));
 
         //Align
-        driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
+        //driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
 
         //Testing stuff
         // driver.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
@@ -151,9 +155,9 @@ public class RobotContainer {
         operator.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
         operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
-        //operator.rightBumper().whileTrue(new AutoShoot(shooter, hopper));
-        operator.rightBumper().whileTrue(new InstantCommand(() -> hopper.runHopper(-HopperConstants.hopperSpeed)));
-        operator.rightBumper().whileFalse(new InstantCommand(() -> hopper.stopHopper()));
+        operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper));
+        //operator.rightBumper().whileTrue(new InstantCommand(() -> hopper.runHopper(-HopperConstants.hopperSpeed)));
+        //operator.rightBumper().whileFalse(new InstantCommand(() -> hopper.stopHopper()));
 
         //Intake
         operator.leftTrigger().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
@@ -175,11 +179,11 @@ public class RobotContainer {
         //TESTING CONTROLS:
         //testing.rightTrigger().whileTrue(new InstantCommand(() -> shooter.setShooterRPS(50)).alongWith(new InstantCommand(() -> hopper.runHopper(0.5))));
         //testing.rightTrigger().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()).alongWith(new InstantCommand(() -> hopper.stopHopper())));
-        testing.rightBumper().whileTrue(
-            new TeleopAutoAim(
+        driver.R1().whileTrue(
+            new AlignOnTheMove(
                 drivetrain,
-                () -> -testing.getLeftY(),
-                () -> -testing.getLeftX()
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX()
             )
         );
 
@@ -195,7 +199,7 @@ public class RobotContainer {
         testing.povRight().onFalse(new InstantCommand(() -> intake.stopIntake()));
 
         //Align
-        testing.rightBumper().whileTrue(new MovingAutoAim(drivetrain, true));
+        //testing.rightBumper().whileTrue(new MovingAutoAim(drivetrain, true));
 
         //Hopper
         testing.leftStick().whileTrue(new InstantCommand(() -> hopper.runHopper(0.5)));

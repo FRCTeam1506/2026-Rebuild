@@ -25,9 +25,9 @@ public class Constants {
         return dist; //Placeholder for quadratic regression formula
     }
 
-    public static final double tA = 0;
-    public static final double tB = 0;
-    public static final double tC = 0;
+    public static final double tA = 0.0153632;
+    public static final double tB = 0.0744317;
+    public static final double tC = 0.540794;
 
     public static double calculateTimeOfFlight(double distance) {
         return tA * Math.pow(distance, 2) + tB * distance + tC;
@@ -98,11 +98,11 @@ public class Constants {
 
     public class AlignConstants {
         public static final double alignToleranceRadians = 0.0567;
-        public static final double aimControllerP = 15; //6
-        public static final double aimControllerI = 0.01; //Consider making this 0.
-        public static final double aimControllerD = 0.1;
-        public static final double alignMaxCorrectionSpeed = 7.5; //5.5
-        public static final double alignMaxAcceleration = 25; //7, test 25 
+        public static final double aimControllerP = 7; //18 //6
+        public static final double aimControllerI = 0; //Consider making this 0.
+        public static final double aimControllerD = 0.1; //0.2
+        public static final double alignMaxCorrectionSpeed = 12; //7.5 //5.5
+        public static final double alignMaxAcceleration = 30; //7, test 25 
         public static boolean isAligned;
     }
 

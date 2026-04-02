@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left Swipe 1"
+                  "pathName": "Left Swipe 1 Bump"
                 }
               },
               {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeftThird"
+            "pathName": "Left Third Bump"
           }
         },
         {

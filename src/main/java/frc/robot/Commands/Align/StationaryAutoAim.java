@@ -103,6 +103,8 @@ public class StationaryAutoAim extends Command {
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, rotationalVelocity)));
     System.out.println("isALigned" + AlignConstants.isAligned);
 
+    
+
     System.out.println("current heading" + robotPose.getRotation().getRadians());
     System.out.println("goal heading" + goalHeading);
     // System.out.println("goal heading" + goalHeading.getDegrees());

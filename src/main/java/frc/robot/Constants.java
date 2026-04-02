@@ -99,10 +99,10 @@ public class Constants {
     public class AlignConstants {
         public static final double alignToleranceRadians = 0.0567;
         public static final double aimControllerP = 15; //6
-        public static final double aimControllerI = 0.01;
+        public static final double aimControllerI = 0.01; //Consider making this 0.
         public static final double aimControllerD = 0.1;
         public static final double alignMaxCorrectionSpeed = 7.5; //5.5
-        public static final double alignMaxAcceleration = 7; 
+        public static final double alignMaxAcceleration = 25; //7, test 25 
         public static boolean isAligned;
     }
 

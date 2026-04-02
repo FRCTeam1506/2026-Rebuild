@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Commands.AlignandShoot;
+import frc.robot.Commands.TeleopAutoAim;
 import frc.robot.Commands.Align.MovingAutoAim;
 import frc.robot.Commands.Align.StationaryAutoAim;
 import frc.robot.Commands.Intake.IntakeCommand;
@@ -174,6 +175,13 @@ public class RobotContainer {
         //TESTING CONTROLS:
         //testing.rightTrigger().whileTrue(new InstantCommand(() -> shooter.setShooterRPS(50)).alongWith(new InstantCommand(() -> hopper.runHopper(0.5))));
         //testing.rightTrigger().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()).alongWith(new InstantCommand(() -> hopper.stopHopper())));
+        testing.rightBumper().whileTrue(
+            new TeleopAutoAim(
+                drivetrain,
+                () -> -testing.getLeftY(),
+                () -> -testing.getLeftX()
+            )
+        );
 
         testing.rightTrigger().whileTrue(new ManualShoot(shooter, hopper, 50));
         testing.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));

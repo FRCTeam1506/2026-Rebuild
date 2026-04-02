@@ -57,6 +57,8 @@ public class StationaryAutoAimEnd extends Command {
 
   @Override
   public void initialize() {
+    StationaryAutoAimEnd.atGoal = false;
+    
     var currentRotation = drivetrain.getState().Pose.getRotation().getRadians();
     var currentVelocity = drivetrain.getState().Speeds.omegaRadiansPerSecond;
     thetaController.reset(currentRotation, currentVelocity);
@@ -104,6 +106,17 @@ public class StationaryAutoAimEnd extends Command {
     AlignConstants.isAligned = isAligned;
     drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, rotationalVelocity)));
     System.out.println("isALigned" + AlignConstants.isAligned);
+
+    //Test this:
+    /*
+     * // Simplified execute in StationaryAutoAim
+    drivetrain.setControl(
+      alignRequest.withVelocityX(0)
+                .withVelocityY(0)
+                .withTargetDirection(goalHeading)
+    );
+
+     */
 
     System.out.println("current heading" + robotPose.getRotation().getRadians());
     System.out.println("goal heading" + goalHeading);

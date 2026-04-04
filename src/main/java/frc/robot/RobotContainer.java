@@ -26,12 +26,15 @@ import frc.robot.Commands.AlignandShoot;
 import frc.robot.Commands.AlignandShootNew;
 import frc.robot.Commands.TeleopAutoAim;
 import frc.robot.Commands.Align.AlignOnTheMove;
+import frc.robot.Commands.Align.AlignOnTheMoveNew;
 import frc.robot.Commands.Align.StationaryAutoAim;
 import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeTime;
+import frc.robot.Commands.Intake.IntakeTimeDown;
 import frc.robot.Commands.Intake.OuttakeCommand;
 import frc.robot.Commands.Shoot.AutoSOTM;
+import frc.robot.Commands.Shoot.AutoSOTMNew;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.Commands.Shoot.ManualShoot;
 import frc.robot.Commands.Shoot.TunerShoot;
@@ -125,11 +128,16 @@ public class RobotContainer {
 
         //Intake
         //driver.L2().whileTrue(new IntakeCommand(intake));
-        driver.L2().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
+        //driver.L2().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
+        driver.L2().whileTrue(new IntakeTimeDown(intake)).onFalse(new IntakeTime(intake));
+        // driver.L2().whileTrue(new IntakeTimeDown(intake)).onFalse(new IntakeTime(intake));
+        driver.L2().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8))).onFalse(new InstantCommand(() -> intake.runIntake(0)));
         //driver.L2().whileTrue(new IntakeCommand(intake));
 
 
-        driver.L1().whileTrue(new OuttakeCommand(intake, hopper));
+        //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
+        driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
+
 
         //Align
         //driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
@@ -155,7 +163,7 @@ public class RobotContainer {
         operator.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
         operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
-        operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper));
+        operator.rightBumper().whileTrue(new AutoSOTMNew(shooter, hopper));
         //operator.rightBumper().whileTrue(new InstantCommand(() -> hopper.runHopper(-HopperConstants.hopperSpeed)));
         //operator.rightBumper().whileFalse(new InstantCommand(() -> hopper.stopHopper()));
 
@@ -180,7 +188,7 @@ public class RobotContainer {
         //testing.rightTrigger().whileTrue(new InstantCommand(() -> shooter.setShooterRPS(50)).alongWith(new InstantCommand(() -> hopper.runHopper(0.5))));
         //testing.rightTrigger().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()).alongWith(new InstantCommand(() -> hopper.stopHopper())));
         driver.R1().whileTrue(
-            new AlignOnTheMove(
+            new AlignOnTheMoveNew(
                 drivetrain,
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX()

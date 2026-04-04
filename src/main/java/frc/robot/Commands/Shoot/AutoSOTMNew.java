@@ -21,7 +21,7 @@ public class AutoSOTMNew extends Command {
   @Override
   public void execute() {
     // Rev the shooter based on the final converged virtual distance
-    double targetRPS = EquationConstants.calculateRPS(AlignOnTheMoveNew.vGoalDist) + 0.5;
+    double targetRPS = EquationConstants.calculateRPS(AlignOnTheMoveNew.vGoalDist);
     shooter.setShooterRPS(targetRPS);
 
     if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {

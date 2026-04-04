@@ -3,51 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.554807228915663,
-        "y": 7.16032530120482
+        "x": 2.522024096385542,
+        "y": 6.985481927710843
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.133975903614458,
+        "x": 2.915421686746988,
         "y": 7.706710843373493
       },
       "isLocked": false,
-      "linkedName": "Left Third End"
+      "linkedName": "Left Third Bump End"
     },
     {
       "anchor": {
-        "x": 6.663626506024096,
-        "y": 7.51001204819277
+        "x": 6.303012048192771,
+        "y": 7.335168674698796
       },
       "prevControl": {
-        "x": 5.833120481927711,
-        "y": 7.586506024096385
+        "x": 5.275807228915662,
+        "y": 7.652072289156627
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left First End"
+      "linkedName": "Left Fourth Bump End"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.2934426229508171,
-      "rotationDegrees": 90.0
-    },
-    {
-      "waypointRelativePos": 0.68360655737705,
-      "rotationDegrees": 90.0
+      "waypointRelativePos": 0.3950819672131133,
+      "rotationDegrees": -90.0
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake Manual",
-      "waypointRelativePos": 0.8705046566427286,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 7.0,
@@ -57,14 +46,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.3,
+    "velocity": 0.0,
     "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Left",
+  "folder": "Left Bump",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 134.99999999999994
+    "rotation": 132.25247212820855
   },
   "useDefaultConstraints": true
 }

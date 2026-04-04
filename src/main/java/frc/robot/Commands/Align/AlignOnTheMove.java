@@ -68,8 +68,8 @@ public class AlignOnTheMove extends Command {
     double timeOfFlight = EquationConstants.calculateTimeOfFlight(distance);//(distance / ballSpeed) + 0.5;
 
     Translation2d virtualGoal = new Translation2d(
-        realGoal.getX() + (fieldSpeeds.vxMetersPerSecond * timeOfFlight),
-        realGoal.getY() + (fieldSpeeds.vyMetersPerSecond * timeOfFlight)
+        realGoal.getX() - (fieldSpeeds.vxMetersPerSecond * (timeOfFlight + 0.1)),
+        realGoal.getY() - (fieldSpeeds.vyMetersPerSecond * (timeOfFlight + 0.1))
     );
 
     vGoalDist = robotPose.getTranslation().getDistance(virtualGoal);
@@ -86,8 +86,8 @@ public class AlignOnTheMove extends Command {
 
     drivetrain.setControl(request.withSpeeds(
         ChassisSpeeds.fromFieldRelativeSpeeds(
-            xDrive, 
-            yDrive, 
+            -xDrive, 
+            -yDrive, 
             rotVelocity, 
             robotPose.getRotation()
         )

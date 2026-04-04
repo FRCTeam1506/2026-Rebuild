@@ -45,7 +45,7 @@ public class AutoSOTM extends Command {
     //if(AlignConstants.isAligned) {
     //drivetrain.applyRequest(() -> brake);
 
-    double targetRPS = EquationConstants.calculateRPS(AlignOnTheMove.vGoalDist) + 0.5; //tune constant rps value
+    double targetRPS = EquationConstants.calculateRPS(AlignOnTheMove.vGoalDist) + 1.5; //tune constant rps value
     shooter.setShooterRPS(targetRPS);
       if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {
         hopper.runHopper(-HopperConstants.hopperSpeed);

@@ -27,6 +27,10 @@ public class AlignOnTheMoveNew extends Command {
 
   public static double vGoalDist;
 
+  double refinedDist;
+  double refinedTOF = 0;
+  Translation2d vTarget;
+
   public AlignOnTheMoveNew(CommandSwerveDrivetrain drivetrain, DoubleSupplier x, DoubleSupplier y) {
     this.drivetrain = drivetrain;
     this.xSupplier = x;
@@ -47,7 +51,7 @@ public class AlignOnTheMoveNew extends Command {
     ChassisSpeeds fieldSpeeds = drivetrain.getState().Speeds;
 
     //latency compensation just in case, feel free to take this out
-    double lookAhead = 0.040; 
+    double lookAhead = 0.04;
     Pose2d futurePose = new Pose2d(
         currentPose.getX() + (fieldSpeeds.vxMetersPerSecond * lookAhead),
         currentPose.getY() + (fieldSpeeds.vyMetersPerSecond * lookAhead),
@@ -59,17 +63,17 @@ public class AlignOnTheMoveNew extends Command {
         : new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
 
     //iterations of time of flight
-    double refinedDist = futurePose.getTranslation().getDistance(realGoal);
-    double refinedTOF = 0;
-    Translation2d vTarget = realGoal;
+    // double refinedDist = futurePose.getTranslation().getDistance(realGoal);
+    // double refinedTOF = 0;
+    // Translation2d vTarget = realGoal;
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 30; i++) {
         refinedTOF = EquationConstants.calculateTimeOfFlight(refinedDist);
         
         //should this technically be a - sign?
         vTarget = new Translation2d(
-            realGoal.getX() + (fieldSpeeds.vxMetersPerSecond * refinedTOF),
-            realGoal.getY() + (fieldSpeeds.vyMetersPerSecond * refinedTOF)
+            realGoal.getX() - (fieldSpeeds.vxMetersPerSecond * refinedTOF),
+            realGoal.getY() - (fieldSpeeds.vyMetersPerSecond * refinedTOF)
         );
         refinedDist = futurePose.getTranslation().getDistance(vTarget);
     }
@@ -85,8 +89,8 @@ public class AlignOnTheMoveNew extends Command {
 
     drivetrain.setControl(request.withSpeeds(
         ChassisSpeeds.fromFieldRelativeSpeeds(
-            xSupplier.getAsDouble() * maxSpeed * 0.5, 
-            ySupplier.getAsDouble() * maxSpeed * 0.5, 
+            -xSupplier.getAsDouble() * maxSpeed * 0.5, 
+            -ySupplier.getAsDouble() * maxSpeed * 0.5, 
             rotVelocity, 
             currentPose.getRotation()
         )

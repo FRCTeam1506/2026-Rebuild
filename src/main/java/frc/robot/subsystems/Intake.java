@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase {
 
       TalonFXConfiguration config = new TalonFXConfiguration();
       config.CurrentLimits.StatorCurrentLimitEnable = true;
-      config.CurrentLimits.StatorCurrentLimit = 80;
+      config.CurrentLimits.StatorCurrentLimit = 105;
       intakeLift.getConfigurator().apply(config);
       intake.getConfigurator().apply(config);
 
@@ -54,7 +54,7 @@ public class Intake extends SubsystemBase {
       slot0Configs.kD = 0.1;
 
       config.Slot0 = slot0Configs;
-      config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+      //config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
       m_motmag.EnableFOC = true;//from 2025 code
 

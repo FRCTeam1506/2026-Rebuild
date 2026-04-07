@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix6.HootAutoReplay;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -122,11 +123,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-         
-    boolean isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
-        FieldConstants.goalLocation = isRed ? 
-        new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
-        new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
+    FieldConstants.isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+    //boolean isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+        // FieldConstants.goalLocation = isRed ? 
+        // new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
+        // new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
 
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().cancel(m_autonomousCommand);

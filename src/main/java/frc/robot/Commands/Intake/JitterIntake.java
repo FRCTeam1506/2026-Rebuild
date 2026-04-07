@@ -22,9 +22,9 @@ public class JitterIntake extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> intake.runIntake(0.75)),
       new InstantCommand(() -> intake.runIntakeLift(0.25)),
-      new WaitCommand(0.75),
+      new WaitCommand(0.5),
       new InstantCommand(() -> intake.runIntakeLift(-0.25)),
-      new WaitCommand(0.75)
+      new WaitCommand(0.5)
     );
   }
 }

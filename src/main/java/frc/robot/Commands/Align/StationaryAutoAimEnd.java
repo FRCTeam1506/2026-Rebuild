@@ -79,8 +79,8 @@ public class StationaryAutoAimEnd extends Command {
     System.out.println("stationary auto aim");
     Pose2d robotPose = drivetrain.getState().Pose;
 
-    double xDistToGoal = goalLocation.getX() - robotPose.getX();
-    double yDistToGoal = goalLocation.getY() - robotPose.getY();
+    double xDistToGoal = FieldConstants.goalLocation.getX() - robotPose.getX();
+    double yDistToGoal = FieldConstants.goalLocation.getY() - robotPose.getY();
     Rotation2d goalHeading = new Rotation2d(Math.atan2(yDistToGoal, xDistToGoal));
 
     double targetAngle = MathUtil.angleModulus(goalHeading.getRadians() + Math.PI);

@@ -38,6 +38,7 @@ public class Constants {
     public class FieldConstants {
         public static Translation2d goalLocation = new Translation2d(0,0);
 
+        public static boolean isRed;
         public static double distToGoal;
         //Positions
         //Variables for getting angle to goal.
@@ -48,7 +49,7 @@ public class Constants {
 
         //FIELD LOCATIONS:
         public static final double redLine = 11.5; //used to be 12.6, made it 11.5 for more accurate zone of when we want to do mailing funciton
-        public static final double middleY = 4;
+        public static final double middleY = 4.024;
         public static final double blueLine = 4.1;
 
         public static final double goalRightRedY = 7;//7.211
@@ -98,11 +99,11 @@ public class Constants {
 
     public class AlignConstants {
         public static final double alignToleranceRadians = 0.0567;
-        public static final double aimControllerP = 7; //18 //6
+        public static final double aimControllerP = 8; //18 //6
         public static final double aimControllerI = 0; //Consider making this 0.
-        public static final double aimControllerD = 0.1; //0.2
-        public static final double alignMaxCorrectionSpeed = 12; //7.5 //5.5
-        public static final double alignMaxAcceleration = 30; //7, test 25 
+        public static final double aimControllerD = 0.2; //0.2
+        public static final double alignMaxCorrectionSpeed = 20; //7.5 //5.5
+        public static final double alignMaxAcceleration = 40; //7, test 25 
         public static boolean isAligned;
     }
 

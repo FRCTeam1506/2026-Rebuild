@@ -13,6 +13,7 @@ import com.ctre.phoenix6.swerve.jni.SwerveJNI.DriveState;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +39,7 @@ public class Shooter extends SubsystemBase {
   Translation2d targetVec;
   double dist;
   CommandSwerveDrivetrain drivetrain;
+
   public Shooter(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
 
@@ -127,6 +129,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Pose2d robotPose = drivetrain.getState().Pose;
+
     SmartDashboard.putNumber("set shooter speed", EquationConstants.calculateRPS(FieldConstants.distToGoal));
     targetVec = Constants.FieldConstants.goalLocation.minus(drivetrain.getState().Pose.getTranslation());
     dist = targetVec.getNorm();
@@ -138,6 +142,46 @@ public class Shooter extends SubsystemBase {
 
     SmartDashboard.putNumber("Tuner Power", PresetShots.tunerPower);
     SmartDashboard.putNumber("Shooter Power", avgShooterSpeed());
+
+    if(FieldConstants.isRed == true) {
+      if(robotPose.getX() < FieldConstants.redLine) {
+        if(robotPose.getY() < FieldConstants.middleY) {
+          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalLeftRedX, FieldConstants.goalLeftRedY);
+          System.out.println("Mail Red Left!");
+       }
+       else {
+          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalRightRedX, FieldConstants.goalRightRedY);
+          System.out.println("Mail Red Right!");
+
+       }
+      }
+      else {
+        FieldConstants.goalLocation = new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY); 
+          System.out.println("Hub Red!");
+
+      }    
+    }
+    else {
+      if(robotPose.getX() > FieldConstants.blueLine) {
+        if(robotPose.getY() < FieldConstants.middleY) {
+          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalRightBlueX, FieldConstants.goalRightBlueY);
+          System.out.println("Hub Right Blue!");
+       }
+       else {
+          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalLeftBlueX, FieldConstants.goalLeftBlueY);
+          System.out.println("Hub Left Blue!");
+
+       }
+      }
+      else {
+          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY); 
+          System.out.println("Hub Blue!");
+
+      }
+
+
+
+    }
     // This method will be called once per scheduler run
   }
 }

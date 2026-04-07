@@ -120,7 +120,7 @@ public class RobotContainer {
 
         //Shoot
         //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); // Main/automatic
-        driver.R2().whileTrue(new AlignandShootNew(drivetrain, shooter, hopper));
+        driver.R2().whileTrue(new AlignandShootNew(drivetrain, shooter, hopper, intake));
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
         driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
@@ -172,7 +172,7 @@ public class RobotContainer {
         operator.leftTrigger().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
         //operator.leftTrigger().whileTrue(new IntakeCommand(intake));
         operator.povUp().whileTrue(new JitterIntake(intake).repeatedly());
-        operator.povUp().whileFalse(new IntakeTime(intake));//Check this!
+        operator.povUp().whileFalse(new IntakeTime(intake).alongWith(new InstantCommand(() -> intake.runIntake(0))));//Check this!
 
 
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));

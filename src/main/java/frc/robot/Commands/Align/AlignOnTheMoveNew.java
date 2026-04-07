@@ -52,7 +52,7 @@ public class AlignOnTheMoveNew extends Command {
 
     //latency compensation just in case, feel free to take this out
     //Should this be - sign also?? We have it below also
-    double lookAhead = 0.04;
+    double lookAhead = 0.1;
     Pose2d futurePose = new Pose2d(
         currentPose.getX() - (fieldSpeeds.vxMetersPerSecond * lookAhead), //was +
         currentPose.getY() - (fieldSpeeds.vyMetersPerSecond * lookAhead), //was +
@@ -97,8 +97,8 @@ public class AlignOnTheMoveNew extends Command {
     //     )
     // ));
     drivetrain.setControl(request
-        .withVelocityX(-xSupplier.getAsDouble() * maxSpeed * 0.5)
-        .withVelocityY(-ySupplier.getAsDouble() * maxSpeed * 0.5)
+        .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.5)
+        .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.5)
         .withRotationalRate(rotVelocity)
     );
 

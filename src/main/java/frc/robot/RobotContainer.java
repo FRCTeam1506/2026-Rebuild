@@ -32,6 +32,7 @@ import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeTime;
 import frc.robot.Commands.Intake.IntakeTimeDown;
+import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Intake.OuttakeCommand;
 import frc.robot.Commands.Shoot.AutoSOTM;
 import frc.robot.Commands.Shoot.AutoSOTMNew;
@@ -170,6 +171,8 @@ public class RobotContainer {
         //Intake
         operator.leftTrigger().whileTrue(new IntakeManual(intake,0.3)).onFalse(new IntakeTime(intake));
         //operator.leftTrigger().whileTrue(new IntakeCommand(intake));
+        operator.povUp().whileTrue(new JitterIntake(intake).repeatedly());
+        operator.povUp().whileFalse(new IntakeTime(intake));//Check this!
 
 
         operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));

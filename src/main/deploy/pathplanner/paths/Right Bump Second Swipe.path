@@ -1,0 +1,99 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.984683928571429,
+        "y": 0.6010332142857147
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.890137276785715,
+        "y": 1.6702404464285712
+      },
+      "isLocked": false,
+      "linkedName": "Right Bump To Second End"
+    },
+    {
+      "anchor": {
+        "x": 5.771012544642857,
+        "y": 2.92846
+      },
+      "prevControl": {
+        "x": 5.482824693704895,
+        "y": 2.133393129868597
+      },
+      "nextControl": {
+        "x": 6.241154375,
+        "y": 4.225510491071429
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.928984196428573,
+        "y": 2.1264938392857142
+      },
+      "prevControl": {
+        "x": 8.95723568038542,
+        "y": 3.903760565070086
+      },
+      "nextControl": {
+        "x": 7.254888839285715,
+        "y": 0.9613632589285714
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.998288928571429,
+        "y": 2.5728269196428575
+      },
+      "prevControl": {
+        "x": 6.361777276785715,
+        "y": 1.8758945982142858
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Right Bump Swipe End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9955778301886797,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 1.3190595518867922,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.9938089622641477,
+      "rotationDegrees": -90.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -135.0
+  },
+  "reversed": false,
+  "folder": "Right Bump",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 90.6740368979846
+  },
+  "useDefaultConstraints": false
+}

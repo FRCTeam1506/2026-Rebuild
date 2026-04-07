@@ -23,7 +23,7 @@ public class AlignOnTheMoveNew extends Command {
   private final CommandSwerveDrivetrain drivetrain;
   private final ProfiledPIDController thetaController;
   private final DoubleSupplier xSupplier, ySupplier;
-  private final SwerveRequest.ApplyRobotSpeeds request = new SwerveRequest.ApplyRobotSpeeds();
+  private final SwerveRequest.FieldCentric request = new SwerveRequest.FieldCentric();
 
   public static double vGoalDist;
 
@@ -51,11 +51,12 @@ public class AlignOnTheMoveNew extends Command {
     ChassisSpeeds fieldSpeeds = drivetrain.getState().Speeds;
 
     //latency compensation just in case, feel free to take this out
+    //Should this be - sign also?? We have it below also
     double lookAhead = 0.04;
     Pose2d futurePose = new Pose2d(
-        currentPose.getX() + (fieldSpeeds.vxMetersPerSecond * lookAhead),
-        currentPose.getY() + (fieldSpeeds.vyMetersPerSecond * lookAhead),
-        currentPose.getRotation().plus(Rotation2d.fromRadians(fieldSpeeds.omegaRadiansPerSecond * lookAhead))
+        currentPose.getX() - (fieldSpeeds.vxMetersPerSecond * lookAhead), //was +
+        currentPose.getY() - (fieldSpeeds.vyMetersPerSecond * lookAhead), //was +
+        currentPose.getRotation().minus(Rotation2d.fromRadians(fieldSpeeds.omegaRadiansPerSecond * lookAhead)) //was .plus
     );
 
     Translation2d realGoal = DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red 
@@ -87,14 +88,19 @@ public class AlignOnTheMoveNew extends Command {
     double rotVelocity = thetaController.calculate(currentPose.getRotation().getRadians(), targetAngle);
     double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
 
-    drivetrain.setControl(request.withSpeeds(
-        ChassisSpeeds.fromFieldRelativeSpeeds(
-            -xSupplier.getAsDouble() * maxSpeed * 0.5, 
-            -ySupplier.getAsDouble() * maxSpeed * 0.5, 
-            rotVelocity, 
-            currentPose.getRotation()
-        )
-    ));
+    // drivetrain.setControl(request.withSpeeds(
+    //     ChassisSpeeds.fromFieldRelativeSpeeds(
+    //         -xSupplier.getAsDouble() * maxSpeed * 0.5, 
+    //         -ySupplier.getAsDouble() * maxSpeed * 0.5, 
+    //         rotVelocity, 
+    //         currentPose.getRotation()
+    //     )
+    // ));
+    drivetrain.setControl(request
+        .withVelocityX(-xSupplier.getAsDouble() * maxSpeed * 0.5)
+        .withVelocityY(-ySupplier.getAsDouble() * maxSpeed * 0.5)
+        .withRotationalRate(rotVelocity)
+    );
 
     AlignConstants.isAligned = thetaController.atGoal();
   }

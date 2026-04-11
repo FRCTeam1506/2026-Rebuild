@@ -43,8 +43,10 @@ public class Constants {
         public static final double intakeLoweredPosition = 3.485352;
     }
     public static class HopperConstants {
+        public static final int Tower_Hopper_ID = 15;
+        public static final int Extender_Motor_ID = 0; //set this
         public static final int Hopper_Motor_ID = 25;
-        public static final double hopperSpeed = 0.5; //0.5
+        public static final double hopperSpeed = 1; //0.5
     }
     public static class ShooterConstants {
         public static final double kRPSTolerance = 1;
@@ -53,9 +55,6 @@ public class Constants {
         public static final int Shooter_Right_ID = 61;
         public static final int Shooter_Left_ID = 62;
         //public static final int Right_Back_Shooter_ID = 0;
-
-        public static final int Tower_Hopper_ID = 15;
-
     }
 
 
@@ -67,9 +66,9 @@ public class Constants {
 
     public static class AlignConstants {
         public static final double alignToleranceRadians = 0.0567;
-        public static final double aimControllerP = 8; //18 //6
+        public static final double aimControllerP = 7; //18 //6
         public static final double aimControllerI = 0; //Consider making this 0.
-        public static final double aimControllerD = 0.2; //0.2
+        public static final double aimControllerD = 0.1; //0.2
         public static final double alignMaxCorrectionSpeed = 20; //7.5 //5.5
         public static final double alignMaxAcceleration = 40; //7, test 25 
         public static boolean isAligned;

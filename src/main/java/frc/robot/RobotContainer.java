@@ -106,6 +106,14 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         //DRIVER CONTROLS:
+        driver.R1().whileTrue(
+            new AlignOnTheMoveNew(
+                drivetrain,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX()
+            )
+        );
+        
         // Reset the field-centric heading on left CIRCLE (David likes circle) press.
         driver.circle().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
@@ -114,7 +122,7 @@ public class RobotContainer {
 
         //Shoot
         //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); //Old AlignandShoot Command Sequential Group
-        driver.R2().whileTrue(new AlignandShootNew(drivetrain, shooter, hopper, intake)); //Parallel Command Group, align and Shoot, ends on trigger
+        driver.R2().whileTrue(new AlignandShootNew(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS)); //Tower shot
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS)); //Corner Shot
         driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS)); //Passing Shot
@@ -138,7 +146,8 @@ public class RobotContainer {
 
         //OPERATOR CONTROLS:
         //Shoot only on right trigger for operator:
-        operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
+        // operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
+        operator.rightTrigger().whileTrue(new AlignandShootNew(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
 
         //Run shooter and hopper in reverse:
         operator.b().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(-0.25)).alongWith(new InstantCommand(() -> hopper.runHopper(0.5))));
@@ -180,14 +189,6 @@ public class RobotContainer {
 
         
         //TESTING CONTROLS:
-        driver.R1().whileTrue(
-            new AlignOnTheMoveNew(
-                drivetrain,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX()
-            )
-        );
-
         testing.rightTrigger().whileTrue(new ManualShoot(shooter, hopper, 50));
         testing.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         testing.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.trenchShotRPS));

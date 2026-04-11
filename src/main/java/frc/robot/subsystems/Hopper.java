@@ -14,8 +14,9 @@ import frc.robot.Constants.ShooterConstants;
 
 public class Hopper extends SubsystemBase {
   /** Creates a new Hopper. */
+  //][\private TalonFX extender = new TalonFX(HopperConstants.Extender_Motor_ID);
   private TalonFX hopper = new TalonFX(HopperConstants.Hopper_Motor_ID);
-  private TalonFX towerHopper = new TalonFX(ShooterConstants.Tower_Hopper_ID);
+  private TalonFX towerHopper = new TalonFX(HopperConstants.Tower_Hopper_ID);
 
   public Hopper() {
     TalonFXConfiguration towerHopperConfigs = new TalonFXConfiguration();

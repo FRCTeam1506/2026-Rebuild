@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.570657335069445,
-        "y": 4.736901475694444
+        "x": 7.461349397590361,
+        "y": 4.679734939759036
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.373958539888722,
-        "y": 6.583684608224566
+        "x": 7.264650602409638,
+        "y": 6.559301204819277
       },
       "isLocked": false,
       "linkedName": "Left Swipe 2 Bump End"
     },
     {
       "anchor": {
-        "x": 2.904493975903614,
-        "y": 5.619518072289156
+        "x": 2.8498554216867467,
+        "y": 5.553951807228916
       },
       "prevControl": {
-        "x": 3.6912891566265054,
-        "y": 4.952927710843373
+        "x": 3.4508795180722887,
+        "y": 5.12777108433735
       },
       "nextControl": {
-        "x": 2.1176987951807225,
-        "y": 6.286108433734939
+        "x": 2.199859699187958,
+        "y": 6.014857865000785
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.456457831325301,
-        "y": 7.127542168674699
+        "x": 2.3690361445783132,
+        "y": 6.581156626506024
       },
       "prevControl": {
-        "x": 2.2379036144578315,
-        "y": 6.5538373493975906
+        "x": 2.412746987951807,
+        "y": 6.220542168674698
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,8 +53,8 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.4391092192691027,
-      "maxWaypointRelativePos": 0.8041424418604646,
+      "minWaypointRelativePos": 0.4068459657701665,
+      "maxWaypointRelativePos": 0.8684596577017096,
       "constraints": {
         "maxVelocity": 2.25,
         "maxAcceleration": 7.0,

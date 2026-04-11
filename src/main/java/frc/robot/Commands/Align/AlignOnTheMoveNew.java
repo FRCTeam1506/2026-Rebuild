@@ -53,8 +53,8 @@ public class AlignOnTheMoveNew extends Command {
     
     double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     drivetrain.setControl(request
-        .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.5)
-        .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.5)
+        .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.6).withDeadband(0.075)
+        .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.6).withDeadband(0.075)
         .withRotationalRate(rotVelocity)
     );
   

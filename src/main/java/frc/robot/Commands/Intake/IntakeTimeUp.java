@@ -21,7 +21,7 @@ public class IntakeTimeUp extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new InstantCommand(() -> intake.runIntakeLift(-0.4)),
-        new WaitCommand(3.0),
-        new InstantCommand(() -> intake.runIntakeLift(-0.05))); //Keep holding intake up slightly
+        new WaitCommand(0.5),
+        new InstantCommand(() -> intake.runIntakeLift(0))); //Keep holding intake up slightly
   }
 }

@@ -3,37 +3,67 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.998288928571429,
-        "y": 2.5728269196428575
+        "x": 6.466927710843374,
+        "y": 1.860385542168674
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.7493809784727645,
-        "y": 2.549485274934729
+        "x": 5.822192771084336,
+        "y": 2.537903614457831
       },
       "isLocked": false,
       "linkedName": "Right Bump Swipe End"
     },
     {
       "anchor": {
-        "x": 3.020980446428572,
-        "y": 2.4869453571428575
+        "x": 3.188614457831325,
+        "y": 2.4395542168674704
       },
       "prevControl": {
-        "x": 3.4355280357142863,
-        "y": 2.493626383928572
+        "x": 3.5857305986106174,
+        "y": 2.558689059101261
+      },
+      "nextControl": {
+        "x": 2.949157886526038,
+        "y": 2.3677172454758826
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0084216867469884,
+        "y": 1.204722891566264
+      },
+      "prevControl": {
+        "x": 2.511096385542169,
+        "y": 1.6636867469879506
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Right Bump First Swipe End"
+      "linkedName": "Right Third End"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.18386308068459614,
+      "maxWaypointRelativePos": 1.0523227383863083,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 7.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.7,
+    "maxVelocity": 3.5,
     "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,7 +72,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -135.0
+    "rotation": -131.30861401354883
   },
   "reversed": false,
   "folder": "Right Bump",
@@ -50,5 +80,5 @@
     "velocity": 0,
     "rotation": -135.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

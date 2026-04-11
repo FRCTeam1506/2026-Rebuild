@@ -21,7 +21,7 @@ public class IntakeTimeDown extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new InstantCommand(() -> intake.runIntakeLift(0.3)),
-        new WaitCommand(1.0),
+        new WaitCommand(3.0),
         new InstantCommand(() -> intake.runIntakeLift(0.1)));
   }
 }

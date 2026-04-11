@@ -5,11 +5,9 @@
 package frc.robot.Commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class OuttakeCommand extends Command {
@@ -31,7 +29,7 @@ public class OuttakeCommand extends Command {
   @Override
   public void execute() {
     intake.runIntake(0.6);
-    intake.setIntakeLift(IntakeConstants.intakeDownPose);
+    intake.setIntakeLift(IntakeConstants.intakeLoweredPosition);
     hopper.runHopper(0.5);
   }
 
@@ -39,7 +37,7 @@ public class OuttakeCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.runIntake(0);
-    intake.setIntakeLift(IntakeConstants.intakeUpPose);
+    intake.setIntakeLift(IntakeConstants.intakeUpPosition);
     hopper.stopHopper();
   }
 

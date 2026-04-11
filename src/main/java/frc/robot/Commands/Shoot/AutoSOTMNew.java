@@ -5,6 +5,8 @@ import frc.robot.Commands.Align.AlignOnTheMoveNew;
 import frc.robot.Constants.EquationConstants;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.FieldConstants;
+import frc.robot.FieldConstants.FieldZone;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
@@ -20,13 +22,20 @@ public class AutoSOTMNew extends Command {
 
   @Override
   public void execute() {
-    // Rev the shooter based on the final converged virtual distance
-    double targetRPS = EquationConstants.calculateRPS(AlignOnTheMoveNew.vGoalDist);
+    double targetRPS = EquationConstants.calculateRPS(FieldConstants.vGoalDist);
+    
+    if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
+        FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
+        targetRPS -= 7.5;
+    }
+    
     shooter.setShooterRPS(targetRPS);
-
+    
+    //hopper
     if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {
         hopper.runHopper(-HopperConstants.hopperSpeed);
     }
+  
   }
 
   @Override
@@ -36,5 +45,7 @@ public class AutoSOTMNew extends Command {
   }
 
   @Override
-  public boolean isFinished() { return false; }
+  public boolean isFinished() { 
+    return false; 
+  }
 }

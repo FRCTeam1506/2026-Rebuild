@@ -7,8 +7,6 @@ package frc.robot;
 import com.ctre.phoenix6.HootAutoReplay;
 
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -16,7 +14,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.FieldConstants;
+import frc.robot.FieldConstants;
 import frc.robot.Constants.VisionConstants;
 
 public class Robot extends TimedRobot {
@@ -38,8 +36,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
+        //SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
         //SmartDashboard.putNumber("heading", );
+
 
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run();
@@ -71,12 +70,13 @@ public class Robot extends TimedRobot {
         // }
 
         LimelightHelpers.SetRobotOrientation(VisionConstants.LL_LEFT, headingDeg, 0, 0, 0, 0, 0); 
-        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_RIGHT, headingDeg, 0, 0, 0, 0, 0);
-        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, headingDeg, 0, 0, 0, 0, 0);
-        
         var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_LEFT); //TEST THIS
-        var llMeasurement_back = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_BACK);
+
+        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_RIGHT, headingDeg, 0, 0, 0, 0, 0);
         var llMeasurement_right = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_RIGHT);
+
+        LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, headingDeg, 0, 0, 0, 0, 0);
+        var llMeasurement_back = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_BACK);
 
         if (llMeasurement_left != null && llMeasurement_left.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_LEFT) > 0.33)  {
             m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_left.pose, llMeasurement_left.timestampSeconds);
@@ -90,6 +90,21 @@ public class Robot extends TimedRobot {
             m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_back.pose, llMeasurement_back.timestampSeconds);
         }
     }
+
+    var state = m_robotContainer.drivetrain.getState();
+    FieldConstants.updateMovingTarget(state.Pose, state.Speeds);
+
+    FieldConstants.updateActiveGoal(m_robotContainer.drivetrain.getState().Pose);
+
+    SmartDashboard.putString("Zone/Current", FieldConstants.currentZone.toString());
+    SmartDashboard.putBoolean("Zone/isHub", FieldConstants.currentZone == FieldConstants.FieldZone.HUB);
+    SmartDashboard.putBoolean("Zone/isMailing", 
+        FieldConstants.currentZone == FieldConstants.FieldZone.MAILING_LEFT || 
+        FieldConstants.currentZone == FieldConstants.FieldZone.MAILING_RIGHT);
+    
+    SmartDashboard.putNumber("Zone/DistToActiveGoal", FieldConstants.distToGoal);
+
+
     }
 
     @Override
@@ -103,10 +118,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        boolean isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
-         FieldConstants.goalLocation = isRed ? 
-            new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
-            new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
+        //FieldConstants.allianceColor = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+        // Not needed: goal locattion is updated in shooter periodic
+        //boolean isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+        //  FieldConstants.goalLocation = isRed ? 
+        //     new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
+        //     new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
         
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -123,7 +140,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-    FieldConstants.isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+    //FieldConstants.allianceColor = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
     //boolean isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
         // FieldConstants.goalLocation = isRed ? 
         // new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 

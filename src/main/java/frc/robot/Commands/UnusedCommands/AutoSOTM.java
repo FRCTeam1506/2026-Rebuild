@@ -2,19 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.Shoot;
-
-import com.ctre.phoenix6.swerve.SwerveRequest;
+package frc.robot.Commands.UnusedCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Commands.Align.AlignOnTheMove;
-import frc.robot.Commands.Align.StationaryAutoAimEnd;
-import frc.robot.Constants.AlignConstants;
 import frc.robot.Constants.EquationConstants;
-import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 

@@ -4,9 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.Commands.Align.StationaryAutoAim;
 
 /** Add your docs here. */
 public class Constants {
@@ -34,51 +32,21 @@ public class Constants {
     
         }
     }
-
-    public class FieldConstants {
-        public static Translation2d goalLocation = new Translation2d(0,0);
-
-        public static boolean isRed;
-        public static double distToGoal;
-        //Positions
-        //Variables for getting angle to goal.
-        public static double goalRedX = 11.95; //Red Goal //12 //11.2 
-        public static double goalRedY = 4; //4.034536
-        public static double goalBlueX = 4.6; //Blue Goal
-        public static double goalBlueY = 4.034536;
-
-        //FIELD LOCATIONS:
-        public static final double redLine = 11.5; //used to be 12.6, made it 11.5 for more accurate zone of when we want to do mailing funciton
-        public static final double middleY = 4.024;
-        public static final double blueLine = 4.1;
-
-        public static final double goalRightRedY = 7;//7.211
-        public static final double goalRightRedX = 15;
-
-        public static final double goalLeftRedY = 1.5; //0.8
-        public static final double goalLeftRedX = 15;
-
-        public static final double goalRightBlueY = 1.2; //7.756
-        public static final double goalRightBlueX = 2;
-
-        public static final double goalLeftBlueY = 7; //3
-        public static final double goalLeftBlueX = 1.5;
-    }
-
-    public class IntakeConstants {
+    
+    public static class IntakeConstants {
         public static final int Intake_Motor_ID = 60;
         public static final int Intake_Lift_Motor_ID = 14;
         public static final int Intake_Lift_Encoder_ID = 0;
 
         public static final double intakeSpeed = 0.6;
-        public static final double intakeUpPose = -0.317871;
-        public static final double intakeDownPose = 3.485352;
+        public static final double intakeUpPosition = -0.317871;
+        public static final double intakeLoweredPosition = 3.485352;
     }
-    public class HopperConstants {
+    public static class HopperConstants {
         public static final int Hopper_Motor_ID = 25;
         public static final double hopperSpeed = 0.5; //0.5
     }
-    public class ShooterConstants {
+    public static class ShooterConstants {
         public static final double kRPSTolerance = 1;
 
         public static final int Top_Shooter_ID = 59;
@@ -91,13 +59,13 @@ public class Constants {
     }
 
 
-    public class VisionConstants {
+    public static class VisionConstants {
         public static final String LL_LEFT = "limelight-left"; //side of the turret
         public static final String LL_BACK = "limelight-back";
         public static final String LL_RIGHT = "limelight-right";
     }
 
-    public class AlignConstants {
+    public static class AlignConstants {
         public static final double alignToleranceRadians = 0.0567;
         public static final double aimControllerP = 8; //18 //6
         public static final double aimControllerI = 0; //Consider making this 0.
@@ -107,7 +75,7 @@ public class Constants {
         public static boolean isAligned;
     }
 
-    public class PresetShots {
+    public static class PresetShots {
         public static final double closeShotRPS = 52.5; //51
         public static final double trenchShotRPS = 56;
         public static final double cornerShotRPS = 70.75;

@@ -1,4 +1,4 @@
-package frc.robot.Commands.Align;
+package frc.robot.Commands.UnusedCommands;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
@@ -7,7 +7,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -18,7 +17,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import frc.robot.Constants.AlignConstants;
 import frc.robot.Constants.EquationConstants;
-import frc.robot.Constants.FieldConstants;
+import frc.robot.FieldConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -93,7 +92,7 @@ public class AlignOnTheMove extends Command {
         )
     ));
 
-    AlignConstants.isAligned = thetaController.atGoal();
+    //AlignConstants.isAligned = thetaController.atGoal();
   }
 
   @Override

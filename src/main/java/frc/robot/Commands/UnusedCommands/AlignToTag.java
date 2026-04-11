@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.Align;
+package frc.robot.Commands.UnusedCommands;
 
 import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest.FieldCentric;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -49,8 +49,8 @@ public class AlignToTag extends Command {
 
 
     drivetrain.setControl(alignRequest
-            .withVelocityX(RobotContainer.driver.getLeftY())//forwards and backwards? YES
-            .withVelocityY(RobotContainer.driver.getLeftX()) 
+            //.withVelocityX(RobotContainer.driver.getLeftY())//forwards and backwards? YES
+            //.withVelocityY(RobotContainer.driver.getLeftX())  reaching into robot container is bad practice
             .withRotationalRate(radians));
     }
 

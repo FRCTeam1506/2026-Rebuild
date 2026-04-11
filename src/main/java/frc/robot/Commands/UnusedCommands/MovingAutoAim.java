@@ -2,9 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.Align;
-
-import static edu.wpi.first.units.Units.MetersPerSecond;
+package frc.robot.Commands.UnusedCommands;
 
 import java.util.Optional;
 
@@ -13,17 +11,13 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlignConstants;
 import frc.robot.Constants.EquationConstants;
-import frc.robot.Constants.FieldConstants;
-import frc.robot.Constants.FieldConstants;
-import frc.robot.generated.TunerConstants;
-import frc.robot.RobotContainer;
+import frc.robot.FieldConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -190,8 +184,8 @@ public class MovingAutoAim extends Command {
     toRadians = Math.toRadians(rotationalVelocity);
 
     drivetrain.setControl(alignRequest
-            .withVelocityX(-RobotContainer.driver.getLeftY())//forwards and backwards? YES
-            .withVelocityY(-RobotContainer.driver.getLeftX())
+            //.withVelocityX(-RobotContainer.driver.getLeftY())//forwards and backwards? YES
+            //.withVelocityY(-RobotContainer.driver.getLeftX())
             .withRotationalRate(toRadians));
     }  
 

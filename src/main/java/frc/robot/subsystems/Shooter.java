@@ -8,22 +8,17 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.swerve.jni.SwerveJNI.DriveState;
-
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.EquationConstants;
-import frc.robot.Constants.FieldConstants;
+import frc.robot.FieldConstants;
 import frc.robot.Constants.PresetShots;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.FieldConstants;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
@@ -93,13 +88,6 @@ public class Shooter extends SubsystemBase {
     shooterLeft.set(0);
   }
 
-  public void autoShooterPower() {
-    shooterTop.set(FieldConstants.distToGoal);
-    shooterRight.set(FieldConstants.distToGoal);
-    shooterLeft.set(FieldConstants.distToGoal);
-    //shooterRightBack.set(FieldConstants.distToGoal);
-  }
-
   public void upPower() {
     PresetShots.tunerPower += 0.25;
   }
@@ -111,9 +99,6 @@ public class Shooter extends SubsystemBase {
     return (shooterTop.getVelocity().getValueAsDouble() + shooterRight.getVelocity().getValueAsDouble() + shooterLeft.getVelocity().getValueAsDouble()) / 3.0;
   }
 
-  // public double singleMotorSpeed() { //Three motors
-  //   return (shooterTop.getVelocity().getValueAsDouble());
-  // }
 
   public boolean isAtVelocity(double targetRPS, double tolerance) {
     //original isAtVelocity:
@@ -129,59 +114,13 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Pose2d robotPose = drivetrain.getState().Pose;
 
     SmartDashboard.putNumber("set shooter speed", EquationConstants.calculateRPS(FieldConstants.distToGoal));
-    targetVec = Constants.FieldConstants.goalLocation.minus(drivetrain.getState().Pose.getTranslation());
-    dist = targetVec.getNorm();
-    FieldConstants.distToGoal = dist;
     double[] FieldLocation = {FieldConstants.goalLocation.getMeasureX().baseUnitMagnitude(), FieldConstants.goalLocation.getMeasureY().baseUnitMagnitude()};
     SmartDashboard.putNumber("distance to goal", dist);
     SmartDashboard.putNumberArray("goal", FieldLocation);
-
-
     SmartDashboard.putNumber("Tuner Power", PresetShots.tunerPower);
     SmartDashboard.putNumber("Shooter Power", avgShooterSpeed());
-
-    if(FieldConstants.isRed == true) {
-      if(robotPose.getX() < FieldConstants.redLine) {
-        if(robotPose.getY() < FieldConstants.middleY) {
-          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalLeftRedX, FieldConstants.goalLeftRedY);
-          System.out.println("Mail Red Left!");
-       }
-       else {
-          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalRightRedX, FieldConstants.goalRightRedY);
-          System.out.println("Mail Red Right!");
-
-       }
-      }
-      else {
-        FieldConstants.goalLocation = new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY); 
-          System.out.println("Hub Red!");
-
-      }    
-    }
-    else {
-      if(robotPose.getX() > FieldConstants.blueLine) {
-        if(robotPose.getY() < FieldConstants.middleY) {
-          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalRightBlueX, FieldConstants.goalRightBlueY);
-          System.out.println("Hub Right Blue!");
-       }
-       else {
-          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalLeftBlueX, FieldConstants.goalLeftBlueY);
-          System.out.println("Hub Left Blue!");
-
-       }
-      }
-      else {
-          FieldConstants.goalLocation = new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY); 
-          System.out.println("Hub Blue!");
-
-      }
-
-
-
-    }
     // This method will be called once per scheduler run
   }
 }

@@ -4,16 +4,12 @@
 
 package frc.robot.Commands.Shoot;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Commands.Align.StationaryAutoAimEnd;
-import frc.robot.Constants.AlignConstants;
+import frc.robot.Commands.Align.StationaryAutoAimContinuous;
 import frc.robot.Constants.EquationConstants;
-import frc.robot.Constants.FieldConstants;
+import frc.robot.FieldConstants;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
@@ -46,7 +42,7 @@ public class AutoShoot extends Command {
 
     double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 0.5; //tune constant rps value
     shooter.setShooterRPS(targetRPS);
-      if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && StationaryAutoAimEnd.atGoal == true) {
+      if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && StationaryAutoAimContinuous.atGoal == true) {
         hopper.runHopper(-HopperConstants.hopperSpeed);
       }
     //}

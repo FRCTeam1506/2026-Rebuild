@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix6.HootAutoReplay;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -92,7 +93,7 @@ public class Robot extends TimedRobot {
     }
 
     var state = m_robotContainer.drivetrain.getState();
-    FieldConstants.updateMovingTarget(state.Pose, state.Speeds);
+    FieldConstants.updateMovingTarget(state.Pose, ChassisSpeeds.fromRobotRelativeSpeeds(state.Speeds, state.Pose.getRotation()));
 
     FieldConstants.updateActiveGoal(m_robotContainer.drivetrain.getState().Pose);
 

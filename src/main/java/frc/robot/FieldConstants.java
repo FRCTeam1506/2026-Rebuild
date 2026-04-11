@@ -46,8 +46,7 @@ public class FieldConstants {
     public static void updateActiveGoal(Pose2d robotPose) {
         var alliance = DriverStation.getAlliance();
         if (alliance.isEmpty()) return;
-        boolean allianceColor = alliance.get() == Alliance.Red;
-
+        boolean allianceColor = alliance.isPresent() && alliance.get() == Alliance.Red;
         if (allianceColor) {
             if (robotPose.getX() < redLine) {
                 if (robotPose.getY() < middleY) {

@@ -24,6 +24,7 @@ public class AlignOnTheMoveNew extends Command {
   private final SwerveRequest.FieldCentric request = new SwerveRequest.FieldCentric();
 
   public static double vGoalDist;
+  double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
 
   public AlignOnTheMoveNew(CommandSwerveDrivetrain drivetrain, DoubleSupplier x, DoubleSupplier y) {
     this.drivetrain = drivetrain;
@@ -36,6 +37,7 @@ public class AlignOnTheMoveNew extends Command {
     );
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
     thetaController.setTolerance(AlignConstants.alignToleranceRadians);
+    
     addRequirements(drivetrain);
   }
 
@@ -51,7 +53,7 @@ public class AlignOnTheMoveNew extends Command {
     
     double rotVelocity = thetaController.calculate(currentPose.getRotation().getRadians(), targetAngle);
     
-    double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+    // double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     drivetrain.setControl(request
         .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.6).withDeadband(0.075)
         .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.6).withDeadband(0.075)

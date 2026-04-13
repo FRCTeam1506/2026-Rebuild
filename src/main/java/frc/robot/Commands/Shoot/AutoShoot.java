@@ -43,7 +43,7 @@ public class AutoShoot extends Command {
     double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 0.5; //tune constant rps value
     shooter.setShooterRPS(targetRPS);
       if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && StationaryAutoAimContinuous.atGoal == true) {
-        hopper.runHopper(-HopperConstants.hopperSpeed);
+        hopper.runHopper(HopperConstants.hopperSpeed);
       }
     //}
   }

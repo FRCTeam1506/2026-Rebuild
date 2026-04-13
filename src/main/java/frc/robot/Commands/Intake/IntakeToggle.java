@@ -7,22 +7,40 @@ package frc.robot.Commands.Intake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeInNew extends SequentialCommandGroup {
+public class IntakeToggle extends SequentialCommandGroup {
   /** Creates a new IntakeTime. */
   private Intake intake;
-  public IntakeInNew(Intake intake) {
+
+  public IntakeToggle(Intake intake) {
     this.intake = intake;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
+    if (IntakeConstants.intakeOut == true) {
+        addCommands(
         //new InstantCommand(() -> intake.runIntake(-0.1)),
         new InstantCommand(() -> intake.runIntakeLift(-0.2)),
         new WaitCommand(2.0),
         new InstantCommand(() -> intake.runIntakeLift(0)));
+        IntakeConstants.intakeOut = false;
+    } 
+    if (IntakeConstants.intakeOut == false) {
+        addCommands(
+        //new InstantCommand(() -> intake.runIntake(-0.1)),
+        new InstantCommand(() -> intake.runIntakeLift(0.2)),
+        new WaitCommand(2.0),
+        new InstantCommand(() -> intake.runIntakeLift(0)));
+        IntakeConstants.intakeOut = true;
+    }
+    // addCommands(
+    //     //new InstantCommand(() -> intake.runIntake(-0.1)),
+    //     new InstantCommand(() -> intake.runIntakeLift(-0.2)),
+    //     new WaitCommand(2.0),
+    //     new InstantCommand(() -> intake.runIntakeLift(0)));
   }
 }

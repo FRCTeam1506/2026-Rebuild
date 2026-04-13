@@ -33,7 +33,7 @@ public class ManualShoot extends Command {
   public void execute() {
     shooter.setShooterRPS(RPS);
     if (shooter.isAtVelocity(RPS, ShooterConstants.kRPSTolerance)) {
-    hopper.runHopper(-HopperConstants.hopperSpeed);
+    hopper.runHopper(HopperConstants.hopperSpeed);
     }
   }
 

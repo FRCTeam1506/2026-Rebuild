@@ -20,8 +20,9 @@ public class IntakeOutNew extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new InstantCommand(() -> intake.runIntakeLift(-0.1)),
+        //new InstantCommand(() -> intake.runIntake(-0.8)),
+        new InstantCommand(() -> intake.runIntakeLift(0.2)),
         new WaitCommand(2),
-        new InstantCommand(() -> intake.runIntakeLift(0))); //Keep holding intake up slightly
+        new InstantCommand(() -> intake.runIntakeLift(0))); 
   }
 }

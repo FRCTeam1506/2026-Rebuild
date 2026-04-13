@@ -26,14 +26,16 @@ public class AutoSOTMNew extends Command {
     
     if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
         FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
-        targetRPS -= 7.5;
+        targetRPS -= 20;
     }
-    
+    if (targetRPS > 90) {
+      targetRPS = 90;
+    }
     shooter.setShooterRPS(targetRPS);
     
     //hopper
-    if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {
-        hopper.runHopper(-HopperConstants.hopperSpeed);
+    if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && AlignOnTheMoveNew.atGoal == true) {
+        hopper.runHopper(HopperConstants.hopperSpeed);
     }
   
   }

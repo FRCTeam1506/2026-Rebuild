@@ -5,9 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "LeftFirst"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftFirst"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Manual"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
+              }
+            ]
           }
         },
         {
@@ -25,14 +44,33 @@
                 "data": {
                   "name": "Intake Manual"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Left Third Bump"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left Third Bump"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
+                }
+              }
+            ]
           }
         },
         {
@@ -42,7 +80,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 5.0
+                  "waitTime": 3.0
                 }
               },
               {
@@ -56,14 +94,39 @@
                 "data": {
                   "name": "Intake Manual"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
+                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Left Fourth Bump"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left Fourth Bump"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Manual"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
+              }
+            ]
           }
         },
         {
@@ -80,6 +143,12 @@
                 "type": "named",
                 "data": {
                   "name": "Intake Manual"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
                 }
               }
             ]
@@ -111,6 +180,12 @@
                 "type": "named",
                 "data": {
                   "name": "Intake Manual"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
                 }
               }
             ]

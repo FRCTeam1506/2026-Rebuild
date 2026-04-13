@@ -12,6 +12,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Commands.Intake.IntakeInNew;
 import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
@@ -22,7 +23,7 @@ public class Intake extends SubsystemBase {
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
 
-
+  boolean out;
 
   public Intake() {
       // final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
@@ -79,6 +80,7 @@ public class Intake extends SubsystemBase {
   public void setIntakeLift(double Pos) {
     intakeLift.setControl(m_motmag.withPosition(Pos));
   }
+
 
   @Override
   public void periodic() {

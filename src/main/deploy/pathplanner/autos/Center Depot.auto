@@ -44,6 +44,12 @@
                 "data": {
                   "name": "Intake Manual"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
               }
             ]
           }
@@ -68,6 +74,12 @@
                 "type": "named",
                 "data": {
                   "name": "AlignAndShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
                 }
               }
             ]

@@ -17,6 +17,7 @@ public class Hopper extends SubsystemBase {
   //][\private TalonFX extender = new TalonFX(HopperConstants.Extender_Motor_ID);
   private TalonFX hopper = new TalonFX(HopperConstants.Hopper_Motor_ID);
   private TalonFX towerHopper = new TalonFX(HopperConstants.Tower_Hopper_ID);
+  private TalonFX towerHopperTwo = new TalonFX(HopperConstants.Tower_Hopper_ID);
 
   public Hopper() {
     TalonFXConfiguration towerHopperConfigs = new TalonFXConfiguration();
@@ -24,6 +25,8 @@ public class Hopper extends SubsystemBase {
     towerHopperConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     towerHopperConfigs.CurrentLimits.StatorCurrentLimit = 120;
     towerHopper.getConfigurator().apply(towerHopperConfigs);
+    towerHopperTwo.getConfigurator().apply(towerHopperConfigs);
+
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -38,15 +41,18 @@ public class Hopper extends SubsystemBase {
     hopper.getConfigurator().apply(slot0Configs); 
     hopper.getConfigurator().apply(config);
     towerHopper.getConfigurator().apply(config);
+    towerHopperTwo.getConfigurator().apply(config);
   }
 
   public void runHopper(double speed) {
-    hopper.set(-speed);
+    hopper.set(speed);
     towerHopper.set(-speed);
+    towerHopperTwo.set(speed);
   }
   public void stopHopper() {
     hopper.set(0);
     towerHopper.set(0);
+    towerHopperTwo.set(0);
   }
 
   @Override

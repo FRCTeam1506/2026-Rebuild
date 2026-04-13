@@ -32,7 +32,7 @@ public class TunerShoot extends Command {
   public void execute() {
     shooter.setShooterRPS(PresetShots.tunerPower);
     if (shooter.isAtVelocity(PresetShots.tunerPower, ShooterConstants.kRPSTolerance)) {
-      hopper.runHopper(-HopperConstants.hopperSpeed);
+      hopper.runHopper(HopperConstants.hopperSpeed);
     }
   }
 

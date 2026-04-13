@@ -26,12 +26,14 @@ import frc.robot.Commands.Intake.IntakeInNew;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeOutNew;
 import frc.robot.Commands.Intake.IntakeTimeUp;
+import frc.robot.Commands.Intake.IntakeToggle;
 import frc.robot.Commands.Intake.IntakeTimeDown;
 import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Intake.OuttakeCommand;
 import frc.robot.Commands.Shoot.AutoSOTMNew;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.Commands.Shoot.ManualShoot;
+import frc.robot.Commands.Shoot.SOTMMain;
 import frc.robot.Commands.Shoot.TunerShoot;
 import frc.robot.Commands.UnusedCommands.AlignandShoot;
 import frc.robot.Commands.UnusedCommands.IntakeCommand;
@@ -108,9 +110,19 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         //DRIVER CONTROLS:
+        // driver.R1().whileTrue(
+        //     new AlignOnTheMoveNew(
+        //         drivetrain,
+        //         () -> -driver.getLeftY(),
+        //         () -> -driver.getLeftX()
+        //     )
+        // );
         driver.R1().whileTrue(
-            new AlignOnTheMoveNew(
+            new SOTMMain(
                 drivetrain,
+                shooter,
+                hopper,
+                intake,
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX()
             )
@@ -127,14 +139,17 @@ public class RobotContainer {
         driver.R2().whileTrue(new AlignandShootNew(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS)); //Tower shot
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS)); //Corner Shot
-        driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS)); //Passing Shot
+        //driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS)); //Passing Shot
 
         //Intake    
-        driver.L2().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
+        //().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
         driver.L2().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8))).onFalse(new InstantCommand(() -> intake.runIntake(0)));
+        driver.povDown().onTrue(new IntakeOutNew(intake));
+        driver.povUp().onTrue(new IntakeInNew(intake));
+        driver.povRight().onTrue(new IntakeToggle(intake));
 
         //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
-        driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
+        //driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
 
         //Stationary Align:
         //driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
@@ -170,15 +185,17 @@ public class RobotContainer {
         //operator.rightBumper().whileFalse(new InstantCommand(() -> hopper.stopHopper()));
 
         //Intake
-        operator.leftTrigger().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
+        //operator.leftTrigger().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
         operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8))).onFalse(new InstantCommand(() -> intake.runIntake(0)));
+        operator.povDown().onTrue(new IntakeInNew(intake));
+        operator.povUp().onTrue(new IntakeOutNew(intake));
 
         //Jitter Intake:
         operator.povUp().whileTrue(new JitterIntake(intake).repeatedly());
         operator.povUp().whileFalse(new IntakeInNew(intake).alongWith(new InstantCommand(() -> intake.runIntake(0))));//Check this!
 
         //Outtake:
-        operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper));
+        //operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper)); //OLD INTAKE!!
 
         //Align
         //Aim while holding the right bumper

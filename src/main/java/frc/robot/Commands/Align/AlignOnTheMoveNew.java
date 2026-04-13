@@ -25,6 +25,7 @@ public class AlignOnTheMoveNew extends Command {
 
   public static double vGoalDist;
   double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
+  public static boolean atGoal;
 
   public AlignOnTheMoveNew(CommandSwerveDrivetrain drivetrain, DoubleSupplier x, DoubleSupplier y) {
     this.drivetrain = drivetrain;
@@ -59,6 +60,7 @@ public class AlignOnTheMoveNew extends Command {
         .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.6).withDeadband(0.075)
         .withRotationalRate(rotVelocity)
     );
+    atGoal = thetaController.atGoal();
   
   }
 }

@@ -25,6 +25,12 @@
                 "data": {
                   "name": "Intake Manual"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
               }
             ]
           }
@@ -42,7 +48,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.0
+                  "waitTime": 2.7
                 }
               },
               {
@@ -55,6 +61,12 @@
                 "type": "named",
                 "data": {
                   "name": "Intake Manual"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
                 }
               }
             ]
@@ -80,6 +92,12 @@
                 "type": "named",
                 "data": {
                   "name": "Intake Manual"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
                 }
               }
             ]
@@ -111,6 +129,12 @@
                 "type": "named",
                 "data": {
                   "name": "Intake Manual"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
                 }
               }
             ]

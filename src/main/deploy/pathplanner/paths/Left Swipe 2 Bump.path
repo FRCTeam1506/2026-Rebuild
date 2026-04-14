@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.1500240963855415,
-        "y": 7.51001204819277
+        "x": 6.406833095577745,
+        "y": 7.4702139800285305
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.920542168674699,
-        "y": 6.876204819277109
+        "x": 6.177351167866902,
+        "y": 6.836406751112869
       },
       "isLocked": false,
       "linkedName": "Left Fourth Bump End"
     },
     {
       "anchor": {
-        "x": 5.837532097004279,
-        "y": 5.154194008559203
+        "x": 5.966918687589158,
+        "y": 5.076562054208274
       },
       "prevControl": {
-        "x": 5.876348074179743,
-        "y": 5.684679029957205
+        "x": 5.926636986035305,
+        "y": 5.606937791333995
       },
       "nextControl": {
-        "x": 5.767884436243734,
-        "y": 4.202342644831778
+        "x": 6.044550641940085,
+        "y": 4.054407988587731
       },
       "isLocked": false,
       "linkedName": null
@@ -61,6 +61,10 @@
     }
   ],
   "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4606033318325051,
+      "rotationDegrees": -100.0
+    },
     {
       "waypointRelativePos": 0.95,
       "rotationDegrees": -90.0
@@ -103,7 +107,7 @@
   "folder": "Left Bump",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -168.606879040513
   },
   "useDefaultConstraints": false
 }

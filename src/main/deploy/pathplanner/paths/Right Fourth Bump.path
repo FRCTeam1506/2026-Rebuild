@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.201768901569186,
-        "y": 1.5443081312410847
+        "x": 1.9559343794579167,
+        "y": 1.0397004279600572
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.293009831050306,
-        "y": 0.8427678015915333
+        "x": 2.318216833095578,
+        "y": 0.4574607703281026
       },
       "isLocked": false,
       "linkedName": "Right Third Bump End"
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 5.966918687589158,
-        "y": 0.5480313837375184
+        "x": 6.2774465049928665,
+        "y": 0.6515406562054205
       },
       "prevControl": {
-        "x": 3.9497142456248717,
-        "y": 0.4152206694518044
+        "x": 4.453095577746077,
+        "y": 0.5092154065620548
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1.0310670868977967,
-      "rotationDegrees": 90.0
+      "rotationDegrees": 180.0
     }
   ],
   "constraintZones": [],
@@ -62,8 +62,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 3.0,
-    "rotation": 90.6740368979846
+    "velocity": 0.0,
+    "rotation": 170.13419305691573
   },
   "reversed": false,
   "folder": "Right Bump",

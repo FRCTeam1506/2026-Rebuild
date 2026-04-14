@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.966918687589158,
-        "y": 0.5480313837375184
+        "x": 6.2774465049928665,
+        "y": 0.6515406562054205
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.928102710413694,
-        "y": 1.5054921540656223
+        "x": 6.238630527817403,
+        "y": 1.6090014265335244
       },
       "isLocked": false,
       "linkedName": "Right Fourth Bump End"
@@ -62,8 +62,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 80.0
+      "waypointRelativePos": 0.39576767221972164,
+      "rotationDegrees": 100.0
     },
     {
       "waypointRelativePos": 1.292660963529928,
@@ -103,7 +103,7 @@
   "folder": "Right Bump",
   "idealStartingState": {
     "velocity": 1.2,
-    "rotation": 90.6740368979846
+    "rotation": 170.13419305691573
   },
   "useDefaultConstraints": true
 }

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5875903614457836,
-        "y": 7.3679518072289145
+        "x": 2.124136947218259,
+        "y": 7.806619115549216
       },
       "isLocked": false,
       "linkedName": "Left Third Bump End"
     },
     {
       "anchor": {
-        "x": 6.1500240963855415,
-        "y": 7.51001204819277
+        "x": 6.406833095577745,
+        "y": 7.4702139800285305
       },
       "prevControl": {
-        "x": 5.122819277108432,
-        "y": 7.826915662650602
+        "x": 5.6026720519739435,
+        "y": 7.637434456800097
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.3950819672131133,
-      "rotationDegrees": -90.0
+      "rotationDegrees": 180.0
     }
   ],
   "constraintZones": [],
@@ -47,7 +47,7 @@
   },
   "goalEndState": {
     "velocity": 1.0,
-    "rotation": -90.0
+    "rotation": -168.606879040513
   },
   "reversed": false,
   "folder": "Left Bump",

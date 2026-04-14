@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Commands.Align.AlignOnTheMoveNew;
-import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeOutPower;
@@ -125,7 +124,7 @@ public class RobotContainer {
                 () -> -driver.getLeftX()
             )
         );
-        
+        driver.R1().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
         // Reset the field-centric heading on left CIRCLE (David likes circle) press.
         driver.circle().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
@@ -135,6 +134,8 @@ public class RobotContainer {
         //Shoot
         //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); //Old AlignandShoot Command Sequential Group
         driver.R2().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
+        driver.R2().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS)); //Tower shot
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS)); //Corner Shot
         //driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS)); //Passing Shot
@@ -145,6 +146,9 @@ public class RobotContainer {
         driver.povDown().onTrue(new IntakeOutPower(intake));
         driver.povUp().onTrue(new IntakeInPower(intake));
         driver.povRight().onTrue(new IntakeToggle(intake));
+
+        driver.L3().whileTrue(new JitterIntake(intake).repeatedly());
+        driver.L3().whileTrue(new InstantCommand(() -> intake.stopIntake()).alongWith(new InstantCommand(() -> intake.stopIntakeLift())));
 
         //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
         //driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
@@ -163,6 +167,7 @@ public class RobotContainer {
         //Shoot only on right trigger for operator:
         // operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
         operator.rightTrigger().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
+        operator.rightTrigger().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
         //Run shooter and hopper in reverse:
         operator.b().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(-0.25)).alongWith(new InstantCommand(() -> hopper.runHopper(0.5))));
@@ -177,6 +182,8 @@ public class RobotContainer {
 
         //SOTM Auto Shoot:
         operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper));
+        operator.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+
 
         //Bring this back in: Rev Hopper Only
         //operator.rightBumper().whileTrue(new InstantCommand(() -> hopper.runHopper(-HopperConstants.hopperSpeed)));
@@ -189,11 +196,11 @@ public class RobotContainer {
         operator.povUp().onTrue(new IntakeOutPower(intake));
 
         //Jitter Intake:
-        operator.povUp().whileTrue(new JitterIntake(intake).repeatedly());
-        operator.povUp().whileFalse(new IntakeInPower(intake).alongWith(new InstantCommand(() -> intake.runIntake(0))));//Check this!
+        // operator.povUp().whileTrue(new JitterIntake(intake).repeatedly());
+        // operator.povUp().whileFalse(new IntakeInPower(intake).alongWith(new InstantCommand(() -> intake.runIntake(0))));//Check this!
 
         //Outtake:
-        //operator.leftBumper().whileTrue(new OuttakeCommand(intake, hopper)); //OLD INTAKE!!
+        operator.leftBumper().whileTrue(new Outtake(intake, hopper)); //OLD INTAKE!!
 
         //Align
         //Aim while holding the right bumper
@@ -212,7 +219,7 @@ public class RobotContainer {
         testing.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
 
         //Intake
-        testing.leftTrigger().whileTrue(new IntakeCommand(intake));
+        //testing.leftTrigger().whileTrue(new IntakeCommand(intake));
         testing.leftBumper().whileTrue(new Outtake(intake, hopper));
         testing.povRight().whileTrue(new InstantCommand(() -> intake.runIntake(0.5)));
         testing.povRight().onFalse(new InstantCommand(() -> intake.stopIntake()));

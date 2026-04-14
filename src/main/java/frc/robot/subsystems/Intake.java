@@ -23,8 +23,8 @@ public class Intake extends SubsystemBase {
   private TalonFX intake = new TalonFX(IntakeConstants.Intake_Motor_ID);
   private TalonFX intakeLift = new TalonFX(IntakeConstants.Intake_Lift_Motor_ID);
   private CANcoder liftEncoder = new CANcoder(IntakeConstants.Intake_Lift_Encoder_ID);
-  private final DigitalInput extendedSwitch = new DigitalInput(IntakeConstants.EXTENDED_SWITCH_DIO);
-  private final DigitalInput retractedSwitch = new DigitalInput(IntakeConstants.RETRACTED_SWITCH_DIO);
+  //private final DigitalInput extendedSwitch = new DigitalInput(IntakeConstants.EXTENDED_SWITCH_DIO);
+  //private final DigitalInput retractedSwitch = new DigitalInput(IntakeConstants.RETRACTED_SWITCH_DIO);
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
 
@@ -38,7 +38,7 @@ public class Intake extends SubsystemBase {
 
       TalonFXConfiguration liftConfig = new TalonFXConfiguration();
       liftConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-      liftConfig.CurrentLimits.StatorCurrentLimit = 105;
+      liftConfig.CurrentLimits.StatorCurrentLimit = 95;
       liftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     
       TalonFXConfiguration config = new TalonFXConfiguration();
@@ -94,13 +94,13 @@ public class Intake extends SubsystemBase {
     intakeLift.setControl(m_motmag.withPosition(Pos));
   }
 
-  public boolean isFullyExtended() {
-    return !extendedSwitch.get();
-  }
+  // public boolean isFullyExtended() {
+  //   return !extendedSwitch.get();
+  // }
 
-  public boolean isFullyIn() {
-    return !retractedSwitch.get();
-  }
+  // public boolean isFullyIn() {
+  //   return !retractedSwitch.get();
+  // }
 
   public void raiseIntake() {
     setIntakeLift(IntakeConstants.intakeUpPosition);
@@ -113,15 +113,16 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (isFullyIn()) {
-      intakeLift.setPosition(0);
-    }
-    if(isFullyExtended()) {
-      intakeLift.setPosition(IntakeConstants.intakeLoweredPosition);
-    }
+    // Implement when limit switches are put on (if)
+    // if (isFullyIn()) {
+    //   intakeLift.setPosition(0);
+    // }
+    // if(isFullyExtended()) {
+    //   intakeLift.setPosition(IntakeConstants.intakeLoweredPosition);
+    // }
 
-    SmartDashboard.putBoolean("Intake/Extended Switch", isFullyExtended());
-    SmartDashboard.putBoolean("Intake/Retracted Switch", isFullyIn());
+    // SmartDashboard.putBoolean("Intake/Extended Switch", isFullyExtended());
+    // SmartDashboard.putBoolean("Intake/Retracted Switch", isFullyIn());
     // This method will be called once per scheduler run
   }
 }

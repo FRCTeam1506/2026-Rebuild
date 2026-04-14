@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.Align.StationaryAutoAimContinuous;
 import frc.robot.Constants.EquationConstants;
 import frc.robot.FieldConstants;
+import frc.robot.FieldConstants.FieldZone;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Hopper;
@@ -40,11 +41,19 @@ public class AutoShoot extends Command {
     //if(AlignConstants.isAligned) {
     //drivetrain.applyRequest(() -> brake);
 
-    double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 0.5; //tune constant rps value
+    double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 2; //tune constant rps value
     shooter.setShooterRPS(targetRPS);
       if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && StationaryAutoAimContinuous.atGoal == true) {
         hopper.runHopper(HopperConstants.hopperSpeed);
       }
+
+      if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
+        FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
+        targetRPS -= 20;
+    }
+    // else {
+    //   targetRPS += 2;
+    // }
     //}
   }
 

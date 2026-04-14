@@ -29,15 +29,15 @@ public class Outtake extends Command {
   @Override
   public void execute() {
     intake.runIntake(0.6);
-    intake.setIntakeLift(IntakeConstants.intakeLoweredPosition);
-    hopper.runHopper(0.5);
+    //intake.setIntakeLift(IntakeConstants.intakeLoweredPosition);
+    hopper.runHopper(-0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     intake.runIntake(0);
-    intake.setIntakeLift(IntakeConstants.intakeUpPosition);
+    //intake.setIntakeLift(IntakeConstants.intakeUpPosition);
     hopper.stopHopper();
   }
 

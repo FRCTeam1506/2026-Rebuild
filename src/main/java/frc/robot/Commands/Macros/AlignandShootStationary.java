@@ -3,6 +3,7 @@ package frc.robot.Commands.Macros;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.Align.StationaryAutoAimContinuous;
+import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
@@ -16,7 +17,8 @@ public class AlignandShootStationary extends ParallelCommandGroup {
     addCommands(
         new StationaryAutoAimContinuous(drivetrain),
         new AutoShoot(shooter, hopper),
-        new InstantCommand(() -> intake.runIntake(-0.2))
+        // new InstantCommand(() -> intake.runIntake(-0.2))
+        new JitterIntake(intake).repeatedly()
     );
   }
 }

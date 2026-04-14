@@ -75,10 +75,10 @@ public class Robot extends TimedRobot {
         // }
 
         LimelightHelpers.SetRobotOrientation(VisionConstants.LL_LEFT, headingDeg, 0, 0, 0, 0, 0); 
-        var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_LEFT); //TEST THIS
+        var llMeasurement_left = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_LEFT); //TEST THIS //mt2
 
         LimelightHelpers.SetRobotOrientation(VisionConstants.LL_RIGHT, headingDeg, 0, 0, 0, 0, 0);
-        var llMeasurement_right = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(VisionConstants.LL_RIGHT);
+        var llMeasurement_right = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_RIGHT); //mt2
 
         LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, headingDeg, 0, 0, 0, 0, 0);
         var llMeasurement_back = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_BACK);

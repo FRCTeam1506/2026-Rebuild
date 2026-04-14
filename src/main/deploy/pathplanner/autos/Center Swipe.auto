@@ -17,13 +17,44 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.0
+                  "waitTime": 2.5
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "AlignAndShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Bump "
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center Swipe"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Manual"
                 }
               }
             ]
@@ -36,44 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Center Depot Second"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Manual"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Out"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center Depot Fourth"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 4.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AlignAndShoot"
+                  "pathName": "Center Swipe Return"
                 }
               },
               {
@@ -83,6 +77,31 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlignAndShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": []
           }
         }
       ]

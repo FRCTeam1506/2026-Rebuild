@@ -10,10 +10,10 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Commands.Intake.IntakeCommand;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeOutPower;
+import frc.robot.Commands.Macros.AlignandShootStationary;
 import frc.robot.Commands.UnusedCommands.AlignandShoot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
@@ -39,12 +39,12 @@ public class Autos {
     }
 
     public void makeNamedCommands() {
-        NamedCommands.registerCommand("AlignAndShoot", new AlignandShoot(drivetrain, shooter, hopper));
+        NamedCommands.registerCommand("AlignAndShoot", new AlignandShootStationary(drivetrain, shooter, hopper, intake));
         //NamedCommands.registerCommand("Intake Manual", new IntakeManual(intake, 0.3));
         NamedCommands.registerCommand("Intake Manual", new InstantCommand(() -> intake.runIntake(-0.8)));
         NamedCommands.registerCommand("Intake Out", new IntakeOutPower(intake));
         NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
-        NamedCommands.registerCommand("Intake Position", new IntakeCommand(intake));
+        //NamedCommands.registerCommand("Intake Position", new IntakeCommand(intake));
     }
 
     public SendableChooser<Command> configureChooser(SendableChooser<Command> chooser){

@@ -64,7 +64,7 @@ public class FieldConstants {
             // Blue Alliance Logic
             if (robotPose.getX() > blueLine) {
                 if (robotPose.getY() < middleY) {
-                    currentZone = FieldZone.MAILING_RIGHT; // Relative to Blue wall
+                    currentZone = FieldZone.MAILING_RIGHT;
                     goalLocation = new Translation2d(goalRightBlueX, goalRightBlueY);
                 } else {
                     currentZone = FieldZone.MAILING_LEFT;
@@ -80,23 +80,23 @@ public class FieldConstants {
     }
 
 
-public static void updateMovingTarget(Pose2d currentPose, ChassisSpeeds fieldSpeeds) {
-    double refinedDist = currentPose.getTranslation().getDistance(goalLocation);
-    double refinedTOF = 0;
-    Translation2d tempVTarget = goalLocation;
+    public static void updateMovingTarget(Pose2d currentPose, ChassisSpeeds fieldSpeeds) {
+        double refinedDist = currentPose.getTranslation().getDistance(goalLocation);
+        double refinedTOF = 0;
+        Translation2d tempVTarget = goalLocation;
 
-    for (int i = 0; i < 5; i++) {
-        refinedTOF = EquationConstants.calculateTimeOfFlight(refinedDist);
-        tempVTarget = new Translation2d(
-            goalLocation.getX() - (fieldSpeeds.vxMetersPerSecond * refinedTOF),
-            goalLocation.getY() - (fieldSpeeds.vyMetersPerSecond * refinedTOF)
-        );
-        refinedDist = currentPose.getTranslation().getDistance(tempVTarget);
+        for (int i = 0; i < 5; i++) {
+            refinedTOF = EquationConstants.calculateTimeOfFlight(refinedDist);
+            tempVTarget = new Translation2d(
+                goalLocation.getX() - (fieldSpeeds.vxMetersPerSecond * refinedTOF),
+                goalLocation.getY() - (fieldSpeeds.vyMetersPerSecond * refinedTOF)
+            );
+            refinedDist = currentPose.getTranslation().getDistance(tempVTarget);
+        }
+        
+        vGoalDist = refinedDist;
+        vTarget = tempVTarget;
     }
-    
-    vGoalDist = refinedDist;
-    vTarget = tempVTarget;
-}
 
 
 }

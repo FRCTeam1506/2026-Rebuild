@@ -28,6 +28,9 @@ public class AutoSOTM extends Command {
         FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
         targetRPS -= 20;
     }
+    else {
+      targetRPS += 2;
+    }
     if (targetRPS > 90) {
       targetRPS = 90;
     }

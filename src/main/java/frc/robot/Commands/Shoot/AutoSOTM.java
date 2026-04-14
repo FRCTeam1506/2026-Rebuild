@@ -10,11 +10,11 @@ import frc.robot.FieldConstants.FieldZone;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
-public class AutoSOTMNew extends Command {
+public class AutoSOTM extends Command {
   private final Shooter shooter;
   private final Hopper hopper;
 
-  public AutoSOTMNew(Shooter shooter, Hopper hopper) {
+  public AutoSOTM(Shooter shooter, Hopper hopper) {
     this.shooter = shooter;
     this.hopper = hopper;
     addRequirements(shooter, hopper);

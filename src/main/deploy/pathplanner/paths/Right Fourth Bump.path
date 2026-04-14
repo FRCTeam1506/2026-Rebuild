@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.4127469879518073,
-        "y": 1.4014216867469884
+        "x": 2.201768901569186,
+        "y": 1.5443081312410847
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.325325301204819,
-        "y": 0.8331807228915682
+        "x": 2.293009831050306,
+        "y": 0.8427678015915333
       },
       "isLocked": false,
-      "linkedName": "Right Third End"
+      "linkedName": "Right Third Bump End"
     },
     {
       "anchor": {
-        "x": 2.8498554216867467,
-        "y": 0.6010332142857147
+        "x": 2.8616405135520675,
+        "y": 0.5480313837375184
       },
       "prevControl": {
-        "x": 2.264066898918217,
-        "y": 0.5992823413296047
+        "x": 2.498435045797725,
+        "y": 0.5480313837375184
       },
       "nextControl": {
-        "x": 3.4356439444552764,
-        "y": 0.6027840872418246
+        "x": 3.198045649072753,
+        "y": 0.5480313837375184
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.734771084337349,
-        "y": 0.6010332142857147
+        "x": 5.966918687589158,
+        "y": 0.5480313837375184
       },
       "prevControl": {
-        "x": 3.717566642373063,
-        "y": 0.4682225000000007
+        "x": 3.9497142456248717,
+        "y": 0.4152206694518044
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Right Bump To Second End"
+      "linkedName": "Right Fourth Bump End"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.373770491803274,
+      "waypointRelativePos": 1.0310670868977967,
       "rotationDegrees": 90.0
     }
   ],
@@ -62,14 +62,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.2,
+    "velocity": 3.0,
     "rotation": 90.6740368979846
   },
   "reversed": false,
   "folder": "Right Bump",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -131.30861401354883
+    "rotation": -125.00000000000001
   },
   "useDefaultConstraints": true
 }

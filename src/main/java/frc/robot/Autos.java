@@ -10,11 +10,11 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Commands.Intake.IntakeInNew;
+import frc.robot.Commands.Intake.IntakeCommand;
+import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
-import frc.robot.Commands.Intake.IntakeOutNew;
+import frc.robot.Commands.Intake.IntakeOutPower;
 import frc.robot.Commands.UnusedCommands.AlignandShoot;
-import frc.robot.Commands.UnusedCommands.IntakeCommand;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
@@ -42,8 +42,8 @@ public class Autos {
         NamedCommands.registerCommand("AlignAndShoot", new AlignandShoot(drivetrain, shooter, hopper));
         //NamedCommands.registerCommand("Intake Manual", new IntakeManual(intake, 0.3));
         NamedCommands.registerCommand("Intake Manual", new InstantCommand(() -> intake.runIntake(-0.8)));
-        NamedCommands.registerCommand("Intake Out", new IntakeOutNew(intake));
-        NamedCommands.registerCommand("Intake In", new IntakeInNew(intake));
+        NamedCommands.registerCommand("Intake Out", new IntakeOutPower(intake));
+        NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
         NamedCommands.registerCommand("Intake Position", new IntakeCommand(intake));
     }
 

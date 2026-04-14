@@ -3,58 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.204662650602408,
-        "y": 5.379108433734939
+        "x": 6.0863177821163,
+        "y": 2.56018216369206
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.4834337349397595,
-        "y": 5.4228192771084345
+        "x": 4.8541940085592,
+        "y": 2.5535235378031382
       },
       "isLocked": false,
-      "linkedName": "Left Swipe 1 Bump End"
+      "linkedName": "Right Swipe 1 Bump End"
     },
     {
       "anchor": {
-        "x": 2.959132530120482,
-        "y": 5.586734939759037
+        "x": 3.09453637660485,
+        "y": 2.450014265335236
       },
       "prevControl": {
-        "x": 3.467261236272539,
-        "y": 5.445588076939021
+        "x": 3.6799425267986794,
+        "y": 2.5867139120378226
       },
       "nextControl": {
-        "x": 2.5657349397590363,
-        "y": 5.696012048192771
+        "x": 2.508474324098884,
+        "y": 2.313161457251767
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.1941927710843374,
-        "y": 6.646722891566265
+        "x": 2.201768901569186,
+        "y": 1.5443081312410847
       },
       "prevControl": {
-        "x": 2.4455301204819273,
-        "y": 5.477457831325301
+        "x": 2.180838113979687,
+        "y": 2.4652627851790334
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Third Bump End"
+      "linkedName": "Right Third Bump End"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.46970954356846983,
-      "rotationDegrees": 135.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.14888337468982973,
-      "maxWaypointRelativePos": 0.7086848635235824,
+      "minWaypointRelativePos": 0.44,
+      "maxWaypointRelativePos": 0.8209606986899578,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 7.0,
@@ -76,14 +71,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 129.09385888622955
+    "velocity": 0.0,
+    "rotation": -125.00000000000001
   },
   "reversed": false,
-  "folder": "Left Bump",
+  "folder": "Right Bump",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 125.67640822186218
+    "rotation": -124.04593735660161
   },
   "useDefaultConstraints": true
 }

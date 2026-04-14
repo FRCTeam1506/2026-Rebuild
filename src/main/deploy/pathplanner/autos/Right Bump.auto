@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right First"
+            "pathName": "Right First Bump"
           }
         },
         {
@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right Bump First Swipe"
+                  "pathName": "Right Swipe 1 Bump"
                 }
               },
               {
@@ -38,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Bump Cross"
+            "pathName": "Right Third Bump"
           }
         },
         {
@@ -75,7 +75,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Bump To Second"
+            "pathName": "Right Fourth Bump"
           }
         },
         {
@@ -85,7 +85,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right Bump Second Swipe"
+                  "pathName": "Right Swipe 2 Bump"
                 }
               },
               {
@@ -106,7 +106,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Bump Cross"
+            "pathName": "Right Sixth Bump"
           }
         },
         {

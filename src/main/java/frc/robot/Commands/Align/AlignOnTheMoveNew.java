@@ -54,12 +54,14 @@ public class AlignOnTheMoveNew extends Command {
     
     double rotVelocity = thetaController.calculate(currentPose.getRotation().getRadians(), targetAngle);
     
-    // double maxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     drivetrain.setControl(request
-        .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.6).withDeadband(0.075)
-        .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.6).withDeadband(0.075)
-        .withRotationalRate(rotVelocity)
-    );
+      .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.6)
+      .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.6)
+      .withRotationalRate(rotVelocity)
+      .withDeadband(0.1) 
+      .withRotationalDeadband(0.02) 
+  );
+
     atGoal = thetaController.atGoal();
   
   }

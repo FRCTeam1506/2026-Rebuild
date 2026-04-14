@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.1941927710843374,
-        "y": 6.646722891566265
+        "x": 4.355942720763723,
+        "y": 7.542795180722893
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5875903614457836,
-        "y": 7.3679518072289145
+        "x": 5.3559427207637285,
+        "y": 7.542795180722893
       },
       "isLocked": false,
-      "linkedName": "Left Third Bump End"
+      "linkedName": "Left First Bump Start"
     },
     {
       "anchor": {
-        "x": 6.1500240963855415,
-        "y": 7.51001204819277
+        "x": 5.876831325301204,
+        "y": 7.542795180722893
       },
       "prevControl": {
-        "x": 5.122819277108432,
-        "y": 7.826915662650602
+        "x": 4.8491035040739074,
+        "y": 7.542795180722893
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Fourth Bump End"
+      "linkedName": "Left First Bump End"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.3950819672131133,
-      "rotationDegrees": -90.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -46,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
+    "velocity": 3.0,
     "rotation": -90.0
   },
   "reversed": false,
   "folder": "Left Bump",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 129.09385888622955
+    "velocity": 0.0,
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

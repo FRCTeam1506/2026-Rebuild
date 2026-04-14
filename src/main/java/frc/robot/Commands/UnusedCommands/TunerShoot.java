@@ -5,16 +5,21 @@
 package frc.robot.Commands.UnusedCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.Intake;
+import frc.robot.Constants.HopperConstants;
+import frc.robot.Constants.PresetShots;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeCommand extends Command {
-  Intake intake;
+public class TunerShoot extends Command {
+  Shooter shooter;
+  Hopper hopper;
   /** Creates a new Shoot. */
-  public IntakeCommand(Intake intake) {
-    this.intake = intake;
-    addRequirements(intake);
+  public TunerShoot(Shooter shooter, Hopper hopper) {
+    this.shooter = shooter;
+    this.hopper = hopper;
+    addRequirements(shooter, hopper);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,15 +30,17 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.runIntake(-0.6);
-    intake.setIntakeLift(IntakeConstants.intakeLoweredPosition);
+    shooter.setShooterRPS(PresetShots.tunerPower);
+    if (shooter.isAtVelocity(PresetShots.tunerPower, ShooterConstants.kRPSTolerance)) {
+      hopper.runHopper(HopperConstants.hopperSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.runIntake(0);
-    intake.setIntakeLift(IntakeConstants.intakeUpPosition);
+    shooter.stopAllShooters();
+    hopper.stopHopper();
   }
 
   // Returns true when the command should end.

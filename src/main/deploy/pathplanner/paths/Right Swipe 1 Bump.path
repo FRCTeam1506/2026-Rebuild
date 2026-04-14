@@ -3,96 +3,96 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.876831325301204,
-        "y": 7.542795180722893
+        "x": 6.456,
+        "y": 0.505349397590362
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.144492884459359,
-        "y": 7.542795180722893
+        "x": 8.738756890271288,
+        "y": 0.505349397590362
       },
       "isLocked": false,
-      "linkedName": "Left First Bump End"
+      "linkedName": "Right First Bump End"
     },
     {
       "anchor": {
-        "x": 8.291855421686748,
-        "y": 6.613939759036145
+        "x": 8.25706134094151,
+        "y": 1.854835948644793
       },
       "prevControl": {
-        "x": 8.182578313253012,
-        "y": 7.684855421686747
+        "x": 8.23574284646748,
+        "y": 1.3112143395570321
       },
       "nextControl": {
-        "x": 8.369515200989138,
-        "y": 5.852873921872728
+        "x": 8.282938659058486,
+        "y": 2.514707560627676
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.01866265060241,
-        "y": 4.373759036144579
+        "x": 7.946533523537802,
+        "y": 3.8732667617689023
       },
       "prevControl": {
-        "x": 8.451117753591182,
-        "y": 4.612050623505739
+        "x": 8.515622976595354,
+        "y": 3.7157297447712443
       },
       "nextControl": {
-        "x": 7.483204819277109,
-        "y": 4.078710843373494
+        "x": 7.377444070480251,
+        "y": 4.03080377876656
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.761975903614458,
-        "y": 4.373759036144579
+        "x": 6.456,
+        "y": 3.6791868758915847
       },
       "prevControl": {
-        "x": 7.264650602409638,
-        "y": 4.0568554216867465
+        "x": 6.758322815778331,
+        "y": 3.9827308797992753
       },
       "nextControl": {
-        "x": 6.443830800138096,
-        "y": 4.574328775292721
+        "x": 6.15367718422167,
+        "y": 3.375642871983894
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.204662650602408,
-        "y": 5.379108433734939
+        "x": 6.0863177821163,
+        "y": 2.56018216369206
       },
       "prevControl": {
-        "x": 6.357650602409637,
-        "y": 5.029421686746987
+        "x": 6.0057346647646215,
+        "y": 2.9546219686162636
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Swipe 1 Bump End"
+      "linkedName": "Right Swipe 1 Bump End"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9286307053941851,
-      "rotationDegrees": -96.94101872105301
+      "waypointRelativePos": 0.9167041873030152,
+      "rotationDegrees": 100.0
     },
     {
-      "waypointRelativePos": 1.5701244813278035,
-      "rotationDegrees": -97.0
+      "waypointRelativePos": 1.5794687077892775,
+      "rotationDegrees": 100.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.0918114143920343,
-      "maxWaypointRelativePos": 2.6799007444168765,
+      "minWaypointRelativePos": 2.052573932092007,
+      "maxWaypointRelativePos": 3.2267250821467677,
       "constraints": {
-        "maxVelocity": 1.7,
+        "maxVelocity": 1.75,
         "maxAcceleration": 7.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -104,7 +104,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
+    "maxVelocity": 3.0,
     "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -113,13 +113,13 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 125.67640822186218
+    "rotation": -124.04593735660161
   },
   "reversed": false,
-  "folder": "Left Bump",
+  "folder": "Right Bump",
   "idealStartingState": {
     "velocity": 3.0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

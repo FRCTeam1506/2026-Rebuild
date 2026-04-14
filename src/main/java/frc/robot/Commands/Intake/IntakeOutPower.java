@@ -12,10 +12,10 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeOutNew extends SequentialCommandGroup {
+public class IntakeOutPower extends SequentialCommandGroup {
   /** Creates a new IntakeTime. */
   private Intake intake;
-  public IntakeOutNew(Intake intake) {
+  public IntakeOutPower(Intake intake) {
     this.intake = intake;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

@@ -9,10 +9,13 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Commands.Intake.IntakeInNew;
+import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
@@ -20,6 +23,8 @@ public class Intake extends SubsystemBase {
   private TalonFX intake = new TalonFX(IntakeConstants.Intake_Motor_ID);
   private TalonFX intakeLift = new TalonFX(IntakeConstants.Intake_Lift_Motor_ID);
   private CANcoder liftEncoder = new CANcoder(IntakeConstants.Intake_Lift_Encoder_ID);
+  private final DigitalInput extendedSwitch = new DigitalInput(IntakeConstants.EXTENDED_SWITCH_DIO);
+  private final DigitalInput retractedSwitch = new DigitalInput(IntakeConstants.RETRACTED_SWITCH_DIO);
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
 
@@ -31,10 +36,16 @@ public class Intake extends SubsystemBase {
       encoderConfigs.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
       liftEncoder.getConfigurator().apply(encoderConfigs);
 
+      TalonFXConfiguration liftConfig = new TalonFXConfiguration();
+      liftConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+      liftConfig.CurrentLimits.StatorCurrentLimit = 105;
+      liftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    
       TalonFXConfiguration config = new TalonFXConfiguration();
       config.CurrentLimits.StatorCurrentLimitEnable = true;
       config.CurrentLimits.StatorCurrentLimit = 105;
-      intakeLift.getConfigurator().apply(config);
+      intakeLift.getConfigurator().apply(liftConfig);
+  
       intake.getConfigurator().apply(config);
 
       var motionMagicConfigs = config.MotionMagic;
@@ -59,6 +70,8 @@ public class Intake extends SubsystemBase {
       intakeLift.getConfigurator().apply(motionMagicConfigs);
       intakeLift.getConfigurator().apply(slot0Configs); 
       intake.getConfigurator().apply(slot0Configs); 
+      intakeLift.setNeutralMode(NeutralModeValue.Brake);
+
   }
 
   public void runIntake(double speed) {
@@ -81,9 +94,34 @@ public class Intake extends SubsystemBase {
     intakeLift.setControl(m_motmag.withPosition(Pos));
   }
 
+  public boolean isFullyExtended() {
+    return !extendedSwitch.get();
+  }
+
+  public boolean isFullyIn() {
+    return !retractedSwitch.get();
+  }
+
+  public void raiseIntake() {
+    setIntakeLift(IntakeConstants.intakeUpPosition);
+  }
+
+  public void lowerIntake() {
+    setIntakeLift(IntakeConstants.intakeLoweredPosition);
+  } 
+
 
   @Override
   public void periodic() {
+    if (isFullyIn()) {
+      intakeLift.setPosition(0);
+    }
+    if(isFullyExtended()) {
+      intakeLift.setPosition(IntakeConstants.intakeLoweredPosition);
+    }
+
+    SmartDashboard.putBoolean("Intake/Extended Switch", isFullyExtended());
+    SmartDashboard.putBoolean("Intake/Retracted Switch", isFullyIn());
     // This method will be called once per scheduler run
   }
 }

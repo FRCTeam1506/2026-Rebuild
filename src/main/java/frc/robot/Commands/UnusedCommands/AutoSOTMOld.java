@@ -12,7 +12,7 @@ import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoSOTM extends Command {
+public class AutoSOTMOld extends Command {
   private final Shooter shooter;
   private final Hopper hopper;
   // private final CommandSwerveDrivetrain drivetrain;
@@ -20,7 +20,7 @@ public class AutoSOTM extends Command {
 
 
   /** Creates a new Shoot. */
-  public AutoSOTM(Shooter shooter, Hopper hopper) {
+  public AutoSOTMOld(Shooter shooter, Hopper hopper) {
     this.shooter = shooter;
     this.hopper = hopper;
     //this.drivetrain = drivetrain;

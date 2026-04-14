@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.measure.Angle;
 
 /** Add your docs here. */
 public class Constants {
@@ -41,6 +42,8 @@ public class Constants {
         public static final double intakeSpeed = 0.6;
         public static final double intakeUpPosition = -0.317871;
         public static final double intakeLoweredPosition = 3.485352;
+        public static final int EXTENDED_SWITCH_DIO = 0;
+        public static final int RETRACTED_SWITCH_DIO = 0;
         public static boolean intakeOut;
     }
     public static class HopperConstants {

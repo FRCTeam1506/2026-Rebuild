@@ -21,6 +21,8 @@ public class IntakeToggle extends SequentialCommandGroup {
     this.intake = intake;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    //not sure what this was intended to do... putting this in the constructor will only call each once, it is not 
+    //an execute. logic also doesn't make sense, changing value right before checking it...
     if (IntakeConstants.intakeOut == true) {
         addCommands(
         //new InstantCommand(() -> intake.runIntake(-0.1)),

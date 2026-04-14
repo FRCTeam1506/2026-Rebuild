@@ -30,6 +30,10 @@ public class Robot extends TimedRobot {
 
     private final boolean kUseLimelight = true;
 
+    private final edu.wpi.first.math.filter.LinearFilter xFilter = edu.wpi.first.math.filter.LinearFilter.movingAverage(5);
+    private final edu.wpi.first.math.filter.LinearFilter yFilter = edu.wpi.first.math.filter.LinearFilter.movingAverage(5);
+
+
 
     public Robot() {
         m_robotContainer = new RobotContainer();
@@ -93,9 +97,20 @@ public class Robot extends TimedRobot {
     }
 
     var state = m_robotContainer.drivetrain.getState();
+    
+    /* consider this to help smooth out speeds
+    ChassisSpeeds rawFieldSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(state.Speeds, state.Pose.getRotation());
+
+    double smoothVX = xFilter.calculate(rawFieldSpeeds.vxMetersPerSecond);
+    double smoothVY = yFilter.calculate(rawFieldSpeeds.vyMetersPerSecond);
+    ChassisSpeeds filteredSpeeds = new ChassisSpeeds(smoothVX, smoothVY, rawFieldSpeeds.omegaRadiansPerSecond);
+
+    FieldConstants.updateMovingTarget(state.Pose, filteredSpeeds);
+    */
+    FieldConstants.updateActiveGoal(m_robotContainer.drivetrain.getState().Pose);
+
     FieldConstants.updateMovingTarget(state.Pose, ChassisSpeeds.fromRobotRelativeSpeeds(state.Speeds, state.Pose.getRotation()));
 
-    FieldConstants.updateActiveGoal(m_robotContainer.drivetrain.getState().Pose);
 
     SmartDashboard.putString("Zone/Current", FieldConstants.currentZone.toString());
     SmartDashboard.putBoolean("Zone/isHub", FieldConstants.currentZone == FieldConstants.FieldZone.HUB);
@@ -104,8 +119,6 @@ public class Robot extends TimedRobot {
         FieldConstants.currentZone == FieldConstants.FieldZone.MAILING_RIGHT);
     
     SmartDashboard.putNumber("Zone/DistToActiveGoal", FieldConstants.distToGoal);
-
-
     }
 
     @Override

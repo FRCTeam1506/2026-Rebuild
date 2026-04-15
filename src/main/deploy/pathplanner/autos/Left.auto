@@ -25,14 +25,33 @@
                 "data": {
                   "name": "Intake Manual"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "LeftThird"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftThird"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
+                }
+              }
+            ]
           }
         },
         {
@@ -61,9 +80,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "LeftFourth"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftFourth"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
+                }
+              }
+            ]
           }
         },
         {
@@ -81,14 +113,33 @@
                 "data": {
                   "name": "Intake Manual"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Out"
+                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "LeftSixth"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "LeftSixth"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake In"
+                }
+              }
+            ]
           }
         },
         {

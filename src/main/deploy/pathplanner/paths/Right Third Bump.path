@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.0863177821163,
-        "y": 2.56018216369206
+        "x": 6.204662650602408,
+        "y": 2.472337349397591
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.8541940085592,
-        "y": 2.5535235378031382
+        "x": 4.9725388770453085,
+        "y": 2.465678723508669
       },
       "isLocked": false,
       "linkedName": "Right Swipe 1 Bump End"
@@ -20,24 +20,24 @@
         "y": 2.450014265335236
       },
       "prevControl": {
-        "x": 3.6799425267986794,
-        "y": 2.5867139120378226
+        "x": 3.6671963167278663,
+        "y": 2.6329015176839903
       },
       "nextControl": {
-        "x": 2.508474324098884,
-        "y": 2.313161457251767
+        "x": 2.856386447433387,
+        "y": 2.373957633568985
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.0412048192771084,
-        "y": 1.3030722891566269
+        "x": 2.3908915662650605,
+        "y": 1.4560602409638557
       },
       "prevControl": {
-        "x": 2.0202740316876096,
-        "y": 2.224026943094578
+        "x": 2.653156626506024,
+        "y": 1.8822409638554212
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,10 +48,10 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.17603911980439987,
-      "maxWaypointRelativePos": 0.8209606986899578,
+      "minWaypointRelativePos": 0.1525672371638144,
+      "maxWaypointRelativePos": 0.8136919315403496,
       "constraints": {
-        "maxVelocity": 2.5,
+        "maxVelocity": 1.65,
         "maxAcceleration": 7.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,

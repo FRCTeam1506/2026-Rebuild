@@ -43,7 +43,7 @@ import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(0.8).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -114,7 +114,7 @@ public class RobotContainer {
         //         () -> -driver.getLeftX()
         //     )
         // );
-        driver.R1().whileTrue(
+        driver.R2().whileTrue(
             new SOTM(
                 drivetrain,
                 shooter,
@@ -124,6 +124,8 @@ public class RobotContainer {
                 () -> -driver.getLeftX()
             )
         );
+        driver.R2().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+
         driver.R1().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
         // Reset the field-centric heading on left CIRCLE (David likes circle) press.
         driver.circle().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
@@ -133,8 +135,8 @@ public class RobotContainer {
 
         //Shoot
         //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); //Old AlignandShoot Command Sequential Group
-        driver.R2().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
-        driver.R2().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+        driver.R1().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
+        driver.R1().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS)); //Tower shot
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS)); //Corner Shot
@@ -142,7 +144,10 @@ public class RobotContainer {
 
         //Intake    
         //().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
-        driver.L2().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8))).onFalse(new InstantCommand(() -> intake.runIntake(0)));
+        driver.L2().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8)));
+        driver.L2().onTrue(new IntakeOutPower(intake));
+        driver.L2().whileFalse(new InstantCommand(() -> intake.runIntake(0))
+        );
         driver.povDown().onTrue(new IntakeOutPower(intake));
         driver.povUp().onTrue(new IntakeInPower(intake));
         driver.povRight().onTrue(new IntakeToggle(intake));

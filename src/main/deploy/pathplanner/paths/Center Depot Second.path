@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0904939759036145,
-        "y": 5.706939759036145
+        "x": 1.2106987951807227,
+        "y": 6.1003373493975905
       },
       "isLocked": false,
       "linkedName": "Center Depot First End"
     },
     {
       "anchor": {
-        "x": 0.4894698795180723,
-        "y": 5.9364216867469874
+        "x": 0.4239036144578311,
+        "y": 5.969204819277109
       },
       "prevControl": {
-        "x": 0.7611817197463175,
-        "y": 6.001114982039427
+        "x": 0.7408072289156629,
+        "y": 5.849000000000001
       },
       "nextControl": null,
       "isLocked": false,
@@ -56,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 163.17859010995917
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Center Depot",

@@ -3,57 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.2774465049928665,
-        "y": 0.6515406562054205
+        "x": 6.696409638554217,
+        "y": 0.6474096385542167
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.238630527817403,
-        "y": 1.6090014265335244
+        "x": 6.313939759036145,
+        "y": 1.4014216867469882
       },
       "isLocked": false,
       "linkedName": "Right Fourth Bump End"
     },
     {
       "anchor": {
-        "x": 5.966918687589158,
-        "y": 3.135763195435093
+        "x": 5.953325301204819,
+        "y": 3.0624337349397592
       },
       "prevControl": {
-        "x": 5.876348074179743,
-        "y": 2.838174037089873
+        "x": 5.862754687795404,
+        "y": 2.7648445765945393
       },
       "nextControl": {
-        "x": 6.094838567651747,
-        "y": 3.556071372783603
+        "x": 6.081245181267408,
+        "y": 3.4827419122882692
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.90771754636234,
-        "y": 3.135763195435093
+        "x": 7.86567469879518,
+        "y": 3.204493975903614
       },
       "prevControl": {
-        "x": 7.5971897289586305,
-        "y": 4.196733238231097
+        "x": 7.885771004903458,
+        "y": 4.309790811858949
       },
       "nextControl": {
-        "x": 8.128792703703388,
-        "y": 2.380423074519848
+        "x": 7.843819277108434,
+        "y": 2.002445783132531
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.937318116975749,
-        "y": 2.398259629101284
+        "x": 7.406710843373492,
+        "y": 2.1991445783132533
       },
       "prevControl": {
-        "x": 7.134016912156472,
-        "y": 2.2015608339205617
+        "x": 7.610144211175176,
+        "y": 2.344454126743027
       },
       "nextControl": null,
       "isLocked": false,
@@ -73,10 +73,10 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.8625410733844483,
-      "maxWaypointRelativePos": 2.1506024096385654,
+      "minWaypointRelativePos": 1.0855745721271393,
+      "maxWaypointRelativePos": 3.0,
       "constraints": {
-        "maxVelocity": 1.75,
+        "maxVelocity": 1.85,
         "maxAcceleration": 7.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -102,8 +102,8 @@
   "reversed": false,
   "folder": "Right Bump",
   "idealStartingState": {
-    "velocity": 1.2,
-    "rotation": 170.13419305691573
+    "velocity": 1.0,
+    "rotation": -178.6980473274212
   },
   "useDefaultConstraints": true
 }

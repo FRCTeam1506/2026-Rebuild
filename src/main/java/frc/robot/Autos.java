@@ -41,7 +41,7 @@ public class Autos {
     public void makeNamedCommands() {
         NamedCommands.registerCommand("AlignAndShoot", new AlignandShootStationary(drivetrain, shooter, hopper, intake));
         //NamedCommands.registerCommand("Intake Manual", new IntakeManual(intake, 0.3));
-        NamedCommands.registerCommand("Intake Manual", new InstantCommand(() -> intake.runIntake(-0.8)));
+        NamedCommands.registerCommand("Intake Manual", new InstantCommand(() -> intake.runIntake(-0.9)));
         NamedCommands.registerCommand("Intake Out", new IntakeOutPower(intake));
         NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
         //NamedCommands.registerCommand("Intake Position", new IntakeCommand(intake));

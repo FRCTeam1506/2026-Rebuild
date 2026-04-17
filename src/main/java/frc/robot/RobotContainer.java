@@ -146,7 +146,7 @@ public class RobotContainer {
 
         //Intake    
         //().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
-        driver.L2().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8)));
+        driver.L2().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));
         driver.L2().onTrue(new IntakeOutPower(intake));
         driver.L2().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
         driver.povDown().onTrue(new IntakeOutPower(intake));
@@ -200,7 +200,7 @@ public class RobotContainer {
         //Intake
         //operator.leftTrigger().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
         //operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8))).onFalse(new InstantCommand(() -> intake.runIntake(0)));
-        operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8)));
+        operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));
         operator.leftTrigger().onTrue(new IntakeOutPower(intake));
         operator.leftTrigger().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
         operator.povDown().onTrue(new IntakeInPower(intake));

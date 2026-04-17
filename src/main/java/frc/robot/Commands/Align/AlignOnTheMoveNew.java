@@ -58,7 +58,7 @@ public class AlignOnTheMoveNew extends Command {
       .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.6)
       .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.6)
       .withRotationalRate(rotVelocity)
-      .withDeadband(0.1) 
+      .withDeadband(0.15) 
       .withRotationalDeadband(0.02) 
   );
 

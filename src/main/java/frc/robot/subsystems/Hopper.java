@@ -17,13 +17,13 @@ public class Hopper extends SubsystemBase {
   //][\private TalonFX extender = new TalonFX(HopperConstants.Extender_Motor_ID);
   private TalonFX hopper = new TalonFX(HopperConstants.Hopper_Motor_ID);
   private TalonFX towerHopper = new TalonFX(HopperConstants.Tower_Hopper_ID);
-  private TalonFX towerHopperTwo = new TalonFX(HopperConstants.Tower_Hopper_ID);
+  private TalonFX towerHopperTwo = new TalonFX(HopperConstants.Tower_Hopper_Two_ID);
 
   public Hopper() {
     TalonFXConfiguration towerHopperConfigs = new TalonFXConfiguration();
     towerHopperConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     towerHopperConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-    towerHopperConfigs.CurrentLimits.StatorCurrentLimit = 120;
+    towerHopperConfigs.CurrentLimits.StatorCurrentLimit = 100;
     towerHopper.getConfigurator().apply(towerHopperConfigs);
     towerHopperTwo.getConfigurator().apply(towerHopperConfigs);
 
@@ -46,8 +46,8 @@ public class Hopper extends SubsystemBase {
 
   public void runHopper(double speed) {
     hopper.set(speed);
-    towerHopper.set(-speed);
-    towerHopperTwo.set(speed);
+    towerHopper.set(speed);
+    towerHopperTwo.set(-speed);
   }
   public void stopHopper() {
     hopper.set(0);

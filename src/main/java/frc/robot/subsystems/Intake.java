@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   private TalonFX intake = new TalonFX(IntakeConstants.Intake_Motor_ID);
   private TalonFX intakeLift = new TalonFX(IntakeConstants.Intake_Lift_Motor_ID);
-  private CANcoder liftEncoder = new CANcoder(IntakeConstants.Intake_Lift_Encoder_ID);
+  //private CANcoder liftEncoder = new CANcoder(IntakeConstants.Intake_Lift_Encoder_ID);
   //private final DigitalInput extendedSwitch = new DigitalInput(IntakeConstants.EXTENDED_SWITCH_DIO);
   //private final DigitalInput retractedSwitch = new DigitalInput(IntakeConstants.RETRACTED_SWITCH_DIO);
 
@@ -34,7 +34,7 @@ public class Intake extends SubsystemBase {
       // final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
       CANcoderConfiguration encoderConfigs = new CANcoderConfiguration();
       encoderConfigs.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-      liftEncoder.getConfigurator().apply(encoderConfigs);
+      //liftEncoder.getConfigurator().apply(encoderConfigs);
 
       TalonFXConfiguration liftConfig = new TalonFXConfiguration();
       liftConfig.CurrentLimits.StatorCurrentLimitEnable = true;

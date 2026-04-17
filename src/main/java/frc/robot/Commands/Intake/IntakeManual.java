@@ -26,7 +26,7 @@ public class IntakeManual extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.runIntake(-0.8);
+    intake.runIntake(-0.9);
     intake.runIntakeLift(liftSpeed);
   }
 

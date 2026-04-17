@@ -35,7 +35,7 @@ public class Constants {
     }
     
     public static class IntakeConstants {
-        public static final int Intake_Motor_ID = 60;
+        public static final int Intake_Motor_ID = 20;
         public static final int Intake_Lift_Motor_ID = 14;
 
         public static final double intakeSpeed = 0.6;

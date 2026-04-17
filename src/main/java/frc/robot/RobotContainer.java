@@ -139,6 +139,8 @@ public class RobotContainer {
         driver.R1().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
         driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS)); //Tower shot
+        driver.square().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        driver.square().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
         driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS)); //Corner Shot
         //driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS)); //Passing Shot
 
@@ -146,8 +148,7 @@ public class RobotContainer {
         //().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
         driver.L2().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8)));
         driver.L2().onTrue(new IntakeOutPower(intake));
-        driver.L2().whileFalse(new InstantCommand(() -> intake.runIntake(0))
-        );
+        driver.L2().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
         driver.povDown().onTrue(new IntakeOutPower(intake));
         driver.povUp().onTrue(new IntakeInPower(intake));
         driver.povRight().onTrue(new IntakeToggle(intake));
@@ -183,6 +184,8 @@ public class RobotContainer {
         //Preset Shots:
         operator.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
         operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
+        operator.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        operator.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
         operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
 
         //SOTM Auto Shoot:
@@ -196,7 +199,10 @@ public class RobotContainer {
 
         //Intake
         //operator.leftTrigger().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
-        operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8))).onFalse(new InstantCommand(() -> intake.runIntake(0)));
+        //operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8))).onFalse(new InstantCommand(() -> intake.runIntake(0)));
+        operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8)));
+        operator.leftTrigger().onTrue(new IntakeOutPower(intake));
+        operator.leftTrigger().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
         operator.povDown().onTrue(new IntakeInPower(intake));
         operator.povUp().onTrue(new IntakeOutPower(intake));
 

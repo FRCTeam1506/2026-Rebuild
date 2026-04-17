@@ -37,7 +37,7 @@ public class AlignOnTheMoveNew extends Command {
         new TrapezoidProfile.Constraints(AlignConstants.alignMaxCorrectionSpeed, 25)
     );
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
-    thetaController.setTolerance(AlignConstants.alignToleranceRadians * 2);
+    thetaController.setTolerance(AlignConstants.alignToleranceRadians); // was * 2
     
     addRequirements(drivetrain);
   }

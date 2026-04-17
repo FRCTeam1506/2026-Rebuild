@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.406833095577745,
+        "x": 6.52156626506024,
         "y": 5.772506024096385
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.346845143770516,
-        "y": 5.291686746987951
+        "x": 5.592710843373494,
+        "y": 5.455602409638555
       },
       "isLocked": false,
       "linkedName": "Left Swipe 2 Bump End"
     },
     {
       "anchor": {
-        "x": 2.8935662650602403,
-        "y": 5.182409638554216
+        "x": 2.8170722891566267,
+        "y": 5.553951807228916
       },
       "prevControl": {
-        "x": 3.5710843373493972,
-        "y": 5.138698795180722
+        "x": 3.4433585338718764,
+        "y": 5.368385512498471
       },
       "nextControl": {
-        "x": 2.0983952117663858,
-        "y": 5.23371099683124
+        "x": 2.2269759036144583,
+        "y": 5.7287951807228925
       },
       "isLocked": false,
       "linkedName": null
@@ -46,8 +46,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.22622950819672444,
-      "rotationDegrees": 135.0
+      "waypointRelativePos": 0.9737704918032758,
+      "rotationDegrees": -135.0
     }
   ],
   "constraintZones": [
@@ -83,7 +83,7 @@
   "folder": "Left Bump",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 135.0
+    "rotation": -135.0
   },
   "useDefaultConstraints": true
 }

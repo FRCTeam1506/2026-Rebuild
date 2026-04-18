@@ -46,6 +46,9 @@ public class Shooter extends SubsystemBase {
     shooterConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     shooterConfigs.CurrentLimits.StatorCurrentLimit = 100;
 
+    shooterConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    shooterConfigs.CurrentLimits.SupplyCurrentLimit = 60;
+    
     var motionMagicConfigs = shooterConfigs.MotionMagic;
     motionMagicConfigs.MotionMagicCruiseVelocity = 220; // 80 rps cruise velocity //60 rps gets to L4 in 1.92s //100 //160 //220 before 3/20 bc elevator maltensioned //220 FRCC
     motionMagicConfigs.MotionMagicAcceleration = 260; // 160 rps/s acceleration (0.5 seconds) //220

@@ -24,6 +24,10 @@ public class Hopper extends SubsystemBase {
     towerHopperConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     towerHopperConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     towerHopperConfigs.CurrentLimits.StatorCurrentLimit = 100;
+
+    towerHopperConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    towerHopperConfigs.CurrentLimits.SupplyCurrentLimit = 60;
+
     towerHopper.getConfigurator().apply(towerHopperConfigs);
     towerHopperTwo.getConfigurator().apply(towerHopperConfigs);
 

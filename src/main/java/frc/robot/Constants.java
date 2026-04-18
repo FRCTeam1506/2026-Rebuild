@@ -78,7 +78,7 @@ public class Constants {
     }
 
     public static class PresetShots {
-        public static final double closeShotRPS = 52.5; //51
+        public static final double closeShotRPS = 45; //51  52.5
         public static final double trenchShotRPS = 56;
         public static final double cornerShotRPS = 70.75;
         public static final double passingShotRPS = 85; //90

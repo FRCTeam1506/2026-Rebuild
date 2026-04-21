@@ -38,7 +38,7 @@ public class Intake extends SubsystemBase {
 
       TalonFXConfiguration liftConfig = new TalonFXConfiguration();
       liftConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-      liftConfig.CurrentLimits.StatorCurrentLimit = 95;
+      liftConfig.CurrentLimits.StatorCurrentLimit = 80;//95
       liftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
       liftConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -46,7 +46,11 @@ public class Intake extends SubsystemBase {
     
       TalonFXConfiguration config = new TalonFXConfiguration();
       config.CurrentLimits.StatorCurrentLimitEnable = true;
-      config.CurrentLimits.StatorCurrentLimit = 105;
+      config.CurrentLimits.StatorCurrentLimit = 80;//105
+
+      config.CurrentLimits.SupplyCurrentLimitEnable = true;
+      config.CurrentLimits.SupplyCurrentLimit = 40;
+      
       intakeLift.getConfigurator().apply(liftConfig);
   
       intake.getConfigurator().apply(config);

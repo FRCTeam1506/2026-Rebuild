@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.204662650602408,
-        "y": 5.379108433734939
+        "x": 6.290385164051354,
+        "y": 5.516476462196862
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.4834337349397595,
-        "y": 5.4228192771084345
+        "x": 5.569156248388706,
+        "y": 5.5601873055703575
       },
       "isLocked": false,
       "linkedName": "Left Swipe 1 Bump End"
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 2.183265060240964,
-        "y": 6.887132530120482
+        "x": 2.620373493975903,
+        "y": 7.3023855421686745
       },
       "prevControl": {
-        "x": 2.4346024096385537,
-        "y": 5.717867469879518
+        "x": 2.871710843373493,
+        "y": 6.133120481927711
       },
       "nextControl": null,
       "isLocked": false,
@@ -56,7 +56,7 @@
       "minWaypointRelativePos": 0.0,
       "maxWaypointRelativePos": 0.7086848635235824,
       "constraints": {
-        "maxVelocity": 2.2,
+        "maxVelocity": 2.4,
         "maxAcceleration": 7.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -77,7 +77,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 129.09385888622955
+    "rotation": 118.49563861824494
   },
   "reversed": false,
   "folder": "Left Bump",

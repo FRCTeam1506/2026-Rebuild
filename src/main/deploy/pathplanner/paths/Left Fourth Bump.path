@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.183265060240964,
-        "y": 6.887132530120482
+        "x": 2.620373493975903,
+        "y": 7.3023855421686745
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1132092363748853,
-        "y": 8.047028754103433
+        "x": 3.133975903614458,
+        "y": 7.641144578313254
       },
       "isLocked": false,
       "linkedName": "Left Third Bump End"
@@ -53,7 +53,7 @@
   "folder": "Left Bump",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 129.09385888622955
+    "rotation": 118.49563861824494
   },
   "useDefaultConstraints": true
 }

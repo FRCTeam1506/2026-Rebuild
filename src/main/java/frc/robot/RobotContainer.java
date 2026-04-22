@@ -124,6 +124,7 @@ public class RobotContainer {
                 () -> -driver.getLeftX()
             )
         );
+        operator.rightBumper().whileTrue(new JitterIntake(intake).unless(operator.leftTrigger()).unless(driver.L2()));
         driver.R2().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
         driver.R1().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
@@ -190,6 +191,8 @@ public class RobotContainer {
 
         //SOTM Auto Shoot:
         operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper));
+        operator.rightBumper().whileTrue(new JitterIntake(intake).unless(operator.leftTrigger()).unless(driver.L2()));
+        //operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper).alongWith(new JitterIntake(intake)).repeatedly());
         operator.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
 

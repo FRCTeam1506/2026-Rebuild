@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeOutPower;
+import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Macros.AlignandShootStationary;
 import frc.robot.Commands.UnusedCommands.AlignandShoot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -44,6 +45,7 @@ public class Autos {
         NamedCommands.registerCommand("Intake Manual", new InstantCommand(() -> intake.runIntake(-0.9)));
         NamedCommands.registerCommand("Intake Out", new IntakeOutPower(intake));
         NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
+        NamedCommands.registerCommand("Intake Jitter", new JitterIntake(intake));
         //NamedCommands.registerCommand("Intake Position", new IntakeCommand(intake));
     }
 

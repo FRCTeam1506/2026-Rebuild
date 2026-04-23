@@ -17,6 +17,7 @@ public class IntakeInPower extends SequentialCommandGroup {
   private Intake intake;
   public IntakeInPower(Intake intake) {
     this.intake = intake;
+    addRequirements(intake); 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -24,5 +25,9 @@ public class IntakeInPower extends SequentialCommandGroup {
         new InstantCommand(() -> intake.runIntakeLift(-0.2)),
         new WaitCommand(1.5),
         new InstantCommand(() -> intake.runIntakeLift(0)));
+    
+    this.finallyDo((interrupted) -> {
+        intake.runIntakeLift(0);
+    });
   }
 }

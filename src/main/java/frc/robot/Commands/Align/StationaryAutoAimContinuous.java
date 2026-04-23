@@ -16,10 +16,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class StationaryAutoAimContinuous extends Command {
   private final CommandSwerveDrivetrain drivetrain;
-  //private final ProfiledPIDController thetaController;
-  //private final SwerveRequest.ApplyRobotSpeeds request = new SwerveRequest.ApplyRobotSpeeds();
- // SwerveRequest.ApplyRobotSpeeds request;
-  private final SwerveRequest.RobotCentricFacingAngle alignRequest = new SwerveRequest.RobotCentricFacingAngle();
+  private final SwerveRequest.FieldCentricFacingAngle alignRequest = new SwerveRequest.FieldCentricFacingAngle();
 
   public static boolean isAligned;
   public static boolean atGoal;
@@ -27,15 +24,6 @@ public class StationaryAutoAimContinuous extends Command {
   public StationaryAutoAimContinuous(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
-
-    // thetaController = new ProfiledPIDController(
-    //     AlignConstants.aimControllerP, 
-    //     AlignConstants.aimControllerI, 
-    //     AlignConstants.aimControllerD, 
-    //     new TrapezoidProfile.Constraints(AlignConstants.alignMaxCorrectionSpeed, AlignConstants.alignMaxAcceleration)
-    // );
-    // thetaController.enableContinuousInput(-Math.PI, Math.PI);
-    // thetaController.setTolerance(AlignConstants.alignToleranceRadians, 0.01);
 
     alignRequest.HeadingController.setPID(
         AlignConstants.aimControllerP, 
@@ -48,42 +36,33 @@ public class StationaryAutoAimContinuous extends Command {
 
   @Override
   public void initialize() {
+    isAligned = false;
     atGoal = false;
     var currentState = drivetrain.getState();
-    // thetaController.reset(
-    //     currentState.Pose.getRotation().getRadians(), 
-    //     currentState.Speeds.omegaRadiansPerSecond
-    // );
+    alignRequest.HeadingController.reset();
   }
 
   @Override
-  public void execute() {
-    Pose2d robotPose = drivetrain.getState().Pose;
+  public void execute() {    Pose2d robotPose = drivetrain.getState().Pose;
 
-    double xDistToGoal = FieldConstants.goalLocation.getX() - robotPose.getX();
-    double yDistToGoal = FieldConstants.goalLocation.getY() - robotPose.getY();
-    
-    //double targetAngle = MathUtil.angleModulus(Math.atan2(yDistToGoal, xDistToGoal) + Math.PI);
-    Rotation2d targetAngle = new Rotation2d(MathUtil.angleModulus(Math.atan2(yDistToGoal, xDistToGoal)));
-
-
-    // double rotationalVelocity = thetaController.calculate(
-    //     robotPose.getRotation().getRadians(), 
-    //     targetAngle
-    // );
-
-    //atGoal = thetaController.atGoal();
+    double xDist = FieldConstants.goalLocation.getX() - robotPose.getX();
+    double yDist = FieldConstants.goalLocation.getY() - robotPose.getY();
+    // If the robot points the intake at the goal on Red side but shooter at goal on Blue (or vice versa), 
+    /*
     var alliance = DriverStation.getAlliance();
-    boolean allianceColor = alliance.isPresent() && alliance.get() == Alliance.Red;
-      if (allianceColor == false) {
-      targetAngle = targetAngle.plus(Rotation2d.fromDegrees(180));
+    if (alliance.isPresent() && alliance.get() == Alliance.Red) {
+        targetAngleRad += Math.PI; 
     }
-    atGoal = alignRequest.HeadingController.atSetpoint();
-    //double angleError = Math.abs(MathUtil.angleModulus(robotPose.getRotation().getRadians() - targetAngle));
-    //isAligned = angleError <= AlignConstants.alignToleranceRadians;
+    */
+    double targetAngle = MathUtil.angleModulus(Math.atan2(yDist, xDist) + Math.PI);
+    
+    drivetrain.setControl(alignRequest
+        .withVelocityX(0)
+        .withVelocityY(0)
+        .withTargetDirection(new Rotation2d(targetAngle))
+    );
 
-    //drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, rotationalVelocity)));
-    drivetrain.setControl(alignRequest.withTargetDirection((targetAngle)));
+    isAligned = alignRequest.HeadingController.atSetpoint();
 
   }
 

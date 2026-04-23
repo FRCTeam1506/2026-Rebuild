@@ -2,14 +2,12 @@
 package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-
-// import java.time.Instant;
-
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeOutPower;
@@ -23,10 +21,10 @@ import frc.robot.subsystems.Shooter;
 
 public class Autos {
     
-    static Intake intake;
-    static Shooter shooter;
-    static Hopper hopper;
-    static CommandSwerveDrivetrain drivetrain;
+    private final Intake intake;
+    private final Shooter shooter;
+    private final Hopper hopper;
+    private final CommandSwerveDrivetrain drivetrain;
 
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
@@ -41,13 +39,15 @@ public class Autos {
 
     public void makeNamedCommands() {
         NamedCommands.registerCommand("AlignAndShoot", new AlignandShootStationary(drivetrain, shooter, hopper, intake));
-        //NamedCommands.registerCommand("Intake Manual", new IntakeManual(intake, 0.3));
         NamedCommands.registerCommand("Intake Manual", new InstantCommand(() -> intake.runIntake(-0.9)));
         NamedCommands.registerCommand("Intake Out", new IntakeOutPower(intake));
-        NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
-        NamedCommands.registerCommand("Intake Jitter", new JitterIntake(intake));
-        //NamedCommands.registerCommand("Intake Position", new IntakeCommand(intake));
-    }
+        //NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
+        // startEnd factory, backed by the StartEndCommand (Java, C++, Python) class, calls one lambda when scheduled, and then a second lambda when interrupted. https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html
+        NamedCommands.registerCommand("Intake End", 
+            new StartEndCommand(() -> intake.runIntake(-0.9), 
+            () -> intake.runIntake(0), 
+            intake));
+            }
 
     public SendableChooser<Command> configureChooser(SendableChooser<Command> chooser){
         return chooser;

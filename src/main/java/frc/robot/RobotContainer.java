@@ -124,8 +124,9 @@ public class RobotContainer {
                 () -> -driver.getLeftX()
             )
         );
-        operator.rightBumper().whileTrue(new JitterIntake(intake).unless(operator.leftTrigger()).unless(driver.L2()));
-        driver.R2().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+        driver.R2().whileTrue(new JitterIntake(intake).repeatedly().unless(operator.leftTrigger()).unless(driver.L2()));
+        driver.R2().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));      
+          
 
         driver.R1().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
         // Reset the field-centric heading on left CIRCLE (David likes circle) press.
@@ -154,8 +155,6 @@ public class RobotContainer {
         driver.povUp().onTrue(new IntakeInPower(intake));
         driver.povRight().onTrue(new IntakeToggle(intake));
 
-        driver.L3().whileTrue(new JitterIntake(intake).repeatedly());
-        driver.L3().whileTrue(new InstantCommand(() -> intake.stopIntake()).alongWith(new InstantCommand(() -> intake.stopIntakeLift())));
 
         //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
         //driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
@@ -190,8 +189,18 @@ public class RobotContainer {
         operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
 
         //SOTM Auto Shoot:
-        operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper));
-        operator.rightBumper().whileTrue(new JitterIntake(intake).unless(operator.leftTrigger()).unless(driver.L2()));
+        //operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper));
+        operator.rightBumper().whileTrue(
+            new SOTM(
+                drivetrain,
+                shooter,
+                hopper,
+                intake,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX()
+            )
+        );
+        operator.rightBumper().whileTrue(new JitterIntake(intake).repeatedly().unless(operator.leftTrigger()).unless(driver.L2()));
         //operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper).alongWith(new JitterIntake(intake)).repeatedly());
         operator.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 

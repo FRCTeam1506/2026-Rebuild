@@ -26,8 +26,8 @@ public class IntakeInPower extends SequentialCommandGroup {
         new WaitCommand(1.5),
         new InstantCommand(() -> intake.runIntakeLift(0)));
     
-    this.finallyDo((interrupted) -> {
-        intake.runIntakeLift(0);
-    });
+    // this.finallyDo((interrupted) -> {
+    //     intake.runIntakeLift(0);
+    // });
   }
 }

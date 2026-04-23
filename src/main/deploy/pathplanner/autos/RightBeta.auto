@@ -7,11 +7,11 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeftBeta1"
+            "pathName": "RightBeta1"
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -27,18 +27,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LeftBeta2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AlignAndShoot"
           }
         }
       ]

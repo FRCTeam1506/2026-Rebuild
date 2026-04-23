@@ -6,6 +6,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import frc.robot.Constants.AlignConstants;
@@ -50,16 +52,17 @@ public class AlignOnTheMoveNew extends Command {
     
     Translation2d target = FieldConstants.vTarget;
 
-    // If the robot points the intake at the goal on Red side but shooter at goal on Blue (or vice versa), 
-    /*
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent() && alliance.get() == Alliance.Red) {
-        targetAngleRad += Math.PI; 
-    }
-*/
     double targetAngle = MathUtil.angleModulus(
         Math.atan2(target.getY() - currentPose.getY(), target.getX() - currentPose.getX()) + Math.PI
     );
+    // If the robot points the intake at the goal on Red side but shooter at goal on Blue (or vice versa), 
+    
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent() && alliance.get() == Alliance.Red) {
+        targetAngle += Math.PI; 
+    }
+
+    
     
     drivetrain.setControl(request
       .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.6)

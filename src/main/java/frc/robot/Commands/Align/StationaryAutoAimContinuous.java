@@ -18,7 +18,6 @@ public class StationaryAutoAimContinuous extends Command {
   private final CommandSwerveDrivetrain drivetrain;
   private final SwerveRequest.FieldCentricFacingAngle alignRequest = new SwerveRequest.FieldCentricFacingAngle();
 
-  public static boolean isAligned;
   public static boolean atGoal;
   
   public StationaryAutoAimContinuous(CommandSwerveDrivetrain drivetrain) {
@@ -36,7 +35,6 @@ public class StationaryAutoAimContinuous extends Command {
 
   @Override
   public void initialize() {
-    isAligned = false;
     atGoal = false;
     var currentState = drivetrain.getState();
     alignRequest.HeadingController.reset();
@@ -48,13 +46,14 @@ public class StationaryAutoAimContinuous extends Command {
     double xDist = FieldConstants.goalLocation.getX() - robotPose.getX();
     double yDist = FieldConstants.goalLocation.getY() - robotPose.getY();
     // If the robot points the intake at the goal on Red side but shooter at goal on Blue (or vice versa), 
-    /*
+    
+    double targetAngle = MathUtil.angleModulus(Math.atan2(yDist, xDist) + Math.PI);
+
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent() && alliance.get() == Alliance.Red) {
-        targetAngleRad += Math.PI; 
+        targetAngle += Math.PI; 
     }
-    */
-    double targetAngle = MathUtil.angleModulus(Math.atan2(yDist, xDist) + Math.PI);
+    
     
     drivetrain.setControl(alignRequest
         .withVelocityX(0)
@@ -62,7 +61,7 @@ public class StationaryAutoAimContinuous extends Command {
         .withTargetDirection(new Rotation2d(targetAngle))
     );
 
-    isAligned = alignRequest.HeadingController.atSetpoint();
+    atGoal = alignRequest.HeadingController.atSetpoint();
 
   }
 

@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
         double pigeonYaw = m_robotContainer.drivetrain.getPigeon2().getYaw().getValueAsDouble();
         double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
         double yawRateDegPerSec = Math.toDegrees(driveState.Speeds.omegaRadiansPerSecond);
-        m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.05, 0.05, 999999));
+        m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.05, 0.05, 999999)); //consider 0.15
 
         SmartDashboard.putNumber("Pigeon Yaw LL", pigeonYaw);
         SmartDashboard.putNumber("Pose Yaw LL", headingDeg);
@@ -83,17 +83,17 @@ public class Robot extends TimedRobot {
         LimelightHelpers.SetRobotOrientation(VisionConstants.LL_BACK, headingDeg, 0, 0, 0, 0, 0);
         var llMeasurement_back = LimelightHelpers.getBotPoseEstimate_wpiBlue(VisionConstants.LL_BACK);
 
-        if (llMeasurement_left != null && llMeasurement_left.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_LEFT) > 0.1)  { //&& LimelightHelpers.getTA(VisionConstants.LL_LEFT) > 0.33
+        if (llMeasurement_left != null && llMeasurement_left.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_LEFT) > 0.1)  { //0.1 //&& LimelightHelpers.getTA(VisionConstants.LL_LEFT) > 0.33
             m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_left.pose, llMeasurement_left.timestampSeconds);
         }
 
-        if (llMeasurement_right != null && llMeasurement_right.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_RIGHT) > 0.1) {
+        if (llMeasurement_right != null && llMeasurement_right.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_RIGHT) > 0.1) { //0.1
             m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_right.pose, llMeasurement_right.timestampSeconds);
         }
 
-        // if (llMeasurement_back != null && llMeasurement_back.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_BACK) > 0.1) {
-        //     m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_back.pose, llMeasurement_back.timestampSeconds);
-        // }
+        if (llMeasurement_back != null && llMeasurement_back.tagCount > 0 && Math.abs(omegaRps) < 2.0 && LimelightHelpers.getTA(VisionConstants.LL_BACK) > 0.1) {
+            m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement_back.pose, llMeasurement_back.timestampSeconds);
+        }
     }
 
     var state = m_robotContainer.drivetrain.getState();

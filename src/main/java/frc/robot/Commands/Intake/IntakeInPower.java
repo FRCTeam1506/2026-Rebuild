@@ -23,7 +23,7 @@ public class IntakeInPower extends SequentialCommandGroup {
     addCommands(
         //new InstantCommand(() -> intake.runIntake(-0.1)),
         new InstantCommand(() -> intake.runIntakeLift(-0.2)),
-        new WaitCommand(1.5),
+        new WaitCommand(1.25),
         new InstantCommand(() -> intake.runIntakeLift(0)));
     
     // this.finallyDo((interrupted) -> {

@@ -22,7 +22,7 @@ public class IntakeOutPower extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         //new InstantCommand(() -> intake.runIntake(-0.8)),
-        new InstantCommand(() -> intake.runIntakeLift(0.4)),
+        new InstantCommand(() -> intake.runIntakeLift(0.5)),
         new WaitCommand(0.75),
         new InstantCommand(() -> intake.runIntakeLift(0))); 
     

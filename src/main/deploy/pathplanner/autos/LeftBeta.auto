@@ -17,19 +17,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.0
+                  "waitTime": 3.5
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "AlignAndShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Jitter Intake"
                 }
               }
             ]
@@ -42,22 +36,9 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AlignAndShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Jitter Intake"
-                }
-              }
-            ]
+            "name": "AlignAndShoot"
           }
         }
       ]

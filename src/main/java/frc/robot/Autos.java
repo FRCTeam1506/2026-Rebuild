@@ -44,7 +44,7 @@ public class Autos {
         NamedCommands.registerCommand("Intake Out", new IntakeOutPower(intake));
         NamedCommands.registerCommand("Pass Shot", new ManualShoot(shooter, hopper, Constants.PresetShots.passingShotRPS));
         NamedCommands.registerCommand("Jitter Intake", new JitterIntake(intake));
-        //NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
+        NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
         // startEnd factory, backed by the StartEndCommand (Java, C++, Python) class, calls one lambda when scheduled, and then a second lambda when interrupted. https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html
         NamedCommands.registerCommand("Intake End", 
             new StartEndCommand(() -> intake.runIntake(-0.9), 

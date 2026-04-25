@@ -105,11 +105,11 @@ public class Robot extends TimedRobot {
     double smoothVY = yFilter.calculate(rawFieldSpeeds.vyMetersPerSecond);
     ChassisSpeeds filteredSpeeds = new ChassisSpeeds(smoothVX, smoothVY, rawFieldSpeeds.omegaRadiansPerSecond);
 
-    FieldConstants.updateMovingTarget(state.Pose, filteredSpeeds);
+    //FieldConstants.updateMovingTarget(state.Pose, filteredSpeeds);
     
     FieldConstants.updateActiveGoal(m_robotContainer.drivetrain.getState().Pose);
 
-    //FieldConstants.updateMovingTarget(state.Pose, ChassisSpeeds.fromRobotRelativeSpeeds(state.Speeds, state.Pose.getRotation()));
+    FieldConstants.updateMovingTarget(state.Pose, ChassisSpeeds.fromRobotRelativeSpeeds(state.Speeds, state.Pose.getRotation()));
 
 
     SmartDashboard.putString("Zone/Current", FieldConstants.currentZone.toString());

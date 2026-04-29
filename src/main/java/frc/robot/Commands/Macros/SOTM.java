@@ -22,9 +22,9 @@ public class SOTM extends ParallelCommandGroup {
       
     addCommands(
         new AlignOnTheMoveNew(drivetrain, x, y),
-        new AutoSOTM(shooter, hopper)//,
+        new AutoSOTM(shooter, hopper),//,
         //new InstantCommand(() -> intake.runIntake(-0.2))
-        //new JitterIntake(intake).repeatedly()
+        new JitterIntake(intake).repeatedly()
 
     );
   }

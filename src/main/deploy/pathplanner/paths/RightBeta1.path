@@ -147,7 +147,7 @@
     },
     {
       "waypointRelativePos": 5.013114754098351,
-      "rotationDegrees": -149.9374291863244
+      "rotationDegrees": -149.93742918632444
     },
     {
       "waypointRelativePos": 5.977049180327875,
@@ -160,7 +160,7 @@
       "minWaypointRelativePos": 4.6,
       "maxWaypointRelativePos": 5.882151589242054,
       "constraints": {
-        "maxVelocity": 2.0,
+        "maxVelocity": 2.3,
         "maxAcceleration": 7.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -197,7 +197,7 @@
     },
     {
       "name": "Intake Manual",
-      "waypointRelativePos": 0.7863080684596822,
+      "waypointRelativePos": 0.7461692205196561,
       "endWaypointRelativePos": 3.9667481662591513,
       "command": {
         "type": "named",

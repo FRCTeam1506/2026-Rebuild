@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.560385542168675,
-        "y": 5.510240963855422
+        "x": 1.70244578313253,
+        "y": 5.706939759036145
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2106987951807227,
-        "y": 6.1003373493975905
+        "x": 1.3527590361445776,
+        "y": 6.297036144578314
       },
       "isLocked": false,
       "linkedName": "Center Depot First End"
@@ -29,21 +29,7 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.35,
-      "constraints": {
-        "maxVelocity": 5.0,
-        "maxAcceleration": 7.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {

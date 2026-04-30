@@ -51,11 +51,11 @@ public class AutoShoot extends Command {
         FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
         targetRPS -= 20;
     }
-    // else {
-    //   targetRPS += 2;
-    // }
-    //}
-  }
+    else {
+      targetRPS += 4;
+    }
+    }
+  
 
   // Called once the command ends or is interrupted.
   @Override

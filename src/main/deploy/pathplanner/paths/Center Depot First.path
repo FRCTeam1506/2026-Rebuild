@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2961092233365332,
-        "y": 4.011564125382188
+        "x": 3.369364235292487,
+        "y": 4.182087955790235
       },
       "isLocked": false,
       "linkedName": "Center First Start"
     },
     {
       "anchor": {
-        "x": 1.560385542168675,
-        "y": 5.510240963855422
+        "x": 1.70244578313253,
+        "y": 5.706939759036145
       },
       "prevControl": {
-        "x": 1.8100523970171811,
-        "y": 5.497338964395839
+        "x": 1.888216867469879,
+        "y": 5.521168674698795
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,19 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Out",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 1.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Out"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 7.0,

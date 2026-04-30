@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.096,
-        "y": 0.96
+        "x": 2.369971469329529,
+        "y": 0.9232524964336677
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.773518072289157,
-        "y": 0.6212409638554208
+        "x": 3.047489541618686,
+        "y": 0.5844934602890886
       },
       "isLocked": false,
       "linkedName": "RightBeta1End"
@@ -144,12 +144,12 @@
     },
     {
       "anchor": {
-        "x": 2.270686746987952,
-        "y": 1.008024096385542
+        "x": 2.369971469329529,
+        "y": 0.9232524964336677
       },
       "prevControl": {
-        "x": 2.3690361445783137,
-        "y": 1.2812168674698787
+        "x": 2.468320866919891,
+        "y": 1.1964452675180044
       },
       "nextControl": null,
       "isLocked": false,
@@ -196,7 +196,7 @@
       "minWaypointRelativePos": 6.8,
       "maxWaypointRelativePos": 7.85,
       "constraints": {
-        "maxVelocity": 2.3,
+        "maxVelocity": 2.4,
         "maxAcceleration": 7.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -259,7 +259,7 @@
   "folder": "RightBeta",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -130.36435683009074
+    "rotation": -117.47443162627724
   },
   "useDefaultConstraints": true
 }

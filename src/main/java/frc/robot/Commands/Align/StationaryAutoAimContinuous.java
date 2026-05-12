@@ -17,6 +17,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 public class StationaryAutoAimContinuous extends Command {
   private final CommandSwerveDrivetrain drivetrain;
   private final SwerveRequest.FieldCentricFacingAngle alignRequest = new SwerveRequest.FieldCentricFacingAngle();
+  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
   public static boolean atGoal;
   
@@ -54,12 +55,21 @@ public class StationaryAutoAimContinuous extends Command {
         targetAngle += Math.PI; 
     }
     
-    
+    // if (atGoal) {
+    //   drivetrain.applyRequest(() -> brake);
+    // } else {
+    //   drivetrain.setControl(alignRequest
+    //       .withVelocityX(0)
+    //       .withVelocityY(0)
+    //       .withTargetDirection(new Rotation2d(targetAngle))
+    //   );
+    // }
+
     drivetrain.setControl(alignRequest
-        .withVelocityX(0)
-        .withVelocityY(0)
-        .withTargetDirection(new Rotation2d(targetAngle))
-    );
+          .withVelocityX(0)
+          .withVelocityY(0)
+          .withTargetDirection(new Rotation2d(targetAngle))
+      );
 
     atGoal = alignRequest.HeadingController.atSetpoint();
 

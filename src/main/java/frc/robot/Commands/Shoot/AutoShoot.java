@@ -52,7 +52,7 @@ public class AutoShoot extends Command {
         targetRPS -= 20;
     }
     else {
-      targetRPS += 4;
+      targetRPS += 6.5;
     }
     }
   

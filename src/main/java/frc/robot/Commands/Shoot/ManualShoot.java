@@ -32,7 +32,7 @@ public class ManualShoot extends Command {
   @Override
   public void execute() {
     shooter.setShooterRPS(RPS);
-    if (shooter.isAtVelocity(RPS, ShooterConstants.kRPSTolerance)) {
+    if (shooter.isAtVelocity(RPS, ShooterConstants.kRPSTolerancePassing)) {
     hopper.runHopper(HopperConstants.hopperSpeed);
     }
   }

@@ -1,0 +1,123 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.379734939759036,
+        "y": 7.586506024096385
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.379734939759038,
+        "y": 7.586506024096385
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.597831325301206,
+        "y": 7.138469879518072
+      },
+      "prevControl": {
+        "x": 7.111719879518074,
+        "y": 7.663
+      },
+      "nextControl": {
+        "x": 10.083942771084336,
+        "y": 6.613939759036144
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 10.14956626506024,
+        "y": 5.510240963855422
+      },
+      "prevControl": {
+        "x": 9.697777296686745,
+        "y": 5.786165662650602
+      },
+      "nextControl": {
+        "x": 10.601355233433736,
+        "y": 5.234316265060241
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 13.274891566265062,
+        "y": 5.510240963855422
+      },
+      "prevControl": {
+        "x": 12.274891566265062,
+        "y": 5.510240963855422
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 1.1047146401985126,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 7.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake Out",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": 1.697270471464019,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Out"
+        }
+      }
+    },
+    {
+      "name": "Intake Manual",
+      "waypointRelativePos": 0.35136476426798996,
+      "endWaypointRelativePos": 2.3702233250620415,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Manual"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.5,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -27.12130340415851
+  },
+  "reversed": false,
+  "folder": "MAD 2.0",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

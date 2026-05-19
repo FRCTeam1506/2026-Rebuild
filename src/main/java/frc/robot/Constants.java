@@ -33,6 +33,13 @@ public class Constants {
     
         }
     }
+
+    public static final class DriveConstants {
+        public static final double TRENCH_MAX_VEL = 2;  // m/s
+        public static final double TRENCH_MAX_ACCEL = 4.0; // m/s²
+        public static final double TRENCH_MAX_ANG_VEL = 2.0; // rad/s
+        public static final double TRENCH_MAX_ANG_ACCEL = 4.0; // rad/s²
+    }
     
     public static class IntakeConstants {
         public static final int Intake_Motor_ID = 20;
@@ -45,12 +52,14 @@ public class Constants {
         public static final int RETRACTED_SWITCH_DIO = 0;
         public static boolean intakeOut;
     }
+
     public static class HopperConstants {
         public static final int Tower_Hopper_ID = 15;
         public static final int Tower_Hopper_Two_ID = 16;
         public static final int Hopper_Motor_ID = 25;
         public static final double hopperSpeed = 0.8; //0.8 //0.5
     }
+
     public static class ShooterConstants {
         public static final double kRPSTolerance = 1;
         public static final double kRPSTolerancePassing = 4;

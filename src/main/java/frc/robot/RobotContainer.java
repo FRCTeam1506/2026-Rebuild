@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import frc.robot.Commands.DriveToTrench;
 import frc.robot.Commands.Align.AlignOnTheMoveNew;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
@@ -153,11 +154,13 @@ public class RobotContainer {
         driver.L2().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
         driver.povDown().onTrue(new IntakeOutPower(intake));
         driver.povUp().onTrue(new IntakeInPower(intake));
-        driver.povRight().onTrue(new IntakeToggle(intake));
-
+        //driver.povRight().onTrue(new IntakeToggle(intake));
 
         //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
         //driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
+        
+        driver.L1().whileTrue(DriveToTrench.create(drivetrain));
+
 
         //Stationary Align:
         //driver.R1().whileTrue(new StationaryAutoAim(drivetrain));

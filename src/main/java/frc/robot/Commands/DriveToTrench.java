@@ -59,7 +59,7 @@ public class DriveToTrench {
 
             var alliance = DriverStation.getAlliance();
             boolean isRedAlliance = alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-            boolean chooseLeftZone = currentPose.getY() > FieldConstants.middleY;
+            boolean chooseLeftZone = currentPose.getY() < FieldConstants.middleY;
 
             if (isRedAlliance) {
                 entryX = FieldConstants.RED_TRENCH_X_ENTRY;

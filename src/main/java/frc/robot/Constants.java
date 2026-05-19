@@ -35,7 +35,7 @@ public class Constants {
     }
 
     public static final class DriveConstants {
-        public static final double TRENCH_MAX_VEL = 2;  // m/s
+        public static final double TRENCH_MAX_VEL = 5;  // m/s
         public static final double TRENCH_MAX_ACCEL = 4.0; // m/s²
         public static final double TRENCH_MAX_ANG_VEL = 2.0; // rad/s
         public static final double TRENCH_MAX_ANG_ACCEL = 4.0; // rad/s²

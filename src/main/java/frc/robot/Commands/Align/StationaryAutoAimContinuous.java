@@ -55,21 +55,21 @@ public class StationaryAutoAimContinuous extends Command {
         targetAngle += Math.PI; 
     }
     
-    // if (atGoal) {
-    //   drivetrain.applyRequest(() -> brake);
-    // } else {
-    //   drivetrain.setControl(alignRequest
-    //       .withVelocityX(0)
-    //       .withVelocityY(0)
-    //       .withTargetDirection(new Rotation2d(targetAngle))
-    //   );
-    // }
-
-    drivetrain.setControl(alignRequest
+    if (atGoal) {
+      drivetrain.applyRequest(() -> brake);
+    } else {
+      drivetrain.setControl(alignRequest
           .withVelocityX(0)
           .withVelocityY(0)
           .withTargetDirection(new Rotation2d(targetAngle))
       );
+    }
+
+    // drivetrain.setControl(alignRequest
+    //       .withVelocityX(0)
+    //       .withVelocityY(0)
+    //       .withTargetDirection(new Rotation2d(targetAngle))
+    //   );
 
     atGoal = alignRequest.HeadingController.atSetpoint();
 

@@ -59,7 +59,7 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-    public  final CommandPS4Controller driver = new CommandPS4Controller(0);
+    public  final CommandXboxController driver = new CommandXboxController(0);
     public final CommandXboxController operator = new CommandXboxController(1);
     public final CommandXboxController testing = new CommandXboxController(2);
 
@@ -115,7 +115,7 @@ public class RobotContainer {
         //         () -> -driver.getLeftX()
         //     )
         // );
-        driver.R2().whileTrue(
+        driver.rightTrigger().whileTrue(
             new SOTM(
                 drivetrain,
                 shooter,
@@ -126,32 +126,32 @@ public class RobotContainer {
             )
         );
         //driver.R2().whileTrue(new JitterIntake(intake).repeatedly().unless(operator.leftTrigger()).unless(driver.L2()));
-        driver.R2().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));      
+        driver.rightTrigger().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));      
           
 
-        driver.R1().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+        driver.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
         // Reset the field-centric heading on left CIRCLE (David likes circle) press.
-        driver.circle().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        driver.b().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         //Brake on cross, x wheel position
-        driver.cross().whileTrue(drivetrain.applyRequest(() -> brake));
+        driver.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
         //Shoot
         //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); //Old AlignandShoot Command Sequential Group
-        driver.R1().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
-        driver.R1().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+        driver.rightBumper().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
+        driver.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
-        driver.square().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS)); //Tower shot
-        driver.square().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
-        driver.square().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
-        driver.triangle().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS)); //Corner Shot
+        driver.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS)); //Tower shot
+        driver.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        driver.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
+        driver.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS)); //Corner Shot
         //driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS)); //Passing Shot
 
         //Intake    
         //().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
-        driver.L2().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));
-        driver.L2().onTrue(new IntakeOutPower(intake));
-        driver.L2().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
+        driver.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));
+        driver.leftTrigger().onTrue(new IntakeOutPower(intake));
+        driver.leftTrigger().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
         driver.povDown().onTrue(new IntakeOutPower(intake));
         driver.povUp().onTrue(new IntakeInPower(intake));
         //driver.povRight().onTrue(new IntakeToggle(intake));
@@ -159,7 +159,7 @@ public class RobotContainer {
         //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
         //driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
         
-        driver.L1().whileTrue(DriveToTrench.create(drivetrain));
+        driver.leftBumper().whileTrue(DriveToTrench.create(drivetrain));
 
 
         //Stationary Align:

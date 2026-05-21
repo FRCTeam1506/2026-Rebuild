@@ -10,7 +10,6 @@ import frc.robot.Commands.Align.StationaryAutoAimContinuous;
 import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Shoot.AutoSOTM;
 import frc.robot.Commands.Shoot.AutoShoot;
-import frc.robot.Commands.UnusedCommands.AlignOnTheMove;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;

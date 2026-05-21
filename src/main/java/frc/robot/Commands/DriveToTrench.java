@@ -39,7 +39,7 @@ public class DriveToTrench {
     );
 
     //the speed for ending path 1 (dynamic) and start of path 2 (fixed)
-    private static final double COAST_HANDOFF_VELOCITY = 0.50; 
+    private static final double COAST_HANDOFF_VELOCITY = 1.5; 
 
     /**
      * Automatically calculates and executes a safe two-phase macro through the nearest trench.

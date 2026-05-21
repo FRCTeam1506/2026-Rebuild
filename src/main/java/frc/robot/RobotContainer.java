@@ -33,8 +33,6 @@ import frc.robot.Commands.Macros.SOTM;
 import frc.robot.Commands.Shoot.AutoSOTM;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.Commands.Shoot.ManualShoot;
-import frc.robot.Commands.UnusedCommands.AlignandShoot;
-import frc.robot.Commands.UnusedCommands.TunerShoot;
 import frc.robot.Constants.PresetShots;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -260,7 +258,6 @@ public class RobotContainer {
         //Tuning
         testing.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
         testing.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
-        testing.povRight().whileTrue(new TunerShoot(shooter, hopper));
     }
 
     public Command getAutonomousCommand() {

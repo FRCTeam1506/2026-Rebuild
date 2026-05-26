@@ -47,8 +47,8 @@ public class FieldConstants {
     public static final double BLUE_TRENCH_X_ENTRY = 6.187;
     public static final double BLUE_TRENCH_X_EXIT = 2.875;
 
-    public static final double RED_LEFT_TRENCH_Y = 0.600;   
-    public static final double RED_RIGHT_TRENCH_Y = 7.430;  
+    public static final double RED_LEFT_TRENCH_Y = 0.800;   
+    public static final double RED_RIGHT_TRENCH_Y = 7.0;  
     public static final double RED_TRENCH_X_ENTRY = 11.30; 
     public static final double RED_TRENCH_X_EXIT = 13.575;  
     

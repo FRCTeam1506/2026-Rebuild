@@ -18,7 +18,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 public class AlignOnTheMoveNew extends Command {
   private final CommandSwerveDrivetrain drivetrain;
   private final DoubleSupplier xSupplier, ySupplier;
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
   
   private final SwerveRequest.FieldCentricFacingAngle request = new SwerveRequest.FieldCentricFacingAngle();
@@ -87,8 +87,6 @@ public class AlignOnTheMoveNew extends Command {
       .withVelocityX(xSupplier.getAsDouble() * maxSpeed * 0.6)
       .withVelocityY(ySupplier.getAsDouble() * maxSpeed * 0.6)
       .withTargetDirection(new Rotation2d(targetAngle))
-      .withDeadband(0.05)
-      .withRotationalDeadband(0.02) 
     );
 
     atGoal = request.HeadingController.atSetpoint();

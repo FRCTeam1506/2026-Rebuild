@@ -37,7 +37,11 @@ public class AutoSOTM extends Command {
     shooter.setShooterRPS(targetRPS);
     
     //hopper
-    if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && AlignOnTheMoveNew.atGoal == true) {
+    //Check if we are aligned
+    // if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && AlignOnTheMoveNew.atGoal == true) {
+    //     hopper.runHopper(HopperConstants.hopperSpeed);
+    // }
+    if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {
         hopper.runHopper(HopperConstants.hopperSpeed);
     }
   

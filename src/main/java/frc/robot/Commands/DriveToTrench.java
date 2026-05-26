@@ -60,16 +60,21 @@ public class DriveToTrench {
             var alliance = DriverStation.getAlliance();
             boolean isRedAlliance = alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
             boolean chooseLeftZone = currentPose.getY() < FieldConstants.middleY;
-
+            boolean chooseRedZone = currentPose.getX() > FieldConstants.redLine;
+            boolean chooseBlueZone = currentPose.getX() < FieldConstants.blueLine;
             if (isRedAlliance) {
-                entryX = FieldConstants.RED_TRENCH_X_ENTRY;
-                exitX = FieldConstants.RED_TRENCH_X_EXIT;
+                // entryX = FieldConstants.RED_TRENCH_X_ENTRY;
+                // exitX = FieldConstants.RED_TRENCH_X_EXIT;
+                entryX = chooseRedZone ? FieldConstants.RED_TRENCH_X_EXIT : FieldConstants.RED_TRENCH_X_ENTRY;
+                exitX = chooseRedZone ? FieldConstants.RED_TRENCH_X_ENTRY : FieldConstants.RED_TRENCH_X_EXIT;
                 trenchY = chooseLeftZone ? FieldConstants.RED_LEFT_TRENCH_Y : FieldConstants.RED_RIGHT_TRENCH_Y;
                 targetHeading = Rotation2d.fromDegrees(0);
                 lineupOffsetDirection = -1.0; 
             } else {
-                entryX = FieldConstants.BLUE_TRENCH_X_ENTRY;
-                exitX = FieldConstants.BLUE_TRENCH_X_EXIT;
+                // entryX = FieldConstants.BLUE_TRENCH_X_ENTRY;
+                // exitX = FieldConstants.BLUE_TRENCH_X_EXIT;
+                entryX = chooseBlueZone ? FieldConstants.BLUE_TRENCH_X_EXIT : FieldConstants.BLUE_TRENCH_X_ENTRY;
+                exitX = chooseBlueZone ? FieldConstants.BLUE_TRENCH_X_ENTRY : FieldConstants.BLUE_TRENCH_X_EXIT;
                 trenchY = chooseLeftZone ? FieldConstants.BLUE_LEFT_TRENCH_Y : FieldConstants.BLUE_RIGHT_TRENCH_Y;
                 targetHeading = Rotation2d.fromDegrees(180);
                 lineupOffsetDirection = 1.0; 

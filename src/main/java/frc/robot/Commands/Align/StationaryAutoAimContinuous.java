@@ -31,7 +31,7 @@ public class StationaryAutoAimContinuous extends Command {
         AlignConstants.aimControllerD
     );
     alignRequest.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-    alignRequest.HeadingController.setTolerance(AlignConstants.alignToleranceRadians, 0.01);
+    alignRequest.HeadingController.setTolerance(AlignConstants.alignToleranceRadians, 1);
   }
 
   @Override

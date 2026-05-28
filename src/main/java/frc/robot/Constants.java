@@ -57,7 +57,7 @@ public class Constants {
         public static final int Tower_Hopper_ID = 15;
         public static final int Tower_Hopper_Two_ID = 16;
         public static final int Hopper_Motor_ID = 25;
-        public static final double hopperSpeed = 0.8; //0.8 //0.5
+        public static final double hopperSpeed = .8; //0.8 //0.5
     }
 
     public static class ShooterConstants {

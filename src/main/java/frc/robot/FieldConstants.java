@@ -11,10 +11,13 @@ public class FieldConstants {
     // Current State
     public static Translation2d goalLocation = new Translation2d(0,0);
     public static double distToGoal;
+
+    public static Pose2d wantedPose;
     
     public enum FieldZone {
         HUB, MAILING_LEFT, MAILING_RIGHT, UNKNOWN
     }
+    
     public static FieldZone currentZone = FieldZone.UNKNOWN;
 
     public static double vGoalDist;
@@ -50,9 +53,12 @@ public class FieldConstants {
     public static final double RED_LEFT_TRENCH_Y = 0.800;   
     public static final double RED_RIGHT_TRENCH_Y = 7.0;  
     public static final double RED_TRENCH_X_ENTRY = 11.30; 
-    public static final double RED_TRENCH_X_EXIT = 13.575;  
+    public static final double RED_TRENCH_X_EXIT = 13.575;
+
     
     public static final double LINEUP_OFFSET_METERS = 0.5;
+
+    public static int crossingZone; //1 = Left Trench, 2 = Left Bump, 3 = Right Bump, 4 = Right Trench
     
 
     /** Updates goalLocation and currentZone based on robot pose */

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.HootAutoReplay;
+import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -37,6 +38,10 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         m_robotContainer = new RobotContainer();
+    }
+
+    public void robotInit() {
+        PathfindingCommand.warmupCommand().schedule();
     }
 
     @Override
@@ -163,6 +168,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().cancel(m_autonomousCommand);
         }
+
     }
 
     @Override

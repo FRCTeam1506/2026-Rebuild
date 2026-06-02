@@ -11,6 +11,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Commands.DriveToTrench;
+import frc.robot.Commands.Pathfinder;
 import frc.robot.Commands.Align.AlignOnTheMoveNew;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
@@ -170,7 +172,8 @@ public class RobotContainer {
         //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
         //driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
         
-        driver.leftBumper().whileTrue(DriveToTrench.create(drivetrain));
+        // driver.leftBumper().whileTrue(DriveToTrench.create(drivetrain));
+        driver.leftBumper().whileTrue(new Pathfinder(drivetrain));
 
 
         //Stationary Align:

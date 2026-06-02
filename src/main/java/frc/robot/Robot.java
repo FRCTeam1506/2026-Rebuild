@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.HootAutoReplay;
+import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -39,6 +40,11 @@ public class Robot extends TimedRobot {
         m_robotContainer = new RobotContainer();
     }
 
+    @Override
+    public void robotInit() {
+        PathfindingCommand.warmupCommand().schedule();
+    }
+    
     @Override
     public void robotPeriodic() {
         //SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());

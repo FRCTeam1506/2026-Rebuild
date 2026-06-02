@@ -68,7 +68,7 @@ public class RobotContainer {
     Intake intake = new Intake();
     Shooter shooter = new Shooter(drivetrain);
     Hopper hopper = new Hopper();
-    Pathing pathing;
+    Pathing pathing = new Pathing(drivetrain);
     private boolean m_isAutoMode = false; 
 
     Autos autos = new Autos(drivetrain, intake, shooter, hopper);
@@ -120,23 +120,23 @@ public class RobotContainer {
 
 
 
-        driver.rightTrigger().whileTrue(
-            new SOTM(
-                drivetrain,
-                shooter,
-                hopper,
-                intake,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX()
-            )
-        );
         // driver.rightTrigger().whileTrue(
-        //     new AlignOnTheMoveNew(
+        //     new SOTM(
         //         drivetrain,
+        //         shooter,
+        //         hopper,
+        //         intake,
         //         () -> -driver.getLeftY(),
         //         () -> -driver.getLeftX()
         //     )
         // );
+        driver.rightTrigger().whileTrue(
+            new AlignOnTheMoveNew(
+                drivetrain,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX()
+            )
+        );
 
 
 
@@ -214,8 +214,8 @@ public class RobotContainer {
         //         hopper
         //     )
         // );
-        //operator.rightBumper().whileTrue(new JitterIntake(intake).repeatedly().unless(operator.leftTrigger()).unless(driver.L2()));
-        //operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper).alongWith(new JitterIntake(intake)).repeatedly());
+        //operator.rightBumper().whileTrue(new JitterIntake(intake).repeatedly().unless(operator.leftTrigger()).unless(driver.leftTrigger()));
+        operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper).alongWith(new JitterIntake(intake)).repeatedly());
         operator.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
 

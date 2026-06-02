@@ -29,7 +29,7 @@ public class Pathing {
     public static double leftBumpTime, leftTrenchTime, rightBumpTime, rightTrenchTime;
 
     public static final double trenchPassSpeed = 3.5; //From pathplanner
-    public static final double bumpPassSpeed = 2.4; //From pathplanner
+    public static final double bumpPassSpeed = 2.5; //From pathplanner
 
     public static final double crossingDist = 2.5; 
 
@@ -40,6 +40,8 @@ public class Pathing {
     public static Pose2d crossingPath;
 
     PathConstraints constraints;
+
+    public boolean bump;
 
     public Pathing(CommandSwerveDrivetrain drivetrain) {
         this.drivetrain = drivetrain;
@@ -107,20 +109,24 @@ public class Pathing {
         
         shortestTime = leftBumpTime;
         wantedPose = leftBump;
+        bump = true;
 
         if (leftTrenchTime < shortestTime) {
             shortestTime = leftTrenchTime;
             wantedPose = leftTrench;
+            bump = false;
         }
 
         if (rightBumpTime < shortestTime) {
             shortestTime = rightBumpTime;
             wantedPose = rightBump;
+            bump = true;
         }
 
         if (rightTrenchTime < shortestTime) {
             shortestTime = rightTrenchTime;
             wantedPose = rightTrench;
+            bump = false;
         }
 
         return wantedPose;
@@ -130,17 +136,33 @@ public class Pathing {
     public Pose2d crossingPath(CommandSwerveDrivetrain mDrivetrain, Pose2d toCrossPose) {
         var alliance = DriverStation.getAlliance();
         isRedAlliance = alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-        if (isRedAlliance) {
-            if (mDrivetrain.getState().Pose.getX() > FieldConstants.redLine) {
-                crossingPath = new Pose2d(toCrossPose.getX() - 2.5, toCrossPose.getY(), new Rotation2d());
+        if (bump) {
+            if (isRedAlliance) {
+                if (mDrivetrain.getState().Pose.getX() > FieldConstants.redLine) {
+                    crossingPath = new Pose2d(toCrossPose.getX() - 3.5, toCrossPose.getY(), new Rotation2d(Math.toDegrees(45)));
+                } else {
+                    crossingPath = new Pose2d(toCrossPose.getX() + 3.5, toCrossPose.getY(), new Rotation2d(Math.toDegrees(45)));
+                }
             } else {
-                crossingPath = new Pose2d(toCrossPose.getX() + 2.5, toCrossPose.getY(), new Rotation2d());
+                if (mDrivetrain.getState().Pose.getX() < FieldConstants.blueLine) {
+                    crossingPath = new Pose2d(toCrossPose.getX() + 3.5, toCrossPose.getY(), new Rotation2d(Math.toDegrees(45)));
+                } else {
+                    crossingPath = new Pose2d(toCrossPose.getX() - 3.5, toCrossPose.getY(), new Rotation2d(Math.toDegrees(45)));
+                }
             }
-        } else {
-            if (mDrivetrain.getState().Pose.getX() < FieldConstants.blueLine) {
-                crossingPath = new Pose2d(toCrossPose.getX() + 2.5, toCrossPose.getY(), new Rotation2d());
+        } else{
+            if (isRedAlliance) {
+                if (mDrivetrain.getState().Pose.getX() > FieldConstants.redLine) {
+                    crossingPath = new Pose2d(toCrossPose.getX() - 3.5, toCrossPose.getY(), new Rotation2d(0));
+                } else {
+                    crossingPath = new Pose2d(toCrossPose.getX() + 3.5, toCrossPose.getY(), new Rotation2d(0));
+                }
             } else {
-                crossingPath = new Pose2d(toCrossPose.getX() - 2.5, toCrossPose.getY(), new Rotation2d());
+                if (mDrivetrain.getState().Pose.getX() < FieldConstants.blueLine) {
+                    crossingPath = new Pose2d(toCrossPose.getX() + 3.5, toCrossPose.getY(), new Rotation2d(0));
+                } else {
+                    crossingPath = new Pose2d(toCrossPose.getX() - 3.5, toCrossPose.getY(), new Rotation2d(0));
+                }
             }
         }
 

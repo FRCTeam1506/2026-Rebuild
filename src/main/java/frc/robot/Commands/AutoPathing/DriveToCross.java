@@ -8,6 +8,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -38,7 +39,11 @@ public class DriveToCross extends Command {
   public void initialize() {
     Pose2d targetPose = pathing.shortestPose(drivetrain);
 
-    activePathCommand = AutoBuilder.pathfindToPose(targetPose, constraints, 0.0);
+    if (pathing.bump) {
+      activePathCommand = AutoBuilder.pathfindToPose(new Pose2d(targetPose.getX(), targetPose.getY(), new Rotation2d(Math.toDegrees(45))), constraints, Pathing.bumpPassSpeed);
+    } else {
+      activePathCommand = AutoBuilder.pathfindToPose(targetPose, constraints, Pathing.trenchPassSpeed);
+    }
 
     activePathCommand.initialize();
   }

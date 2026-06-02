@@ -1,18 +1,21 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants.EquationConstants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class FieldConstants {
     // Current State
     public static Translation2d goalLocation = new Translation2d(0,0);
     public static double distToGoal;
 
-    public static Pose2d wantedPose;
+    //public static Pose2d wantedPose;
+    public static Pose2d finalPose;
     
     public enum FieldZone {
         HUB, MAILING_LEFT, MAILING_RIGHT, UNKNOWN
@@ -58,7 +61,19 @@ public class FieldConstants {
     
     public static final double LINEUP_OFFSET_METERS = 0.5;
 
-    public static int crossingZone; //1 = Left Trench, 2 = Left Bump, 3 = Right Bump, 4 = Right Trench
+    boolean isRedAlliance;
+
+    // For Pathing
+    // public static int crossingZone; //1 = Left Trench, 2 = Left Bump, 3 = Right Bump, 4 = Right Trench
+    // public static Pose2d leftBump, leftTrench, rightBump, rightTrench;
+    // public static double leftBumpDist, leftTrenchDist, rightBumpDist, rightTrenchDist;
+    // public static double leftBumpTime, leftTrenchTime, rightBumpTime, rightTrenchTime;
+
+    // public static final double trenchPassSpeed = 3.5; //From pathplanner
+    // public static final double bumpPassSpeed = 2.4; //From pathplanner
+
+    // public static final double crossingDist = 2.5; 
+
     
 
     /** Updates goalLocation and currentZone based on robot pose */
@@ -116,6 +131,55 @@ public class FieldConstants {
         vGoalDist = refinedDist;
         vTarget = tempVTarget;
     }
+
+
+
+
+
+
+    // public void setPoints(CommandSwerveDrivetrain drivetrain) {
+    //     var alliance = DriverStation.getAlliance();
+    //     isRedAlliance = alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
+    //     Pose2d currentPose = drivetrain.getState().Pose;
+
+    //     if (isRedAlliance) { //Red Alliance
+
+    //         if (currentPose.getX() > FieldConstants.redLine) { //In Red Alliance Zone
+    //             FieldConstants.leftBump = new Pose2d(13, 2.5, new Rotation2d(0));
+    //             FieldConstants.leftTrench = new Pose2d(13, 0.6, new Rotation2d(0));
+
+    //             FieldConstants.rightBump = new Pose2d(13, 5.5, new Rotation2d(0));
+    //             FieldConstants.rightTrench = new Pose2d(13, 7.4, new Rotation2d(0)); 
+    //             System.out.println("Red Alliance");
+    //         } else { //In Neutral Zone
+    //             FieldConstants.leftBump = new Pose2d(10.8, 2.5, new Rotation2d(0));
+    //             FieldConstants.leftTrench = new Pose2d(10.8, 0.6, new Rotation2d(0));
+
+    //             FieldConstants.rightBump = new Pose2d(10.8, 5.5, new Rotation2d(0));
+    //             FieldConstants.rightTrench = new Pose2d(10.8, 7.4, new Rotation2d(0));
+    //             System.out.println("Red Neutral");
+    //         }
+
+
+    //     } else { //Blue Alliance
+
+    //         if (currentPose.getX() < FieldConstants.blueLine) { //In Blue Alliance Zone
+    //             FieldConstants.leftBump = new Pose2d(3.5, 5.48, new Rotation2d(0));
+    //             FieldConstants.leftTrench = new Pose2d(3.5, 7.4, new Rotation2d(0));
+
+    //             FieldConstants.rightBump = new Pose2d(3.5, 2.5, new Rotation2d(0));
+    //             FieldConstants.rightTrench = new Pose2d(3.5, 0.65, new Rotation2d(0));
+    //             System.out.println("Blue Alliance");
+    //         } else { //In Neutral Zone
+    //             FieldConstants.leftBump = new Pose2d(6, 5.48, new Rotation2d(0));
+    //             FieldConstants.leftTrench = new Pose2d(6, 7.4, new Rotation2d(0));
+
+    //             FieldConstants.rightBump = new Pose2d(6, 2.5, new Rotation2d(0));
+    //             FieldConstants.rightTrench = new Pose2d(6, 0.65, new Rotation2d(0));
+    //             System.out.println("Blue Neutral");
+    //         }
+    //     }
+    // }
 
 
 }

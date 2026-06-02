@@ -22,6 +22,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.Commands.Align.AlignOnTheMoveNew;
 import frc.robot.Commands.AutoDrive.DriveToTrench;
+import frc.robot.Commands.AutoPathing.DriveShortestPath;
+import frc.robot.Commands.AutoPathing.DriveToCross;
+import frc.robot.Commands.AutoPathing.Pathing;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeOutPower;
@@ -65,6 +68,7 @@ public class RobotContainer {
     Intake intake = new Intake();
     Shooter shooter = new Shooter(drivetrain);
     Hopper hopper = new Hopper();
+    Pathing pathing;
     private boolean m_isAutoMode = false; 
 
     Autos autos = new Autos(drivetrain, intake, shooter, hopper);
@@ -170,7 +174,7 @@ public class RobotContainer {
         //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
         //driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
         
-        driver.leftBumper().whileTrue(DriveToTrench.create(drivetrain));
+        driver.leftBumper().whileTrue(new DriveShortestPath(drivetrain, pathing));
 
 
         //Stationary Align:

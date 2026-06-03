@@ -40,9 +40,9 @@ public class DriveToCross extends Command {
     Pose2d targetPose = pathing.shortestPose(drivetrain);
 
     if (pathing.bump) {
-      activePathCommand = AutoBuilder.pathfindToPose(new Pose2d(targetPose.getX(), targetPose.getY(), new Rotation2d(Math.toDegrees(45))), constraints, Pathing.bumpPassSpeed);
+      activePathCommand = AutoBuilder.pathfindToPose(new Pose2d(targetPose.getX(), targetPose.getY(), new Rotation2d(Math.toDegrees(pathing.bumpHeading(drivetrain)))), constraints, Pathing.bumpPassSpeed);
     } else {
-      activePathCommand = AutoBuilder.pathfindToPose(targetPose, constraints, Pathing.trenchPassSpeed);
+      activePathCommand = AutoBuilder.pathfindToPose(new Pose2d(targetPose.getX(), targetPose.getY(), new Rotation2d(Math.toDegrees(pathing.trenchHeading(drivetrain)))), constraints, Pathing.trenchPassSpeed);
     }
 
     activePathCommand.initialize();

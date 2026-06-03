@@ -6,6 +6,7 @@ import java.util.Set;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -167,6 +168,22 @@ public class Pathing {
         }
 
         return crossingPath;
+    }
+
+    public double bumpHeading(CommandSwerveDrivetrain mDrivetrain) {
+        double curretHeading = mDrivetrain.getState().Pose.getRotation().getDegrees();
+        double wrappedHeading = MathUtil.inputModulus(curretHeading, -180, 180);
+        double finalHeading = Math.round(wrappedHeading / 45) * 45;
+
+        return finalHeading;
+    }
+
+    public double trenchHeading(CommandSwerveDrivetrain mDrivetrain) {
+        double curretHeading = mDrivetrain.getState().Pose.getRotation().getDegrees();
+        double wrappedHeading = MathUtil.inputModulus(curretHeading, -180, 180);
+        double finalHeading = Math.round(wrappedHeading / 180) * 180;
+
+        return finalHeading;
     }
 
 

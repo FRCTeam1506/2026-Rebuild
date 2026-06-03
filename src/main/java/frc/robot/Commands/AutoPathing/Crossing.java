@@ -8,6 +8,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -39,7 +40,11 @@ public class Crossing extends Command {
     Pose2d firstPose = pathing.shortestPose(drivetrain);
     Pose2d targetPose = pathing.crossingPath(drivetrain, firstPose);
 
-    activePathCommand = AutoBuilder.pathfindToPose(targetPose, constraints, 0.0);
+    if (pathing.bump) {
+      activePathCommand = AutoBuilder.pathfindToPose(new Pose2d(targetPose.getX(), targetPose.getY(), new Rotation2d(Math.toDegrees(pathing.bumpHeading(drivetrain)))), constraints, 0.0);
+    } else {
+      activePathCommand = AutoBuilder.pathfindToPose(new Pose2d(targetPose.getX(), targetPose.getY(), new Rotation2d(Math.toDegrees(pathing.trenchHeading(drivetrain)))), constraints, 0.0);
+    }
 
     activePathCommand.initialize();
   }

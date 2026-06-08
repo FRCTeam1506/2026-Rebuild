@@ -40,6 +40,10 @@ public class Robot extends TimedRobot {
         m_robotContainer = new RobotContainer();
     }
 
+    public void robotInit() {
+        PathfindingCommand.warmupCommand().schedule();
+    }
+
     @Override
     public void robotInit() {
         PathfindingCommand.warmupCommand().schedule();
@@ -169,6 +173,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().cancel(m_autonomousCommand);
         }
+
     }
 
     @Override

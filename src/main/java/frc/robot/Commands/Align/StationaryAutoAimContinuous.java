@@ -55,6 +55,7 @@ public class StationaryAutoAimContinuous extends Command {
         targetAngle += Math.PI; 
     }
     
+    atGoal = alignRequest.HeadingController.atSetpoint();
     if (atGoal) {
       drivetrain.applyRequest(() -> brake);
     } else {
@@ -71,7 +72,7 @@ public class StationaryAutoAimContinuous extends Command {
     //       .withTargetDirection(new Rotation2d(targetAngle))
     //   );
 
-    atGoal = alignRequest.HeadingController.atSetpoint();
+    // atGoal = alignRequest.HeadingController.atSetpoint();
 
   }
 

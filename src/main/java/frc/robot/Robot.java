@@ -45,11 +45,6 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void robotInit() {
-        PathfindingCommand.warmupCommand().schedule();
-    }
-    
-    @Override
     public void robotPeriodic() {
         //SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
         //SmartDashboard.putNumber("heading", );

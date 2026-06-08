@@ -4,7 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.Angle;
 
 /** Add your docs here. */
@@ -94,5 +100,16 @@ public class Constants {
         public static final double passingShotRPS = 85; //90
 
         public static double tunerPower = 50;
+    }
+
+    public static class  QuestNavConstants {
+        public static Transform3d ROBOT_TO_QUEST = new Transform3d(0.3, 0.0, 0.5, new Rotation3d());
+
+        public static Matrix<N3, N1> QUESTNAV_STD_DEVS =
+        VecBuilder.fill(
+            0.02,        // X position trust (20 mm)
+            0.02,        // Y position trust (20 mm)
+            99999999);  // DO NOT TRUST ROTATION
+        
     }
 }

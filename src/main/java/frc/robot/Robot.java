@@ -8,6 +8,9 @@ import com.ctre.phoenix6.HootAutoReplay;
 import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -17,19 +20,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.FieldConstants;
+import frc.robot.Constants.QuestNavConstants;
 import frc.robot.Constants.VisionConstants;
+import gg.questnav.questnav.PoseFrame;
+import gg.questnav.questnav.QuestNav;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
     private final RobotContainer m_robotContainer;
 
+    QuestNav questNav = new QuestNav();
+
     /* log and replay timestamp and joystick data */
     private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
         .withTimestampReplay()
         .withJoystickReplay();
 
-    private final boolean kUseLimelight = true;
+    public static boolean kUseLimelight = false;
 
     private final edu.wpi.first.math.filter.LinearFilter xFilter = edu.wpi.first.math.filter.LinearFilter.movingAverage(5);
     private final edu.wpi.first.math.filter.LinearFilter yFilter = edu.wpi.first.math.filter.LinearFilter.movingAverage(5);
@@ -43,14 +51,44 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         PathfindingCommand.warmupCommand().schedule();
     }
-
-    @Override
-    public void robotInit() {
-        PathfindingCommand.warmupCommand().schedule();
-    }
     
     @Override
     public void robotPeriodic() {
+        //QuestNav stuff
+        questNav.commandPeriodic();
+
+        // Get the latest pose data frames from the Quest
+        PoseFrame[] poseFrames = questNav.getAllUnreadPoseFrames();
+
+        for (PoseFrame questFrame : poseFrames) {
+            // Make sure the Quest was tracking the pose for this frame
+            if (questFrame.isTracking()) {
+                // Get the pose of the Quest
+                Pose3d questPose = questFrame.questPose3d();
+                // Get timestamp for when the data was sent
+                double timestamp = questFrame.dataTimestamp();
+
+                // Transform by the mount pose to get your robot pose
+                Pose3d robotPose = questPose.transformBy(QuestNavConstants.ROBOT_TO_QUEST.inverse());
+
+                // You can put some sort of filtering here if you would like!
+
+                // Add the measurement to our estimator
+                m_robotContainer.drivetrain.addVisionMeasurement(robotPose.toPose2d(), timestamp, QuestNavConstants.QUESTNAV_STD_DEVS);
+            }
+        }
+
+        SmartDashboard.putBoolean("QuestNav/Connected", questNav.isConnected());
+        SmartDashboard.putBoolean("QuestNav/Tracking", questNav.isTracking());
+        SmartDashboard.putNumber("QuestNav/Latency", questNav.getLatency());
+        questNav.getBatteryPercent().ifPresent(
+            b -> SmartDashboard.putNumber("QuestNav/Battery%", b));
+        questNav.getTrackingLostCounter().ifPresent(
+            c -> SmartDashboard.putNumber("QuestNav/TrackingLostCount", c));
+
+
+
+
         //SmartDashboard.putNumber("auto align heading", m_robotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
         //SmartDashboard.putNumber("heading", );
 
@@ -197,4 +235,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void simulationPeriodic() {}
+
+    public void changeLL(boolean LL) {
+        kUseLimelight = LL;
+    }
 }

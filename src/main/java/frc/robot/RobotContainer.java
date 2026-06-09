@@ -120,23 +120,23 @@ public class RobotContainer {
 
 
 
-        // driver.rightTrigger().whileTrue(
-        //     new SOTM(
-        //         drivetrain,
-        //         shooter,
-        //         hopper,
-        //         intake,
-        //         () -> -driver.getLeftY(),
-        //         () -> -driver.getLeftX()
-        //     )
-        // );
         driver.rightTrigger().whileTrue(
-            new AlignOnTheMoveNew(
+            new SOTM(
                 drivetrain,
+                shooter,
+                hopper,
+                intake,
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX()
             )
         );
+        // driver.rightTrigger().whileTrue(
+        //     new AlignOnTheMoveNew(
+        //         drivetrain,
+        //         () -> -driver.getLeftY(),
+        //         () -> -driver.getLeftX()
+        //     )
+        // );
 
 
 

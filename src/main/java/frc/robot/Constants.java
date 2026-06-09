@@ -60,6 +60,12 @@ public class Constants {
         public static final double hopperSpeed = .8; //0.8 //0.5
     }
 
+    public static class HoodConstants {
+        public static final double Hood_Max_Position = 5;
+        public static final double Hood_Min_Position = 0;
+        
+    }
+
     public static class ShooterConstants {
         public static final double kRPSTolerance = 1;
         public static final double kRPSTolerancePassing = 4;

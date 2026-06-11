@@ -20,6 +20,18 @@ public class Constants {
     public static double calculateRPS(double distance) {
         return sA * Math.pow(distance, 2) + sB * distance + sC;
     }
+
+
+
+    public static final double hoodA = 1.49877;//1.41868
+    public static final double hoodB = -4.57313;//-4.53572
+    public static final double hoodC = 52.23682;//52.23682  //47.16806
+       
+    
+    public static double calculateHood(double distance) {
+        return hoodA * Math.pow(distance, 2) + hoodB * distance + hoodC;
+    }
+
     public static double quadraticRPS (double dist) {
         return dist; //Placeholder for quadratic regression formula
     }

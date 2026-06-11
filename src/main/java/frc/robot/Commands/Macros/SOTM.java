@@ -11,17 +11,18 @@ import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Shoot.AutoSOTM;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 public class SOTM extends ParallelCommandGroup {
     //This is a parallel command group. Keep in mind that this will not end unless it is binded to a trigger (right trigger, or wait command, etc)
-    public SOTM(CommandSwerveDrivetrain drivetrain, Shooter shooter, Hopper hopper, Intake intake, DoubleSupplier x, DoubleSupplier y) {
+    public SOTM(CommandSwerveDrivetrain drivetrain, Shooter shooter, Hopper hopper, Intake intake, Hood hood, DoubleSupplier x, DoubleSupplier y) {
       
     addCommands(
         new AlignOnTheMoveNew(drivetrain, x, y),
-        new AutoSOTM(shooter, hopper),
+        new AutoSOTM(shooter, hopper, hood),
         //new InstantCommand(() -> intake.runIntake(-0.2))
         new JitterIntake(intake).repeatedly()
 

@@ -15,6 +15,7 @@ import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Macros.AlignandShootStationary;
 import frc.robot.Commands.Shoot.ManualShoot;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -24,24 +25,26 @@ public class Autos {
     private final Intake intake;
     private final Shooter shooter;
     private final Hopper hopper;
+    private final Hood hood;
     private final CommandSwerveDrivetrain drivetrain;
 
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
 
-    public Autos(CommandSwerveDrivetrain drivetrain, Intake intake, Shooter shooter, Hopper hopper){
+    public Autos(CommandSwerveDrivetrain drivetrain, Intake intake, Shooter shooter, Hopper hopper, Hood hood){
         this.intake = intake;
         this.shooter = shooter;
         this.hopper = hopper;
         this.drivetrain = drivetrain;
+        this.hood = hood;
     }
 
     public void makeNamedCommands() {
-        NamedCommands.registerCommand("AlignAndShoot", new AlignandShootStationary(drivetrain, shooter, hopper, intake));
+        NamedCommands.registerCommand("AlignAndShoot", new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood));
         NamedCommands.registerCommand("Intake Manual", new InstantCommand(() -> intake.runIntake(-0.9)));
         NamedCommands.registerCommand("Intake Out", new IntakeOutPower(intake));
-        NamedCommands.registerCommand("Pass Shot", new ManualShoot(shooter, hopper, Constants.PresetShots.passingShotRPS));
+        NamedCommands.registerCommand("Pass Shot", new ManualShoot(shooter, hopper, hood, Constants.PresetShots.passingShotRPS));
         NamedCommands.registerCommand("Jitter Intake", new JitterIntake(intake));
         NamedCommands.registerCommand("Intake In", new IntakeInPower(intake));
         // startEnd factory, backed by the StartEndCommand (Java, C++, Python) class, calls one lambda when scheduled, and then a second lambda when interrupted. https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html

@@ -11,9 +11,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.HoodConstants;
 
 public class Hood extends SubsystemBase {
-  private TalonFX hood = new TalonFX(0);
+  private TalonFX hood = new TalonFX(HoodConstants.Hood_ID);
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
   /** Creates a new Hood. */
@@ -50,6 +51,13 @@ public class Hood extends SubsystemBase {
 
   public void moveHood(double Position) {
     hood.setControl(m_motmag.withPosition(Position));
+  }
+
+  public void hoodUp() {
+    HoodConstants.Tuner_Hood_Pose += 0.1;
+  }
+  public void hoodDown() {
+    HoodConstants.Tuner_Hood_Pose -= 0.1;
   }
 
   @Override

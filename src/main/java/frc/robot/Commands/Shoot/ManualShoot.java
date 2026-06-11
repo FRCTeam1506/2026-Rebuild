@@ -5,8 +5,11 @@
 package frc.robot.Commands.Shoot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.FieldConstants;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 
@@ -14,13 +17,15 @@ import frc.robot.subsystems.Shooter;
 public class ManualShoot extends Command {
   Shooter shooter;  
   Hopper hopper;
+  Hood hood;
   double RPS;
   /** Creates a new Shoot. */
-  public ManualShoot(Shooter shooter, Hopper hopper, double RPS) {
+  public ManualShoot(Shooter shooter, Hopper hopper, Hood hood, double RPS) {
     this.shooter = shooter;
     this.hopper = hopper;
     this.RPS = RPS;
-    addRequirements(shooter, hopper);
+    this.hood = hood;
+    addRequirements(shooter, hopper, hood);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -35,6 +40,11 @@ public class ManualShoot extends Command {
     if (shooter.isAtVelocity(RPS, ShooterConstants.kRPSTolerancePassing)) {
     hopper.runHopper(HopperConstants.hopperSpeed);
     }
+    // if (FieldConstants.passing) {
+    //   hood.moveHood(HoodConstants.Hood_Max_Position);
+    // } else {
+    //   hood.moveHood(HoodConstants.Hood_Min_Position);
+    // }
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +52,7 @@ public class ManualShoot extends Command {
   public void end(boolean interrupted) {
     shooter.stopAllShooters();
     hopper.stopHopper();
+    //hood.moveHood(HoodConstants.Hood_Min_Position);
   }
 
   // Returns true when the command should end.

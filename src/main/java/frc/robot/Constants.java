@@ -63,6 +63,9 @@ public class Constants {
     public static class HoodConstants {
         public static final double Hood_Max_Position = 5;
         public static final double Hood_Min_Position = 0;
+
+        public static final int Hood_ID = 0;
+        public static double Tuner_Hood_Pose;
         
     }
 

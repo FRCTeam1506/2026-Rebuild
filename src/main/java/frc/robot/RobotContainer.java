@@ -36,9 +36,12 @@ import frc.robot.Commands.Macros.SOTM;
 import frc.robot.Commands.Shoot.AutoSOTM;
 import frc.robot.Commands.Shoot.AutoShoot;
 import frc.robot.Commands.Shoot.ManualShoot;
+import frc.robot.Commands.Shoot.TunerShot;
+import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.PresetShots;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -69,9 +72,10 @@ public class RobotContainer {
     Shooter shooter = new Shooter(drivetrain);
     Hopper hopper = new Hopper();
     Pathing pathing = new Pathing(drivetrain);
+    Hood hood = new Hood();
     private boolean m_isAutoMode = false; 
 
-    Autos autos = new Autos(drivetrain, intake, shooter, hopper);
+    Autos autos = new Autos(drivetrain, intake, shooter, hopper, hood);
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -126,6 +130,7 @@ public class RobotContainer {
                 shooter,
                 hopper,
                 intake,
+                hood,
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX()
             )
@@ -153,13 +158,13 @@ public class RobotContainer {
 
         //Shoot
         //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); //Old AlignandShoot Command Sequential Group
-        driver.rightBumper().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
+        driver.rightBumper().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
         driver.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
-        driver.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS)); //Tower shot
+        driver.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS)); //Tower shot
         driver.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
         driver.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
-        driver.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS)); //Corner Shot
+        driver.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS)); //Corner Shot
         //driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS)); //Passing Shot
 
         //Intake    
@@ -190,7 +195,7 @@ public class RobotContainer {
         //OPERATOR CONTROLS:
         //Shoot only on right trigger for operator:
         // operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
-        operator.rightTrigger().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
+        operator.rightTrigger().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
         operator.rightTrigger().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
         //Run shooter and hopper in reverse:
@@ -200,11 +205,11 @@ public class RobotContainer {
         operator.b().whileFalse(new InstantCommand(() -> shooter.runAllShootersSpeed(0)).alongWith(new InstantCommand(() -> hopper.runHopper(0))));
 
         //Preset Shots:
-        operator.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
-        operator.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
+        operator.a().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS));
+        operator.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS));
         operator.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
         operator.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
-        operator.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS));
+        operator.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.passingShotRPS));
 
         //SOTM Auto Shoot:
         //operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper));
@@ -215,7 +220,7 @@ public class RobotContainer {
         //     )
         // );
         //operator.rightBumper().whileTrue(new JitterIntake(intake).repeatedly().unless(operator.leftTrigger()).unless(driver.leftTrigger()));
-        operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper).alongWith(new JitterIntake(intake)).repeatedly());
+        operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper, hood).alongWith(new JitterIntake(intake)).repeatedly());
         operator.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
 
@@ -250,16 +255,20 @@ public class RobotContainer {
 
         
         //TESTING CONTROLS:
-        testing.rightTrigger().whileTrue(new ManualShoot(shooter, hopper, 50));
-        testing.a().whileTrue(new ManualShoot(shooter, hopper, PresetShots.closeShotRPS));
-        testing.x().whileTrue(new ManualShoot(shooter, hopper, PresetShots.trenchShotRPS));
-        testing.y().whileTrue(new ManualShoot(shooter, hopper, PresetShots.cornerShotRPS));
+        testing.rightTrigger().whileTrue(new ManualShoot(shooter, hopper, hood, 50));
+        testing.rightBumper().whileTrue(new TunerShot(shooter, hopper, hood, PresetShots.tunerPower, HoodConstants.Tuner_Hood_Pose));
+        testing.a().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS));
+        testing.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.trenchShotRPS));
+        testing.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS));
 
         //Intake
         //testing.leftTrigger().whileTrue(new IntakeCommand(intake));
         testing.leftBumper().whileTrue(new Outtake(intake, hopper));
-        testing.povRight().whileTrue(new InstantCommand(() -> intake.runIntake(0.5)));
-        testing.povRight().onFalse(new InstantCommand(() -> intake.stopIntake()));
+        testing.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));
+        testing.leftTrigger().onTrue(new IntakeOutPower(intake));
+        testing.leftTrigger().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
+        // testing.povRight().whileTrue(new InstantCommand(() -> intake.runIntake(0.5)));
+        // testing.povRight().onFalse(new InstantCommand(() -> intake.stopIntake()));
 
         //Align
         //testing.rightBumper().whileTrue(new MovingAutoAim(drivetrain, true));
@@ -271,6 +280,8 @@ public class RobotContainer {
         //Tuning
         testing.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
         testing.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
+        testing.povRight().onTrue(new InstantCommand(() -> hood.hoodUp()));
+        testing.povLeft().onTrue(new InstantCommand(() -> hood.hoodDown()));
     }
 
     public Command getAutonomousCommand() {

@@ -13,6 +13,7 @@ public class FieldConstants {
     // Current State
     public static Translation2d goalLocation = new Translation2d(0,0);
     public static double distToGoal;
+    public static boolean passing;
 
     //public static Pose2d wantedPose;
     public static Pose2d finalPose;
@@ -86,13 +87,16 @@ public class FieldConstants {
                 if (robotPose.getY() < middleY) {
                     currentZone = FieldZone.MAILING_LEFT;
                     goalLocation = new Translation2d(goalLeftRedX, goalLeftRedY);
+                    passing = true;
                 } else {
                     currentZone = FieldZone.MAILING_RIGHT;
                     goalLocation = new Translation2d(goalRightRedX, goalRightRedY);
+                    passing = true;
                 }
             } else {
                 currentZone = FieldZone.HUB;
                 goalLocation = new Translation2d(goalRedX, goalRedY);
+                passing = false;
             }
         } else {
             // Blue Alliance Logic
@@ -100,13 +104,16 @@ public class FieldConstants {
                 if (robotPose.getY() < middleY) {
                     currentZone = FieldZone.MAILING_RIGHT;
                     goalLocation = new Translation2d(goalRightBlueX, goalRightBlueY);
+                    passing = true;
                 } else {
                     currentZone = FieldZone.MAILING_LEFT;
                     goalLocation = new Translation2d(goalLeftBlueX, goalLeftBlueY);
+                    passing = true;
                 }
             } else {
                 currentZone = FieldZone.HUB;
                 goalLocation = new Translation2d(goalBlueX, goalBlueY);
+                passing = false;
             }
         }
         // Calculate distance for general use

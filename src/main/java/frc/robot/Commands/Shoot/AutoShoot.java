@@ -44,9 +44,10 @@ public class AutoShoot extends Command {
   public void execute() {
     //if(AlignConstants.isAligned) {
     //drivetrain.applyRequest(() -> brake);
-
     double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 2; //tune constant rps value
+    //double hoodPos = EquationConstants.calculateHood(FieldConstants.distToGoal);
     shooter.setShooterRPS(targetRPS);
+    //hood.moveHood(hoodPos);
       if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && StationaryAutoAimContinuous.atGoal == true) {
         hopper.runHopper(HopperConstants.hopperSpeed);
       }

@@ -19,24 +19,15 @@ public class Hood extends SubsystemBase {
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
   /** Creates a new Hood. */
   public Hood() {
-    TalonFXConfiguration towerHopperConfigs = new TalonFXConfiguration();
-    towerHopperConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    towerHopperConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-    towerHopperConfigs.CurrentLimits.StatorCurrentLimit = 70;//100  80
+    TalonFXConfiguration hoodConfigs = new TalonFXConfiguration();
+    //hoodConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    hoodConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    hoodConfigs.CurrentLimits.StatorCurrentLimit = 70;
 
-    towerHopperConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
-    towerHopperConfigs.CurrentLimits.SupplyCurrentLimit = 30;//60  40
+    hoodConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    hoodConfigs.CurrentLimits.SupplyCurrentLimit = 30;
 
-    hood.getConfigurator().apply(towerHopperConfigs);
-
-
-    TalonFXConfiguration config = new TalonFXConfiguration();
-    config.CurrentLimits.StatorCurrentLimitEnable = true;
-    config.CurrentLimits.StatorCurrentLimit = 70;//100  80
-
-    config.CurrentLimits.SupplyCurrentLimitEnable = true;
-    config.CurrentLimits.SupplyCurrentLimit = 30;//60  40
-    var slot0Configs = config.Slot0;
+    var slot0Configs = hoodConfigs.Slot0;
     slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
     slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
     // PID runs on position
@@ -44,20 +35,20 @@ public class Hood extends SubsystemBase {
     slot0Configs.kI = 0;
     slot0Configs.kD = 0.1;
     hood.getConfigurator().apply(slot0Configs); 
-    hood.getConfigurator().apply(config);
+    hood.getConfigurator().apply(hoodConfigs);
 
     m_motmag.EnableFOC = true;
   }
 
-  public void moveHood(double Position) {
-    hood.setControl(m_motmag.withPosition(Position));
+  public void moveHood(double position) {
+    hood.setControl(m_motmag.withPosition(position));
   }
 
   public void hoodUp() {
-    HoodConstants.Tuner_Hood_Pose += 0.1;
+    HoodConstants.Tuner_Hood_Pos += 0.1;
   }
   public void hoodDown() {
-    HoodConstants.Tuner_Hood_Pose -= 0.1;
+    HoodConstants.Tuner_Hood_Pos -= 0.1;
   }
 
   @Override

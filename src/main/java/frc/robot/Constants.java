@@ -28,7 +28,7 @@ public class Constants {
     public static final double hoodC = 52.23682;//52.23682  //47.16806
        
     
-    public static double calculateHood(double distance) {
+    public static double calculateHoodPos(double distance) {
         return hoodA * Math.pow(distance, 2) + hoodB * distance + hoodC;
     }
 
@@ -77,7 +77,7 @@ public class Constants {
         public static final double Hood_Min_Position = 0;
 
         public static final int Hood_ID = 0;
-        public static double Tuner_Hood_Pose;
+        public static double Tuner_Hood_Pos;
         
     }
 

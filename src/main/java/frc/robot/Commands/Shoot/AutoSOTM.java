@@ -27,6 +27,8 @@ public class AutoSOTM extends Command {
   @Override
   public void execute() {
     double targetRPS = EquationConstants.calculateRPS(FieldConstants.vGoalDist);
+    //double hoodPos = EquationConstants.calculateHoodPos(FieldConstants.vGoalDist);
+
     
     if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
         FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
@@ -39,6 +41,7 @@ public class AutoSOTM extends Command {
       targetRPS = 90;
     }
     shooter.setShooterRPS(targetRPS);
+    //hood.moveHood(hoodPos);
     
     //hopper
     //Check if we are aligned

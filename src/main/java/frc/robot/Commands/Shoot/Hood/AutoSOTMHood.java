@@ -27,19 +27,20 @@ public class AutoSOTMHood extends Command {
   @Override
   public void execute() {
     double targetRPS = EquationConstants.calculateRPS(FieldConstants.vGoalDist);
-    double hoodPose = EquationConstants.calculateRPS(FieldConstants.vGoalDist);
-    // if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
-    //     FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
-    //     targetRPS -= 20;
-    // }
-    // else {
-    //   targetRPS += 2;
-    // }
-    // if (targetRPS > 90) {
-    //   targetRPS = 90;
-    // }
+    double hoodPos = EquationConstants.calculateHoodPos(FieldConstants.vGoalDist);
+    if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
+        FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
+        targetRPS -= 20;
+    }
+    else {
+      targetRPS += 2;
+    }
+    if (targetRPS > 90) {
+      targetRPS = 90;
+    }
+
     shooter.setShooterRPS(targetRPS);
-    hood.moveHood(hoodPose);
+    hood.moveHood(hoodPos);
     
     //hopper
     //Check if we are aligned

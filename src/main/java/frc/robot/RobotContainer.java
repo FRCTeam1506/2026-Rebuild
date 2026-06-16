@@ -28,7 +28,6 @@ import frc.robot.Commands.AutoPathing.Pathing;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Commands.Intake.IntakeManual;
 import frc.robot.Commands.Intake.IntakeOutPower;
-import frc.robot.Commands.Intake.IntakeToggle;
 import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Intake.Outtake;
 import frc.robot.Commands.Macros.AlignandShootStationary;
@@ -256,7 +255,7 @@ public class RobotContainer {
         
         //TESTING CONTROLS:
         testing.rightTrigger().whileTrue(new ManualShoot(shooter, hopper, hood, 50));
-        testing.rightBumper().whileTrue(new TunerShot(shooter, hopper, hood, PresetShots.tunerPower, HoodConstants.Tuner_Hood_Pose));
+        testing.rightBumper().whileTrue(new TunerShot(shooter, hopper, hood, PresetShots.tunerPower, HoodConstants.Tuner_Hood_Pos));
         testing.a().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS));
         testing.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.trenchShotRPS));
         testing.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS));

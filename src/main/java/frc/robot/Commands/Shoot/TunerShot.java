@@ -19,14 +19,14 @@ public class TunerShot extends Command {
   Hopper hopper;
   Hood hood;
   double RPS;
-  double hoodPose;
+  double hoodPos;
   /** Creates a new Shoot. */
-  public TunerShot(Shooter shooter, Hopper hopper, Hood hood, double RPS, double hoodPose) {
+  public TunerShot(Shooter shooter, Hopper hopper, Hood hood, double RPS, double hoodPos) {
     this.shooter = shooter;
     this.hopper = hopper;
     this.RPS = RPS;
     this.hood = hood;
-    this.hoodPose = hoodPose;
+    this.hoodPos = hoodPos;
     addRequirements(shooter, hopper, hood);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -39,7 +39,7 @@ public class TunerShot extends Command {
   @Override
   public void execute() {
     shooter.setShooterRPS(RPS);
-    hood.moveHood(hoodPose);
+    hood.moveHood(hoodPos);
     if (shooter.isAtVelocity(RPS, ShooterConstants.kRPSTolerancePassing)) {
         hopper.runHopper(HopperConstants.hopperSpeed);
     }

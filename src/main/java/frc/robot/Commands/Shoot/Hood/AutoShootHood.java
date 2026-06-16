@@ -21,16 +21,12 @@ public class AutoShootHood extends Command {
   private final Shooter shooter;
   private final Hopper hopper;
   private final Hood hood;
-  // private final CommandSwerveDrivetrain drivetrain;
-  // private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
-
-  /** Creates a new Shoot. */
+  /** Creates a new AutoShootHood. */
   public AutoShootHood(Shooter shooter, Hopper hopper, Hood hood) {
     this.shooter = shooter;
     this.hopper = hopper;
     this.hood = hood;
-    //this.drivetrain = drivetrain;
     addRequirements(shooter, hopper, hood);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -42,24 +38,21 @@ public class AutoShootHood extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //if(AlignConstants.isAligned) {
-    //drivetrain.applyRequest(() -> brake);
-
     double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 2; //tune constant rps value
-    double hoodPose = EquationConstants.calculateHood(FieldConstants.distToGoal);
+    double hoodPos = EquationConstants.calculateHoodPos(FieldConstants.distToGoal);
     shooter.setShooterRPS(targetRPS);
-    hood.moveHood(hoodPose);
+    hood.moveHood(hoodPos);
       if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && StationaryAutoAimContinuous.atGoal == true) {
         hopper.runHopper(HopperConstants.hopperSpeed);
       }
 
-    // if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
-    //   FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
-    //   targetRPS -= 20;
-    // }
-    // else {
-    //   targetRPS += 6.5;
-    // }
+    if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
+      FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
+      targetRPS -= 20;
+    }
+    else {
+      targetRPS += 6.5;
+    }
     
   }
   

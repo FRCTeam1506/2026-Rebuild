@@ -277,10 +277,13 @@ public class RobotContainer {
         testing.leftStick().onFalse(new InstantCommand(() -> hopper.stopHopper()));
 
         //Tuning
-        testing.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
-        testing.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
-        testing.povRight().onTrue(new InstantCommand(() -> hood.hoodUp()));
-        testing.povLeft().onTrue(new InstantCommand(() -> hood.hoodDown()));
+        //testing.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
+        //testing.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
+        testing.povRight().whileTrue(new InstantCommand(() -> hood.hoodUpPower()));
+        testing.povRight().whileFalse(new InstantCommand(() -> hood.stopHood()));
+        testing.povLeft().whileTrue(new InstantCommand(() -> hood.hoodDownPower()));
+        testing.povLeft().whileFalse(new InstantCommand(() -> hood.stopHood()));
+
     }
 
     public Command getAutonomousCommand() {

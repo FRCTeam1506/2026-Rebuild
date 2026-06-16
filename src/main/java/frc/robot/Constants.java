@@ -11,39 +11,45 @@ import edu.wpi.first.units.measure.Angle;
 public class Constants {
 
     public static class EquationConstants {
-    // Equation: RPS = ax^2 + bx + c
-    public static final double sA = 1.49877;//1.41868
-    public static final double sB = -4.57313;//-4.53572
-    public static final double sC = 52.23682;//52.23682  //47.16806
-       
-    
-    public static double calculateRPS(double distance) {
-        return sA * Math.pow(distance, 2) + sB * distance + sC;
-    }
-
-
-
-    public static final double hoodA = 1.49877;//1.41868
-    public static final double hoodB = -4.57313;//-4.53572
-    public static final double hoodC = 52.23682;//52.23682  //47.16806
-       
-    
-    public static double calculateHoodPos(double distance) {
-        return hoodA * Math.pow(distance, 2) + hoodB * distance + hoodC;
-    }
-
-    public static double quadraticRPS (double dist) {
-        return dist; //Placeholder for quadratic regression formula
-    }
-
-    public static final double tA = 0.0153632;
-    public static final double tB = 0.0744317;
-    public static final double tC = 0.540794;
-
-    public static double calculateTimeOfFlight(double distance) {
-        return tA * Math.pow(distance, 2) + tB * distance + tC;
-    
+        // Equation: RPS = ax^2 + bx + c
+        public static final double sA = 1.49877;//1.41868
+        public static final double sB = -4.57313;//-4.53572
+        public static final double sC = 52.23682;//52.23682  //47.16806
+        
+        public static double calculateRPS(double distance) {
+            return sA * Math.pow(distance, 2) + sB * distance + sC;
         }
+
+        public static final double hoodA = 1.49877;//1.41868
+        public static final double hoodB = -4.57313;//-4.53572
+        public static final double hoodC = 52.23682;//52.23682  //47.16806
+        
+        
+        public static double calculateHoodPassingPos(double distance) {
+            return hoodA * Math.pow(distance, 2) + hoodB * distance + hoodC;
+        }
+
+        public static final double hoodPassingA = 1.49877;//1.41868
+        public static final double hoodPassingB = -4.57313;//-4.53572
+        public static final double hoodPassingC = 52.23682;//52.23682  //47.16806
+
+
+        public static double calculateHoodPos(double distance) {
+            return hoodA * Math.pow(distance, 2) + hoodB * distance + hoodC;
+        }
+
+        public static double quadraticRPS (double dist) {
+            return dist; //Placeholder for quadratic regression formula
+        }
+
+        public static final double tA = 0.0153632;
+        public static final double tB = 0.0744317;
+        public static final double tC = 0.540794;
+
+        public static double calculateTimeOfFlight(double distance) {
+            return tA * Math.pow(distance, 2) + tB * distance + tC;
+        
+            }
     }
 
     public static final class DriveConstants {
@@ -77,8 +83,8 @@ public class Constants {
         public static final double Hood_Min_Position = 0;
 
         public static final int Hood_ID = 0;
-        public static double Tuner_Hood_Pos;
-        
+        public static final int Hood_Limit_Switch_ID = 0;
+        public static double Tuner_Hood_Pos;        
     }
 
     public static class ShooterConstants {

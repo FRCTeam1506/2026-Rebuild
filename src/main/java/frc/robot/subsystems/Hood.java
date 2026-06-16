@@ -10,10 +10,13 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HoodConstants;
 
 public class Hood extends SubsystemBase {
+  //DigitalInput limitSwitch = new DigitalInput(HoodConstants.Hood_Limit_Switch_ID);
+
   private TalonFX hood = new TalonFX(HoodConstants.Hood_ID);
 
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
@@ -54,5 +57,8 @@ public class Hood extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // if(limitSwitch.get()) {
+    //   hood.setPosition(0);
+    // }
   }
 }

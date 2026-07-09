@@ -102,6 +102,14 @@ public class RobotContainer {
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
+        // drivetrain.setDefaultCommand(
+        //     // Drivetrain will execute this command periodically
+        //     drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(-testing.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+        //             .withVelocityY(-testing.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+        //             .withRotationalRate(-testing.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        //     )
+        // );
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -256,9 +264,9 @@ public class RobotContainer {
         //TESTING CONTROLS:
         testing.rightTrigger().whileTrue(new ManualShoot(shooter, hopper, hood, 50));
         testing.rightBumper().whileTrue(new TunerShot(shooter, hopper, hood, PresetShots.tunerPower, HoodConstants.Tuner_Hood_Pos));
-        testing.a().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS));
-        testing.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.trenchShotRPS));
-        testing.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS));
+        // testing.a().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS));
+        // testing.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.trenchShotRPS));
+        // testing.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS));
 
         //Intake
         //testing.leftTrigger().whileTrue(new IntakeCommand(intake));
@@ -279,10 +287,14 @@ public class RobotContainer {
         //Tuning
         //testing.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
         //testing.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
-        testing.povRight().whileTrue(new InstantCommand(() -> hood.hoodUpPower()));
-        testing.povRight().whileFalse(new InstantCommand(() -> hood.stopHood()));
-        testing.povLeft().whileTrue(new InstantCommand(() -> hood.hoodDownPower()));
-        testing.povLeft().whileFalse(new InstantCommand(() -> hood.stopHood()));
+        testing.y().whileTrue(new InstantCommand(() -> hood.hoodUpPower()));
+        testing.y().whileFalse(new InstantCommand(() -> hood.stopHood()));
+        testing.a().whileTrue(new InstantCommand(() -> hood.hoodDownPower()));
+        testing.a().whileFalse(new InstantCommand(() -> hood.stopHood()));
+        testing.povRight().onTrue(new InstantCommand(() -> hood.hoodUp()));
+        testing.povLeft().onTrue(new InstantCommand(() -> hood.hoodDown()));
+        testing.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
+        testing.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
 
     }
 
@@ -290,5 +302,6 @@ public class RobotContainer {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
     }
+    
     
 }

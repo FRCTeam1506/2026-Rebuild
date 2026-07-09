@@ -4,9 +4,12 @@
 
 package frc.robot.Commands.Shoot;
 
+import java.util.function.Predicate;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.HopperConstants;
+import frc.robot.Constants.PresetShots;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.Hood;
@@ -38,9 +41,9 @@ public class TunerShot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setShooterRPS(RPS);
-    hood.moveHood(hoodPos);
-    if (shooter.isAtVelocity(RPS, ShooterConstants.kRPSTolerancePassing)) {
+    shooter.setShooterRPS(PresetShots.tunerPower);
+    //hood.moveHood(hoodPos);
+    if (shooter.isAtVelocity(PresetShots.tunerPower, ShooterConstants.kRPSTolerancePassing)) {
         hopper.runHopper(HopperConstants.hopperSpeed);
     }
   }

@@ -12,17 +12,17 @@ public class Constants {
 
     public static class EquationConstants {
         // Equation: RPS = ax^2 + bx + c
-        public static final double sA = 1.49877;//1.41868
-        public static final double sB = -4.57313;//-4.53572
-        public static final double sC = 52.23682;//52.23682  //47.16806
+        public static final double sA = 2.32413;//1.41868
+        public static final double sB = -6.54562;//-4.53572
+        public static final double sC = 52.59076;//52.23682  //47.16806
         
         public static double calculateRPS(double distance) {
             return sA * Math.pow(distance, 2) + sB * distance + sC;
         }
 
-        public static final double hoodA = 1.49877;//1.41868
-        public static final double hoodB = -4.57313;//-4.53572
-        public static final double hoodC = 52.23682;//52.23682  //47.16806
+        public static final double hoodA = 0.590128;//1.41868
+        public static final double hoodB = -1.44757;//-4.53572
+        public static final double hoodC = 0.156007;//52.23682  //47.16806
         
         
         public static double calculateHoodPassingPos(double distance) {
@@ -42,9 +42,9 @@ public class Constants {
             return dist; //Placeholder for quadratic regression formula
         }
 
-        public static final double tA = 0.0153632;
-        public static final double tB = 0.0744317;
-        public static final double tC = 0.540794;
+        public static final double tA = 0.0553743;
+        public static final double tB = -0.220291;
+        public static final double tC = 1.21227;
 
         public static double calculateTimeOfFlight(double distance) {
             return tA * Math.pow(distance, 2) + tB * distance + tC;
@@ -83,7 +83,7 @@ public class Constants {
         public static final double Hood_Min_Position = 0;
 
         public static final int Hood_ID = 56;
-        public static final int Hood_Limit_Switch_Port = 2;
+        public static final int Hood_Limit_Switch_Port = 1;
         public static double Tuner_Hood_Pos;        
     }
 

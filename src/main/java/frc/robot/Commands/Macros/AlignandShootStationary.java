@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Commands.Align.StationaryAutoAimContinuous;
 import frc.robot.Commands.Intake.JitterIntake;
 import frc.robot.Commands.Shoot.AutoShoot;
+import frc.robot.Commands.Shoot.Hood.AutoShootHood;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Hopper;
@@ -18,6 +19,7 @@ public class AlignandShootStationary extends ParallelCommandGroup {
     addCommands(
         new StationaryAutoAimContinuous(drivetrain),
         new AutoShoot(shooter, hopper, hood),
+        //new AutoShootHood(shooter, hopper, hood),
         // new InstantCommand(() -> intake.runIntake(-0.2))
         new JitterIntake(intake).repeatedly()
     );

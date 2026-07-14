@@ -6,6 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -68,7 +69,7 @@ public class RobotContainer {
 
 
     Intake intake = new Intake();
-    Shooter shooter = new Shooter(drivetrain);
+    Shooter shooter = new Shooter(drivetrain, intake);
     Hopper hopper = new Hopper();
     Pathing pathing = new Pathing(drivetrain);
     Hood hood = new Hood();
@@ -84,6 +85,10 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
+        // Attach the sim-only intake to the drivetrain's physics body so it can collect Fuel.
+        if (Utils.isSimulation()) {
+            intake.initSim(drivetrain.getMapleSimDrive());
+        }
 
         configureBindings();
 

@@ -22,15 +22,21 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
+import frc.robot.Constants.SimConstants;
+import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.utils.simulation.MapleSimSwerveDrivetrain;
+
+import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -42,7 +48,15 @@ import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
     private static final double kSimLoopPeriod = 0.004; // 4 ms
     private Notifier m_simNotifier = null;
-    private double m_lastSimTime;
+
+    /*
+     * maple-sim physics simulation of this drivetrain. Non-null only in simulation
+     * (constructed in startSimThread()). It owns the dyn4j rigid body that gives the
+     * robot real momentum and lets it collide with the field walls, and it feeds the
+     * simulated TalonFX/CANcoder/Pigeon2 sensors so the rest of our code (odometry,
+     * requests, PathPlanner) runs unchanged on top of it. On a real robot this stays null.
+     */
+    private MapleSimSwerveDrivetrain mapleSimSwerveDrivetrain = null;
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -135,7 +149,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveDrivetrainConstants drivetrainConstants,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
-        super(drivetrainConstants, modules);
+        // regulateModuleConstantsForSimulation() tweaks steer PID / gear ratio / friction so the
+        // sim is numerically stable; it is a no-op on a real robot (guarded by RobotBase.isReal()).
+        super(drivetrainConstants, MapleSimSwerveDrivetrain.regulateModuleConstantsForSimulation(modules));
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -160,7 +176,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         double odometryUpdateFrequency,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
-        super(drivetrainConstants, odometryUpdateFrequency, modules);
+        super(drivetrainConstants, odometryUpdateFrequency,
+            MapleSimSwerveDrivetrain.regulateModuleConstantsForSimulation(modules));
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -193,7 +210,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Matrix<N3, N1> visionStandardDeviation,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
-        super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation, modules);
+        super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation,
+            MapleSimSwerveDrivetrain.regulateModuleConstantsForSimulation(modules));
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -282,19 +300,64 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
     }
 
+    /**
+     * Starts the simulation thread.
+     * <p>
+     * This used to run CTRE's built-in {@code updateSimState(...)}, which is a purely
+     * <em>kinematic</em> sim (it just integrates the commanded velocities and assumes perfect
+     * motion — the robot can drive through walls and has no momentum).
+     * <p>
+     * We now hand the physics to <b>maple-sim</b> instead. {@link MapleSimSwerveDrivetrain} builds a
+     * dyn4j rigid body for the chassis (with our mass, bumper size, module layout and motor models),
+     * registers it with the {@link org.ironmaple.simulation.SimulatedArena}, and every tick its
+     * {@code update()} steps the physics world and writes the resulting encoder/gyro values back into
+     * the simulated Phoenix 6 devices. From the rest of the robot code's point of view, nothing
+     * changes — odometry, swerve requests and PathPlanner all read the same (now physics-accurate)
+     * sensors.
+     */
     private void startSimThread() {
-        m_lastSimTime = Utils.getCurrentTimeSeconds();
+        mapleSimSwerveDrivetrain = new MapleSimSwerveDrivetrain(
+            Seconds.of(kSimLoopPeriod),
+            // --- Physical robot properties (Team 1506 known approximate values; refine these) ---
+            Pounds.of(120),          // robot mass incl. bumpers — near the 120 lb limit; weigh to firm up
+            Inches.of(28),           // bumper length (X) — 28x28 frame; measure exact bumper outer dims
+            Inches.of(28),           // bumper width  (Y)
+            // --- Motor models: affects the simulated torque/speed curve of each module ---
+            DCMotor.getKrakenX60(1), // drive motor (TalonFX/Kraken; kSpeedAt12Volts 5.85 m/s fits Kraken)
+            DCMotor.getKrakenX60(1), // TODO steer motor — confirm Kraken vs Falcon500 against hardware
+            1.2,                     // drive wheel coefficient of friction (grip)
+            // --- Geometry & devices pulled straight from the CTRE drivetrain (no duplication) ---
+            getModuleLocations(),    // module positions (±11 in from TunerConstants)
+            getPigeon2(),            // the Pigeon2 IMU, so maple-sim can drive its simulated yaw
+            getModules(),            // the four SwerveModules (their TalonFX/CANcoder sim states)
+            TunerConstants.FrontLeft,
+            TunerConstants.FrontRight,
+            TunerConstants.BackLeft,
+            TunerConstants.BackRight);
 
-        /* Run simulation at a faster rate so PID gains behave more reasonably */
-        m_simNotifier = new Notifier(() -> {
-            final double currentTime = Utils.getCurrentTimeSeconds();
-            double deltaTime = currentTime - m_lastSimTime;
-            m_lastSimTime = currentTime;
-
-            /* use the measured time delta, get battery voltage from WPILib */
-            updateSimState(deltaTime, RobotController.getBatteryVoltage());
-        });
+        /* Step the physics world on the CTRE sim notifier at kSimLoopPeriod (4 ms). */
+        m_simNotifier = new Notifier(mapleSimSwerveDrivetrain::update);
         m_simNotifier.startPeriodic(kSimLoopPeriod);
+
+        /*
+         * Seed a sensible in-field starting pose. Without this the maple-sim body spawns at the
+         * field origin (0,0) — the bottom-left corner — so half the bumper hangs outside the wall.
+         * resetPose() (overridden below) teleports BOTH the physics body and the odometry estimate.
+         * PathPlanner autos still override this with their own start pose, so this only governs
+         * teleop/disabled testing.
+         */
+        resetPose(SimConstants.kSimStartingPose);
+    }
+
+    /**
+     * @return the underlying maple-sim {@link SwerveDriveSimulation} (the dyn4j chassis body), or
+     *     {@code null} on a real robot. Used to attach sim-only mechanisms like an
+     *     {@link org.ironmaple.simulation.IntakeSimulation} to this drivetrain.
+     */
+    public SwerveDriveSimulation getMapleSimDrive() {
+        return mapleSimSwerveDrivetrain == null
+            ? null
+            : mapleSimSwerveDrivetrain.mapleSimDrive;
     }
 
     /**
@@ -340,5 +403,30 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     @Override
     public Optional<Pose2d> samplePoseAt(double timestampSeconds) {
         return super.samplePoseAt(Utils.fpgaToCurrentTime(timestampSeconds));
+    }
+
+    /**
+     * Resets the odometry pose. In simulation we also teleport the maple-sim physics body to the
+     * same pose, otherwise the estimator and the physics world would disagree (e.g. when PathPlanner
+     * sets an autonomous start pose, or when we manually reset). Mirrors CTRE's recommended override.
+     */
+    @Override
+    public void resetPose(Pose2d pose) {
+        if (mapleSimSwerveDrivetrain != null) {
+            mapleSimSwerveDrivetrain.mapleSimDrive.setSimulationWorldPose(pose);
+            Timer.delay(0.05); // let the physics thread apply the new pose before odometry reads it
+        }
+        super.resetPose(pose);
+    }
+
+    /**
+     * @return the ground-truth robot pose from the maple-sim physics world, or {@code null} when not
+     *     in simulation. This is the "actual" pose, as opposed to the odometry <em>estimate</em>
+     *     published on {@code DriveState/Pose} — publish both to compare drift in AdvantageScope.
+     */
+    public Pose2d getSimulatedPose() {
+        return mapleSimSwerveDrivetrain == null
+            ? null
+            : mapleSimSwerveDrivetrain.mapleSimDrive.getSimulatedDriveTrainPose();
     }
 }

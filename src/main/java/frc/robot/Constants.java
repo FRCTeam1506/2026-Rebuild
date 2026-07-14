@@ -4,11 +4,41 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Inches;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.Distance;
 
 /** Add your docs here. */
 public class Constants {
+
+    /**
+     * Values that ONLY affect desktop simulation (maple-sim). Nothing here is read on the real
+     * robot, so these are safe to tune freely to make the sim look/behave the way you want.
+     */
+    public static class SimConstants {
+        // Where the robot spawns in teleop/disabled sim. The 2026 field runs (0,0) -> (16.54, 8.05);
+        // this is a blue-side, clearly-in-field pose facing the far (red) end. Tune freely.
+        public static final Pose2d kSimStartingPose =
+            new Pose2d(7.5, 4.0, Rotation2d.fromDegrees(180));
+
+        // --- Intake pickup geometry (IntakeSimulation.OverTheBumperIntake) ---
+        public static final Distance kIntakeWidth = Inches.of(28);     // mouth width along the bumper
+        public static final Distance kIntakeExtension = Inches.of(6);   // how far it reaches past the bumper
+        public static final int kIntakeCapacity = 5;                    // max fuel held at once
+
+        // --- Shooter launch (RebuiltFuelOnFly) ---
+        public static final Translation2d kShooterOffsetOnRobot = new Translation2d(0.2, 0); // shooter pos in robot frame (m)
+        public static final Distance kShooterHeight = Inches.of(24);    // launch height off the floor
+        public static final Angle kShooterPitch = Degrees.of(55);       // launch pitch angle
+        public static final double kShootRpsThreshold = 40;             // min avg shooter RPS to count as "firing"
+        public static final double kShotPeriodSec = 0.2;                // min seconds between launched fuel
+        public static final double kLaunchSpeedPerRps = 0.1;            // RPS -> m/s launch speed factor (tune visually)
+    }
 
     public static class EquationConstants {
         // Equation: RPS = ax^2 + bx + c

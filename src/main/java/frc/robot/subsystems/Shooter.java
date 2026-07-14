@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
+import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -12,6 +15,8 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,6 +24,11 @@ import frc.robot.Constants.EquationConstants;
 import frc.robot.FieldConstants;
 import frc.robot.Constants.PresetShots;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.SimConstants;
+
+import org.ironmaple.simulation.SimulatedArena;
+import org.ironmaple.simulation.IntakeSimulation;
+import org.ironmaple.simulation.seasonspecific.rebuilt2026.RebuiltFuelOnFly;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
@@ -35,8 +45,15 @@ public class Shooter extends SubsystemBase {
   double dist;
   CommandSwerveDrivetrain drivetrain;
 
-  public Shooter(CommandSwerveDrivetrain drivetrain) {
+  // Sim-only: the intake we pull Fuel from, and a rate limiter so we launch a stream of pieces
+  // rather than one per loop. Both are harmless on the real robot.
+  private final Intake intake;
+  private final Timer shotTimer = new Timer();
+
+  public Shooter(CommandSwerveDrivetrain drivetrain, Intake intake) {
     this.drivetrain = drivetrain;
+    this.intake = intake;
+    shotTimer.start();
 
     TalonFXConfiguration shooterConfigs = new TalonFXConfiguration();
 
@@ -125,5 +142,42 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Tuner Power", PresetShots.tunerPower);
     SmartDashboard.putNumber("Shooter Power", avgShooterSpeed());
     // This method will be called once per scheduler run
+
+    simShootPeriodic();
+  }
+
+  /**
+   * Sim-only: while the shooter is spun up and the intake holds Fuel, launch a Fuel projectile on a
+   * rate-limited cadence. maple-sim's RebuiltFuelOnFly figures out whether it lands in the HUB or
+   * falls to the floor. Everything here no-ops on a real robot.
+   */
+  private void simShootPeriodic() {
+    if (!Utils.isSimulation()) return;
+
+    IntakeSimulation intakeSim = intake.getIntakeSim();
+    Pose2d simPose = drivetrain.getSimulatedPose();
+    if (intakeSim == null || simPose == null) return;
+
+    boolean firing = avgShooterSpeed() > SimConstants.kShootRpsThreshold
+        && intakeSim.getGamePiecesAmount() > 0
+        && shotTimer.hasElapsed(SimConstants.kShotPeriodSec);
+    if (!firing) return;
+
+    intakeSim.obtainGamePieceFromIntake(); // consume one held Fuel
+
+    // Field-relative chassis speed so a moving robot imparts momentum to the shot.
+    ChassisSpeeds fieldSpeeds =
+        ChassisSpeeds.fromRobotRelativeSpeeds(drivetrain.getState().Speeds, simPose.getRotation());
+
+    SimulatedArena.getInstance().addGamePieceProjectile(new RebuiltFuelOnFly(
+        simPose.getTranslation(),              // robot position on the field
+        SimConstants.kShooterOffsetOnRobot,    // shooter offset in the robot frame
+        fieldSpeeds,                           // robot velocity (momentum)
+        simPose.getRotation(),                 // shooter faces the way the robot faces
+        SimConstants.kShooterHeight,           // launch height
+        MetersPerSecond.of(avgShooterSpeed() * SimConstants.kLaunchSpeedPerRps), // RPS -> launch speed
+        SimConstants.kShooterPitch));          // launch pitch
+
+    shotTimer.reset();
   }
 }

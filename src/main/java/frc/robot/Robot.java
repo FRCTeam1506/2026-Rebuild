@@ -4,20 +4,31 @@
 
 package frc.robot;
 
+import java.util.Arrays;
+
 import com.ctre.phoenix6.HootAutoReplay;
+import com.ctre.phoenix6.Utils;
 import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.FieldConstants;
 import frc.robot.Constants.VisionConstants;
+
+import org.ironmaple.simulation.SimulatedArena;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -31,6 +42,23 @@ public class Robot extends TimedRobot {
 
     private final boolean kUseLimelight = true;
 
+    /*
+     * Publishes maple-sim's ground-truth robot pose to NetworkTables so AdvantageScope can draw the
+     * "actual" robot. The odometry ESTIMATE is already published on DriveState/Pose by Telemetry;
+     * showing both side-by-side is how you see pose-estimation drift. Only written in simulation.
+     */
+    private final StructPublisher<Pose2d> m_simGroundTruthPosePublisher =
+        NetworkTableInstance.getDefault().getStructTopic("MapleSim/GroundTruthPose", Pose2d.struct).publish();
+
+    /*
+     * Sim-only visualization of the maple-sim "Fuel" game pieces. m_simField draws them as 2D
+     * markers in the simgui/Glass Field2d widget; m_fuelPublisher exposes full 3D poses on
+     * NetworkTables for AdvantageScope. Both are only written in simulation.
+     */
+    private final Field2d m_simField = new Field2d();
+    private final StructArrayPublisher<Pose3d> m_fuelPublisher =
+        NetworkTableInstance.getDefault().getStructArrayTopic("MapleSim/Fuel", Pose3d.struct).publish();
+
     private final edu.wpi.first.math.filter.LinearFilter xFilter = edu.wpi.first.math.filter.LinearFilter.movingAverage(5);
     private final edu.wpi.first.math.filter.LinearFilter yFilter = edu.wpi.first.math.filter.LinearFilter.movingAverage(5);
 
@@ -38,6 +66,13 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         m_robotContainer = new RobotContainer();
+        SmartDashboard.putData("Sim/Field", m_simField);
+
+        // Seed starting Fuel immediately in sim, so it's on the field before autonomousInit()
+        // ever runs (autonomousInit() also calls this to reset between auto runs).
+        if (Utils.isSimulation()) {
+            SimulatedArena.getInstance().resetFieldForAuto();
+        }
     }
 
     public void robotInit() {
@@ -138,6 +173,11 @@ public class Robot extends TimedRobot {
         //     new Translation2d(FieldConstants.goalRedX, FieldConstants.goalRedY) : 
         //     new Translation2d(FieldConstants.goalBlueX, FieldConstants.goalBlueY);
         
+        // In sim, reset the field so all Fuel returns to its match-start layout each auto run.
+        if (Utils.isSimulation()) {
+            SimulatedArena.getInstance().resetFieldForAuto();
+        }
+
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         if (m_autonomousCommand != null) {
@@ -185,5 +225,27 @@ public class Robot extends TimedRobot {
     public void testExit() {}
 
     @Override
-    public void simulationPeriodic() {}
+    public void simulationPeriodic() {
+        /*
+         * maple-sim steps its physics on the drivetrain's own notifier thread (see
+         * CommandSwerveDrivetrain.startSimThread). Here we just read the resulting ground-truth pose
+         * and publish it for visualization. getSimulatedPose() returns null outside of sim, but
+         * simulationPeriodic() only ever runs in sim, so it will be non-null here.
+         */
+        Pose2d groundTruth = m_robotContainer.drivetrain.getSimulatedPose();
+        if (groundTruth != null) {
+            m_simGroundTruthPosePublisher.set(groundTruth);
+        }
+
+        /*
+         * Publish the Fuel game pieces that maple-sim is already simulating. The 2026 arena spawns
+         * a full field of Fuel on construction; this just makes it visible. Pose3d[] -> NT for
+         * AdvantageScope, and 2D markers -> the Field2d widget for simgui/Glass.
+         */
+        Pose3d[] fuel = SimulatedArena.getInstance().getGamePiecesArrayByType("Fuel");
+        Pose3d[] fuelFiltered = Arrays.copyOf(fuel, Math.min(fuel.length, 10));
+        m_fuelPublisher.set(fuelFiltered);
+        m_simField.getObject("Fuel").setPoses(
+            Arrays.stream(fuelFiltered).map(Pose3d::toPose2d).toList());
+    }
 }

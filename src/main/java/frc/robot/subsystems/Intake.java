@@ -17,6 +17,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Commands.Intake.IntakeInPower;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.SimConstants;
+
+import org.ironmaple.simulation.IntakeSimulation;
+import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
@@ -29,6 +33,13 @@ public class Intake extends SubsystemBase {
   final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
 
   boolean out;
+
+  /*
+   * maple-sim over-the-bumper intake. Non-null only in simulation (created by initSim() from
+   * RobotContainer). When running it expands the robot's collision space and vacuums up any "Fuel"
+   * it touches, up to its capacity. On a real robot this stays null and every hook below no-ops.
+   */
+  private IntakeSimulation intakeSim = null;
 
   public Intake() {
       // final MotionMagicVoltage m_motmag = new MotionMagicVoltage(12);
@@ -81,12 +92,38 @@ public class Intake extends SubsystemBase {
 
   }
 
+  /**
+   * Attaches a maple-sim intake to the drivetrain's physics body. Call this ONCE from
+   * RobotContainer when running in simulation. Does nothing on a real robot.
+   *
+   * @param drive the maple-sim drivetrain, from {@code drivetrain.getMapleSimDrive()}
+   */
+  public void initSim(SwerveDriveSimulation drive) {
+    if (drive == null) return; // real robot, or sim not ready
+    intakeSim = IntakeSimulation.OverTheBumperIntake(
+        "Fuel", drive,
+        SimConstants.kIntakeWidth, SimConstants.kIntakeExtension,
+        IntakeSimulation.IntakeSide.FRONT, SimConstants.kIntakeCapacity);
+    intakeSim.register();
+  }
+
+  /** @return the maple-sim intake (fuel count / consumption), or {@code null} on a real robot. */
+  public IntakeSimulation getIntakeSim() {
+    return intakeSim;
+  }
+
   public void runIntake(double speed) {
     intake.set(speed);
+    // Negative speed = intaking (see RobotContainer bindings, e.g. runIntake(-0.9)).
+    if (intakeSim != null) {
+      if (speed < 0) intakeSim.startIntake();
+      else intakeSim.stopIntake();
+    }
   }
 
   public void stopIntake() {
     intake.set(0);
+    if (intakeSim != null) intakeSim.stopIntake();
   }
 
   public void runIntakeLift(double speed) {
@@ -131,5 +168,9 @@ public class Intake extends SubsystemBase {
     // SmartDashboard.putBoolean("Intake/Extended Switch", isFullyExtended());
     // SmartDashboard.putBoolean("Intake/Retracted Switch", isFullyIn());
     // This method will be called once per scheduler run
+
+    if (intakeSim != null) {
+      SmartDashboard.putNumber("Sim/FuelInIntake", intakeSim.getGamePiecesAmount());
+    }
   }
 }

@@ -62,20 +62,28 @@ public class Hood extends SubsystemBase {
   }
 
   public void hoodUp() {
-    HoodConstants.Tuner_Hood_Pos += 1;
+    //HoodConstants.Tuner_Hood_Pos += 1;
+
+
     //hood.setControl(m_motmag.withPosition(HoodConstants.Tuner_Hood_Pos));
   }
   public void hoodDown() {
-    HoodConstants.Tuner_Hood_Pos -= 1;
+    //HoodConstants.Tuner_Hood_Pos -= 1;
+
+
     //hood.setControl(m_motmag.withPosition(HoodConstants.Tuner_Hood_Pos));
   }
 
   public void hoodUpPower() {
-    hood.set(0.1);
+    //hood.set(0.1);
+
+
     //hood.setControl(m_motmag.withPosition(HoodConstants.Tuner_Hood_Pos));
   }
   public void hoodDownPower() {
-    hood.set(-0.1);
+    //hood.set(-0.1);
+
+    
     //hood.setControl(m_motmag.withPosition(HoodConstants.Tuner_Hood_Pos));
   }
 
@@ -85,15 +93,15 @@ public class Hood extends SubsystemBase {
 
   @Override
   public void periodic() {
-    hood.setControl(m_motmag.withPosition(HoodConstants.Tuner_Hood_Pos));
-    //adding the value of the limit switch boolean
-    SmartDashboard.putBoolean("Hood Limit Switch", limitSwitch.get());
-    //System.out.println(limitSwitch.)
-    // This method will be called once per scheduler run
-    if(!limitSwitch.get()) {
-      hood.setPosition(0);
-    }
-    SmartDashboard.putNumber("Hood Position", hood.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("Tuner Hood Position Set To", HoodConstants.Tuner_Hood_Pos);
+    // hood.setControl(m_motmag.withPosition(HoodConstants.Tuner_Hood_Pos));
+    // //adding the value of the limit switch boolean
+    // SmartDashboard.putBoolean("Hood Limit Switch", limitSwitch.get());
+    // //System.out.println(limitSwitch.)
+    // // This method will be called once per scheduler run
+    // if(!limitSwitch.get()) {
+    //   hood.setPosition(0);
+    // }
+    // SmartDashboard.putNumber("Hood Position", hood.getPosition().getValueAsDouble());
+    // SmartDashboard.putNumber("Tuner Hood Position Set To", HoodConstants.Tuner_Hood_Pos);
   }
 }

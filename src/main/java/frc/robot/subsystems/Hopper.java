@@ -37,7 +37,7 @@ public class Hopper extends SubsystemBase {
     config.CurrentLimits.StatorCurrentLimit = 70;//100  80
 
     config.CurrentLimits.SupplyCurrentLimitEnable = true;
-    config.CurrentLimits.SupplyCurrentLimit = 30;//60  40
+    config.CurrentLimits.SupplyCurrentLimit = 35;//60  40
     var slot0Configs = config.Slot0;
     slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
     slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps

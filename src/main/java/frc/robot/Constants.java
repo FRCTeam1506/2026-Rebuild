@@ -42,9 +42,9 @@ public class Constants {
 
     public static class EquationConstants {
         // Equation: RPS = ax^2 + bx + c
-        public static final double sA = 2.32413;//1.41868
-        public static final double sB = -6.54562;//-4.53572
-        public static final double sC = 52.59076;//52.23682  //47.16806
+        public static final double sA = 1.49877;//1.41868
+        public static final double sB = -4.57313;//-4.53572
+        public static final double sC = 52.23682;//52.23682  //47.16806
         
         public static double calculateRPS(double distance) {
             return sA * Math.pow(distance, 2) + sB * distance + sC;
@@ -72,9 +72,9 @@ public class Constants {
             return dist; //Placeholder for quadratic regression formula
         }
 
-        public static final double tA = 0.0553743;
-        public static final double tB = -0.220291;
-        public static final double tC = 1.21227;
+         public static final double tA = 0.0153632;
+        public static final double tB = 0.0744317;
+        public static final double tC = 0.540794;
 
         public static double calculateTimeOfFlight(double distance) {
             return tA * Math.pow(distance, 2) + tB * distance + tC;

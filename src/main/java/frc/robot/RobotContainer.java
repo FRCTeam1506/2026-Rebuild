@@ -125,17 +125,6 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        //DRIVER CONTROLS:
-        // driver.R1().whileTrue(
-        //     new AlignOnTheMoveNew(
-        //         drivetrain,
-        //         () -> -driver.getLeftY(),
-        //         () -> -driver.getLeftX()
-        //     )
-        // );
-
-
-
         driver.rightTrigger().whileTrue(
             new SOTM(
                 drivetrain,
@@ -147,17 +136,7 @@ public class RobotContainer {
                 () -> -driver.getLeftX()
             )
         );
-        // driver.rightTrigger().whileTrue(
-        //     new AlignOnTheMoveNew(
-        //         drivetrain,
-        //         () -> -driver.getLeftY(),
-        //         () -> -driver.getLeftX()
-        //     )
-        // );
 
-
-
-        //driver.R2().whileTrue(new JitterIntake(intake).repeatedly().unless(operator.leftTrigger()).unless(driver.L2()));
         driver.rightTrigger().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));      
           
 

@@ -126,21 +126,15 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         driver.rightTrigger().whileTrue(
-            new SOTM(
+            new AlignOnTheMoveNew(
                 drivetrain,
-                shooter,
-                hopper,
-                intake,
-                hood,
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX()
             )
         );
 
         driver.rightTrigger().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));      
-          
-
-        driver.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+                 
         // Reset the field-centric heading on left CIRCLE (David likes circle) press.
         driver.b().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
@@ -148,7 +142,6 @@ public class RobotContainer {
         driver.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
         //Shoot
-        //driver.R2().whileTrue(new AutoShoot(shooter, hopper)); //Old AlignandShoot Command Sequential Group
         driver.rightBumper().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
         driver.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
@@ -156,42 +149,23 @@ public class RobotContainer {
         driver.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
         driver.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
         driver.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS)); //Corner Shot
-        //driver.povUp().whileTrue(new ManualShoot(shooter, hopper, PresetShots.passingShotRPS)); //Passing Shot
+
 
         //Intake    
-        //().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
         driver.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));
         driver.leftTrigger().onTrue(new IntakeOutPower(intake));
         driver.leftTrigger().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
         driver.povDown().onTrue(new IntakeOutPower(intake));
         driver.povUp().onTrue(new IntakeInPower(intake));
-        //driver.povRight().onTrue(new IntakeToggle(intake));
 
-        //driver.L1().whileTrue(new OuttakeCommand(intake, hopper)); //PUT THIS BACK IN
-        //driver.L1().whileTrue(new AutoSOTMNew(shooter, hopper));
         
         driver.leftBumper().whileTrue(new DriveShortestPath(drivetrain, pathing));
-
-
-        //Stationary Align:
-        //driver.R1().whileTrue(new StationaryAutoAim(drivetrain));
-
-        //Tuner Shot:
-        // driver.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
-        // driver.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
-        // driver.povRight().whileTrue(new TunerShoot(shooter, hopper));
 
         
 
         //OPERATOR CONTROLS:
-        //Shoot only on right trigger for operator:
-        // operator.rightTrigger().whileTrue(new AutoShoot(shooter, hopper));
-        operator.rightTrigger().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
-        operator.rightTrigger().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
 
-        //Run shooter and hopper in reverse:
         operator.b().whileTrue(new InstantCommand(() -> shooter.runAllShootersSpeed(-0.25)).alongWith(new InstantCommand(() -> hopper.runHopper(-0.5))));
-        
         //Run shooter and hopper in reverse:
         operator.b().whileFalse(new InstantCommand(() -> shooter.runAllShootersSpeed(0)).alongWith(new InstantCommand(() -> hopper.runHopper(0))));
 
@@ -202,48 +176,25 @@ public class RobotContainer {
         operator.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
         operator.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.passingShotRPS));
 
-        //SOTM Auto Shoot:
-        //operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper));
-        // operator.rightBumper().whileTrue(
-        //     new AutoSOTM(
-        //         shooter,
-        //         hopper
-        //     )
-        // );
-        //operator.rightBumper().whileTrue(new JitterIntake(intake).repeatedly().unless(operator.leftTrigger()).unless(driver.leftTrigger()));
-        operator.rightBumper().whileTrue(new AutoSOTM(shooter, hopper, hood).alongWith(new JitterIntake(intake)).repeatedly());
-        operator.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+        
+        operator.rightBumper().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
+        operator.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));  
 
+        operator.rightTrigger().whileTrue(new AutoSOTM(shooter, hopper, hood));
+        operator.rightTrigger().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));   
 
-        //Bring this back in: Rev Hopper Only
-        //operator.rightBumper().whileTrue(new InstantCommand(() -> hopper.runHopper(-HopperConstants.hopperSpeed)));
-        //operator.rightBumper().whileFalse(new InstantCommand(() -> hopper.stopHopper()));
-
-        //Intake
-        //operator.leftTrigger().whileTrue(new IntakeOutNew(intake)).onFalse(new IntakeInNew(intake));
-        //operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.8))).onFalse(new InstantCommand(() -> intake.runIntake(0)));
+       
         operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));
         operator.leftTrigger().onTrue(new IntakeOutPower(intake));
         operator.leftTrigger().whileFalse(new InstantCommand(() -> intake.runIntake(0)));
         operator.povDown().onTrue(new IntakeInPower(intake));
         operator.povUp().onTrue(new IntakeOutPower(intake));
 
-        //Jitter Intake:
-        // operator.povUp().whileTrue(new JitterIntake(intake).repeatedly());
-        // operator.povUp().whileFalse(new IntakeInPower(intake).alongWith(new InstantCommand(() -> intake.runIntake(0))));//Check this!
 
         //Outtake:
         operator.leftBumper().whileTrue(new Outtake(intake, hopper)); //OLD INTAKE!!
 
-        //Align
-        //Aim while holding the right bumper
-        //operator.rightBumper().whileTrue(new StationaryAutoAim(drivetrain));
-        
-        //Align and Shoot for operator needed:
-        //operator.rightTrigger().whileTrue(new AlignandShoot(drivetrain, shooter, hopper));
-        //operator.rightBumper().whileFalse(new InstantCommand(() -> shooter.stopAllShooters()).alongWith(new InstantCommand(() -> hopper.stopHopper())));
-
-
+       
         
         //TESTING CONTROLS:
         testing.rightTrigger().whileTrue(new ManualShoot(shooter, hopper, hood, 50));

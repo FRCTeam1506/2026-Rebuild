@@ -129,8 +129,8 @@ public class FieldConstants {
         for (int i = 0; i < 5; i++) {
             refinedTOF = EquationConstants.calculateTimeOfFlight(refinedDist);
             tempVTarget = new Translation2d(
-                goalLocation.getX() - (fieldSpeeds.vxMetersPerSecond * refinedTOF),
-                goalLocation.getY() - (fieldSpeeds.vyMetersPerSecond * refinedTOF)
+                goalLocation.getX() - (fieldSpeeds.vxMetersPerSecond * (refinedTOF * 0.9)),
+                goalLocation.getY() - (fieldSpeeds.vyMetersPerSecond * (refinedTOF * 0.9))
             );
             refinedDist = currentPose.getTranslation().getDistance(tempVTarget);
         }

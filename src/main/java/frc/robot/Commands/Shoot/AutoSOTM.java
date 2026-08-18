@@ -47,8 +47,8 @@ public class AutoSOTM extends Command {
     //Check if we are aligned
     if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && AlignOnTheMoveNew.atGoal == true) {
         hopper.runHopper(HopperConstants.hopperSpeed);
-    } else {
-      hopper.stopHopper();
+    // } else {
+    //   hopper.stopHopper();
     }
 
     //THIS WAS WORKING! Going back to above to fix defense issue

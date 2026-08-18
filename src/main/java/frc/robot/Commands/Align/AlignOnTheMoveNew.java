@@ -37,7 +37,7 @@ public class AlignOnTheMoveNew extends Command {
         AlignConstants.aimControllerD
     );
     request.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-    request.HeadingController.setTolerance(AlignConstants.alignToleranceRadians);
+    request.HeadingController.setTolerance(AlignConstants.alignToleranceRadians * 2);
     
     addRequirements(drivetrain);
   }

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Align.AlignOnTheMoveNew;
 import frc.robot.Commands.AutoDrive.DriveToTrench;
 import frc.robot.Commands.AutoPathing.DriveShortestPath;
@@ -176,12 +177,17 @@ public class RobotContainer {
         operator.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
         operator.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.passingShotRPS));
 
-        
-        operator.rightBumper().whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
-        operator.rightBumper().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));  
+        Trigger stationary = new Trigger(() -> 
+            Math.abs(driver.getLeftX()) < 0.2 && 
+            Math.abs(driver.getLeftY()) < 0.2 && 
+            Math.abs(driver.getRightX()) < 0.2
+        );
 
-        operator.rightTrigger().whileTrue(new AutoSOTM(shooter, hopper, hood));
-        operator.rightTrigger().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));   
+        operator.rightBumper().and(stationary).whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)); //Parallel Command Group, align and Shoot, ends on trigger
+        operator.rightBumper().onFalse(new InstantCommand(() -> intake.stopAllIntake()));  
+
+        operator.rightTrigger().and(driver.rightTrigger()).whileTrue(new AutoSOTM(shooter, hopper, hood));
+        operator.rightTrigger().onFalse(new InstantCommand(() -> intake.stopAllIntake()));   
 
        
         operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));

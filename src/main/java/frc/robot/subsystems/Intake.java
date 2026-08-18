@@ -138,6 +138,11 @@ public class Intake extends SubsystemBase {
     intakeLift.setControl(m_motmag.withPosition(Pos));
   }
 
+  public void stopAllIntake() {
+    intakeLift.set(0);
+    intake.set(0);
+  }
+
   // public boolean isFullyExtended() {
   //   return !extendedSwitch.get();
   // }

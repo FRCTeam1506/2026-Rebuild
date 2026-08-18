@@ -51,7 +51,7 @@ public class AutoShoot extends Command {
       if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && StationaryAutoAimContinuous.atGoal == true) {
         hopper.runHopper(HopperConstants.hopperSpeed);
       } else {
-        hooper.stopHopper();
+        hopper.stopHopper();
       }
 
       if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 

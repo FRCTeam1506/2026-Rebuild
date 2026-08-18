@@ -17,38 +17,38 @@ import frc.robot.Constants.HoodConstants;
 import frc.robot.generated.TunerConstants;
 
 public class Hood extends SubsystemBase {
-  DigitalInput limitSwitch = new DigitalInput(HoodConstants.Hood_Limit_Switch_Port);
+  // DigitalInput limitSwitch = new DigitalInput(HoodConstants.Hood_Limit_Switch_Port);
 
-  private TalonFX hood = new TalonFX(HoodConstants.Hood_ID);
+  // private TalonFX hood = new TalonFX(HoodConstants.Hood_ID);
 
-  final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
+  // final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
   /** Creates a new Hood. */
   public Hood() {
-    TalonFXConfiguration hoodConfigs = new TalonFXConfiguration();
-    //hoodConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-    hoodConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
-    hoodConfigs.CurrentLimits.StatorCurrentLimit = 70;
+    // TalonFXConfiguration hoodConfigs = new TalonFXConfiguration();
+    // //hoodConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    // hoodConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+    // hoodConfigs.CurrentLimits.StatorCurrentLimit = 70;
 
-    hoodConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
-    hoodConfigs.CurrentLimits.SupplyCurrentLimit = 30;
+    // hoodConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+    // hoodConfigs.CurrentLimits.SupplyCurrentLimit = 30;
 
-    var motionMagicConfigs = hoodConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 220; // 80 rps cruise velocity //60 rps gets to L4 in 1.92s //100 //160 //220 before 3/20 bc elevator maltensioned //220 FRCC
-    motionMagicConfigs.MotionMagicAcceleration = 260; // 160 rps/s acceleration (0.5 seconds) //220
-    motionMagicConfigs.MotionMagicJerk = 3200; // 1600 rps/s^2 jerk (0.1 seconds)
+    // var motionMagicConfigs = hoodConfigs.MotionMagic;
+    // motionMagicConfigs.MotionMagicCruiseVelocity = 220; // 80 rps cruise velocity //60 rps gets to L4 in 1.92s //100 //160 //220 before 3/20 bc elevator maltensioned //220 FRCC
+    // motionMagicConfigs.MotionMagicAcceleration = 260; // 160 rps/s acceleration (0.5 seconds) //220
+    // motionMagicConfigs.MotionMagicJerk = 3200; // 1600 rps/s^2 jerk (0.1 seconds)
 
-    var slot0Configs = hoodConfigs.Slot0;
-    slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
-    slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
-    // PID runs on position
-    slot0Configs.kP = 2; //4.8
-    slot0Configs.kI = 0;
-    slot0Configs.kD = 0.1;
-    hood.getConfigurator().apply(slot0Configs); 
-    hood.getConfigurator().apply(hoodConfigs);
-    hood.getConfigurator().apply(motionMagicConfigs);
+    // var slot0Configs = hoodConfigs.Slot0;
+    // slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
+    // slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
+    // // PID runs on position
+    // slot0Configs.kP = 2; //4.8
+    // slot0Configs.kI = 0;
+    // slot0Configs.kD = 0.1;
+    // hood.getConfigurator().apply(slot0Configs); 
+    // hood.getConfigurator().apply(hoodConfigs);
+    // hood.getConfigurator().apply(motionMagicConfigs);
 
-    m_motmag.EnableFOC = true;
+    // m_motmag.EnableFOC = true;
   }
 
   public void moveHood(double position) {
@@ -58,7 +58,7 @@ public class Hood extends SubsystemBase {
     // if(position < HoodConstants.Hood_Min_Position) {
     //   position = HoodConstants.Hood_Min_Position;
     // }
-    hood.setControl(m_motmag.withPosition(position));
+    //hood.setControl(m_motmag.withPosition(position));
   }
 
   public void hoodUp() {
@@ -88,7 +88,7 @@ public class Hood extends SubsystemBase {
   }
 
   public void stopHood() {
-    hood.set(0);
+    //hood.set(0);
   }
 
   @Override

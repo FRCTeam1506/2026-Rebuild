@@ -45,14 +45,18 @@ public class AutoSOTM extends Command {
     
     //hopper
     //Check if we are aligned
-    // if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && AlignOnTheMoveNew.atGoal == true) {
+    if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && AlignOnTheMoveNew.atGoal == true) {
+        hopper.runHopper(HopperConstants.hopperSpeed);
+    } else {
+      hopper.stopHopper();
+    }
+
+    //THIS WAS WORKING! Going back to above to fix defense issue
+    // if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {
     //     hopper.runHopper(HopperConstants.hopperSpeed);
     // }
 
 
-    if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance)) {
-        hopper.runHopper(HopperConstants.hopperSpeed);
-    }
     // if (FieldConstants.passing) {
     //   hood.moveHood(HoodConstants.Hood_Max_Position);
     // } else {

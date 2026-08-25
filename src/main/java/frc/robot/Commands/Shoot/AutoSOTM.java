@@ -35,7 +35,7 @@ public class AutoSOTM extends Command {
         targetRPS -= 20;
     }
     else {
-      targetRPS += 2;
+      targetRPS += 3.5; //2
     }
     if (targetRPS > 90) {
       targetRPS = 90;
@@ -45,7 +45,7 @@ public class AutoSOTM extends Command {
     
     //hopper
     //Check if we are aligned
-    if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && AlignOnTheMoveNew.atGoal == true) {
+    if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) /*&& AlignOnTheMoveNew.atGoal == true*/) {
         hopper.runHopper(HopperConstants.hopperSpeed);
     // } else {
     //   hopper.stopHopper();
@@ -68,6 +68,7 @@ public class AutoSOTM extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.stopAllShooters();
+    //shooter.runAllShootersSpeed(0.25);
     hopper.stopHopper();
     //hood.moveHood(HoodConstants.Hood_Min_Position);
   }

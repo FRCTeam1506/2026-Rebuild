@@ -37,7 +37,7 @@ public class AlignOnTheMoveNew extends Command {
         AlignConstants.aimControllerD
     );
     request.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-    request.HeadingController.setTolerance(AlignConstants.alignToleranceRadians * 2);
+    request.HeadingController.setTolerance(AlignConstants.alignToleranceRadians);
     
     addRequirements(drivetrain);
   }
@@ -84,8 +84,8 @@ public class AlignOnTheMoveNew extends Command {
     //   );
     // }
     drivetrain.setControl(request
-      .withVelocityX(xSupplier.getAsDouble() * maxSpeed).withDeadband(0.25)
-      .withVelocityY(ySupplier.getAsDouble() * maxSpeed).withDeadband(0.25)
+      .withVelocityX(xSupplier.getAsDouble() * maxSpeed).withDeadband(0.75)
+      .withVelocityY(ySupplier.getAsDouble() * maxSpeed).withDeadband(0.75)
       .withTargetDirection(new Rotation2d(targetAngle))
     );
 

@@ -54,12 +54,12 @@ public class AutoShoot extends Command {
       //   hopper.stopHopper();
       }
 
-      if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
-        FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
-        targetRPS -= 20;
+    if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
+      FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
+      targetRPS -= 20;
     }
     else {
-      targetRPS += 6.5;
+      targetRPS += 8; //7.5 //6.5
     }
     // if (FieldConstants.passing) {
     //   hood.moveHood(HoodConstants.Hood_Max_Position);
@@ -74,6 +74,7 @@ public class AutoShoot extends Command {
   public void end(boolean interrupted) {
     System.out.println("end");
     shooter.stopAllShooters();
+    //shooter.runAllShootersSpeed(0.25);
     hopper.stopHopper();
     //hood.moveHood(HoodConstants.Hood_Min_Position);
   }

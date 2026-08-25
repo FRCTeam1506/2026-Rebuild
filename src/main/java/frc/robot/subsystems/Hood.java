@@ -24,7 +24,7 @@ public class Hood extends SubsystemBase {
   // final MotionMagicVoltage m_motmag = new MotionMagicVoltage(0);
   /** Creates a new Hood. */
   public Hood() {
-    TalonFXConfiguration hoodConfigs = new TalonFXConfiguration();
+    // TalonFXConfiguration hoodConfigs = new TalonFXConfiguration();
     // //hoodConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     // hoodConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
     // hoodConfigs.CurrentLimits.StatorCurrentLimit = 70;

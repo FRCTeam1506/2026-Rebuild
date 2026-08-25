@@ -68,6 +68,7 @@ public class AutoSOTM extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.stopAllShooters();
+    //shooter.runAllShootersSpeed(0.25);
     hopper.stopHopper();
     //hood.moveHood(HoodConstants.Hood_Min_Position);
   }

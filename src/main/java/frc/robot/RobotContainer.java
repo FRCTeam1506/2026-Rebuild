@@ -187,6 +187,7 @@ public class RobotContainer {
         operator.rightBumper().onFalse(new InstantCommand(() -> intake.stopAllIntake()));  
 
         operator.rightTrigger().and(driver.rightTrigger()).whileTrue(new AutoSOTM(shooter, hopper, hood));
+        operator.rightTrigger().whileTrue(new JitterIntake(intake).repeatedly());
         operator.rightTrigger().onFalse(new InstantCommand(() -> intake.stopAllIntake()));   
 
        

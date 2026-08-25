@@ -50,16 +50,16 @@ public class AutoShoot extends Command {
     //hood.moveHood(hoodPos);
       if (shooter.isAtVelocity(targetRPS, ShooterConstants.kRPSTolerance) && StationaryAutoAimContinuous.atGoal == true) {
         hopper.runHopper(HopperConstants.hopperSpeed);
-      } else {
-        hopper.stopHopper();
+      // } else {
+      //   hopper.stopHopper();
       }
 
-      if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
-        FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
-        targetRPS -= 20;
+    if (FieldConstants.currentZone == FieldZone.MAILING_LEFT || 
+      FieldConstants.currentZone == FieldZone.MAILING_RIGHT) {
+      targetRPS -= 20;
     }
     else {
-      targetRPS += 6.5;
+      targetRPS += 7.5; //6.5
     }
     // if (FieldConstants.passing) {
     //   hood.moveHood(HoodConstants.Hood_Max_Position);

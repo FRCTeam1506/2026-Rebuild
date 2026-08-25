@@ -84,8 +84,8 @@ public class AlignOnTheMoveNew extends Command {
     //   );
     // }
     drivetrain.setControl(request
-      .withVelocityX(xSupplier.getAsDouble() * maxSpeed)
-      .withVelocityY(ySupplier.getAsDouble() * maxSpeed)
+      .withVelocityX(xSupplier.getAsDouble() * maxSpeed).withDeadband(0.5)
+      .withVelocityY(ySupplier.getAsDouble() * maxSpeed).withDeadband(0.5)
       .withTargetDirection(new Rotation2d(targetAngle))
     );
 

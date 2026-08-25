@@ -41,7 +41,7 @@ public class AutoShoot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.changeCurrentLimits(25, 25);
+    //intake.changeCurrentLimits(25, 25);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -85,7 +85,7 @@ public class AutoShoot extends Command {
       shooter.stopAllShooters();
     }
     hopper.stopHopper();
-    intake.changeCurrentLimits(35, 35);
+    //intake.changeCurrentLimits(35, 35);
     //hood.moveHood(HoodConstants.Hood_Min_Position);
   }
 

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AlignConstants;
+import frc.robot.Constants;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
@@ -36,6 +37,7 @@ public class StationaryAutoAimContinuous extends Command {
 
   @Override
   public void initialize() {
+    Constants.alignStationaryRunning = true;
     atGoal = false;
     var currentState = drivetrain.getState();
     alignRequest.HeadingController.reset();
@@ -78,6 +80,7 @@ public class StationaryAutoAimContinuous extends Command {
 
   @Override
   public void end(boolean interrupted) {
+    Constants.alignStationaryRunning = false;
     //drivetrain.setControl(request.withSpeeds(new ChassisSpeeds(0, 0, 0)));
   }
 }

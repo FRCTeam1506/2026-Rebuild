@@ -6,11 +6,15 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
+import java.security.cert.TrustAnchor;
+
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -44,6 +48,8 @@ public class Shooter extends SubsystemBase {
   Translation2d targetVec;
   double dist;
   CommandSwerveDrivetrain drivetrain;
+
+  public boolean keepShooterOn = true;
 
   // Sim-only: the intake we pull Fuel from, and a rate limiter so we launch a stream of pieces
   // rather than one per loop. Both are harmless on the real robot.
@@ -90,6 +96,20 @@ public class Shooter extends SubsystemBase {
 
   }
 
+  // public void changeCurrentLimits(int shooterLimit) {
+  //   TalonFXConfiguration shooterConfigs = new TalonFXConfiguration();
+
+  //   shooterConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
+  //   shooterConfigs.CurrentLimits.StatorCurrentLimit = 70;//100  80
+
+  //   shooterConfigs.CurrentLimits.SupplyCurrentLimitEnable = true;
+  //   shooterConfigs.CurrentLimits.SupplyCurrentLimit = shooterLimit;//60  40
+
+  //   shooterTop.getConfigurator().apply(shooterConfigs);
+  //   shooterRight.getConfigurator().apply(shooterConfigs);
+  //   shooterLeft.getConfigurator().apply(shooterConfigs);
+  // }
+
   public void runAllShootersSpeed(double speed) {
     shooterTop.set(speed);
     shooterRight.set(speed);
@@ -134,7 +154,6 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-
     SmartDashboard.putNumber("set shooter speed", EquationConstants.calculateRPS(FieldConstants.distToGoal));
     double[] FieldLocation = {FieldConstants.goalLocation.getMeasureX().baseUnitMagnitude(), FieldConstants.goalLocation.getMeasureY().baseUnitMagnitude()};
     SmartDashboard.putNumber("distance to goal", dist);

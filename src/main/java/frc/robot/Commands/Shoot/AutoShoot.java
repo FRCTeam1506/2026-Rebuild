@@ -14,6 +14,7 @@ import frc.robot.Constants.HopperConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -21,15 +22,17 @@ public class AutoShoot extends Command {
   private final Shooter shooter;
   private final Hopper hopper;
   private final Hood hood;
+  private final Intake intake;
   // private final CommandSwerveDrivetrain drivetrain;
   // private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
 
   /** Creates a new Shoot. */
-  public AutoShoot(Shooter shooter, Hopper hopper, Hood hood) {
+  public AutoShoot(Shooter shooter, Hopper hopper, Hood hood, Intake intake) {
     this.shooter = shooter;
     this.hopper = hopper;
     this.hood = hood;
+    this.intake = intake;
     //this.drivetrain = drivetrain;
     addRequirements(shooter, hopper, hood);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,7 +40,9 @@ public class AutoShoot extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intake.changeCurrentLimits(25, 25);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -72,9 +77,15 @@ public class AutoShoot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("end");
-    shooter.stopAllShooters();
+    //System.out.println("end");
+    //shooter.stopAllShooters();
+    if (shooter.keepShooterOn == true) {
+      shooter.runAllShootersSpeed(0.25);
+    } else {
+      shooter.stopAllShooters();
+    }
     hopper.stopHopper();
+    intake.changeCurrentLimits(35, 35);
     //hood.moveHood(HoodConstants.Hood_Min_Position);
   }
 

@@ -16,6 +16,9 @@ import edu.wpi.first.units.measure.Distance;
 /** Add your docs here. */
 public class Constants {
 
+    public static boolean alingOnTheMoveRunning;
+    public static boolean alignStationaryRunning;
+
     /**
      * Values that ONLY affect desktop simulation (maple-sim). Nothing here is read on the real
      * robot, so these are safe to tune freely to make the sim look/behave the way you want.

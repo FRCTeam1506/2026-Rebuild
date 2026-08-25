@@ -9,6 +9,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
@@ -53,14 +54,14 @@ public class Intake extends SubsystemBase {
       liftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
       liftConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-      liftConfig.CurrentLimits.SupplyCurrentLimit = 40;
+      liftConfig.CurrentLimits.SupplyCurrentLimit = 35;
     
       TalonFXConfiguration config = new TalonFXConfiguration();
       config.CurrentLimits.StatorCurrentLimitEnable = true;
       config.CurrentLimits.StatorCurrentLimit = 80;//105
 
       config.CurrentLimits.SupplyCurrentLimitEnable = true;
-      config.CurrentLimits.SupplyCurrentLimit = 40;
+      config.CurrentLimits.SupplyCurrentLimit = 35;
       
       intakeLift.getConfigurator().apply(liftConfig);
   
@@ -90,6 +91,26 @@ public class Intake extends SubsystemBase {
       intake.getConfigurator().apply(slot0Configs); 
       intakeLift.setNeutralMode(NeutralModeValue.Brake);
 
+  }
+
+  public void changeCurrentLimits(int intakeLimit, int LiftLimit) {
+    TalonFXConfiguration liftConfig = new TalonFXConfiguration();
+      liftConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+      liftConfig.CurrentLimits.StatorCurrentLimit = 80;//95
+      liftConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+      liftConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+      liftConfig.CurrentLimits.SupplyCurrentLimit = LiftLimit;
+    
+      TalonFXConfiguration config = new TalonFXConfiguration();
+      config.CurrentLimits.StatorCurrentLimitEnable = true;
+      config.CurrentLimits.StatorCurrentLimit = 80;//105
+
+      config.CurrentLimits.SupplyCurrentLimitEnable = true;
+      config.CurrentLimits.SupplyCurrentLimit = intakeLimit;
+      
+      intakeLift.getConfigurator().apply(liftConfig);
+      intake.getConfigurator().apply(config);
   }
 
   /**

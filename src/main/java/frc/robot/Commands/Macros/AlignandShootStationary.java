@@ -18,7 +18,7 @@ public class AlignandShootStationary extends ParallelCommandGroup {
     public AlignandShootStationary(CommandSwerveDrivetrain drivetrain, Shooter shooter, Hopper hopper, Intake intake, Hood hood) {
     addCommands(
         new StationaryAutoAimContinuous(drivetrain),
-        new AutoShoot(shooter, hopper, hood),
+        new AutoShoot(shooter, hopper, hood, intake),
         //new AutoShootHood(shooter, hopper, hood),
         // new InstantCommand(() -> intake.runIntake(-0.2))
         new JitterIntake(intake).repeatedly()

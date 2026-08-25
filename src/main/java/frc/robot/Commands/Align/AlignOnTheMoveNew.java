@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import frc.robot.Constants.AlignConstants;
+import frc.robot.Constants;
 import frc.robot.FieldConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -44,6 +45,7 @@ public class AlignOnTheMoveNew extends Command {
 
   @Override
   public void initialize() {
+    Constants.alingOnTheMoveRunning = true;
     atGoal = false;
     request.HeadingController.reset();
   }
@@ -90,5 +92,10 @@ public class AlignOnTheMoveNew extends Command {
     );
 
     atGoal = request.HeadingController.atSetpoint();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    Constants.alingOnTheMoveRunning = false;
   }
 }

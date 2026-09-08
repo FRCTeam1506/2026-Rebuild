@@ -44,7 +44,7 @@ public class AutoShoot extends Command {
   public void execute() {
     //if(AlignConstants.isAligned) {
     //drivetrain.applyRequest(() -> brake);
-    double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 2; //tune constant rps value
+    double targetRPS = EquationConstants.calculateRPS(FieldConstants.distToGoal) + 4; //tune constant rps value
     //double hoodPos = EquationConstants.calculateHood(FieldConstants.distToGoal);
     shooter.setShooterRPS(targetRPS);
     //hood.moveHood(hoodPos);
@@ -59,7 +59,7 @@ public class AutoShoot extends Command {
       targetRPS -= 20;
     }
     else {
-      targetRPS += 8; //7.5 //6.5
+      targetRPS += 9.5; //7.5 //6.5
     }
     // if (FieldConstants.passing) {
     //   hood.moveHood(HoodConstants.Hood_Max_Position);

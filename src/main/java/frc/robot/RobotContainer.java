@@ -13,13 +13,16 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Align.AlignOnTheMoveNew;
@@ -67,6 +70,7 @@ public class RobotContainer {
     public  final CommandXboxController driver = new CommandXboxController(0);
     public final CommandXboxController operator = new CommandXboxController(1);
     public final CommandXboxController testing = new CommandXboxController(2);
+    public final CommandJoystick flightStick = new CommandJoystick(3);
 
 
     Intake intake = new Intake();
@@ -100,14 +104,16 @@ public class RobotContainer {
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
-        drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed).withDeadband(0.75) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed).withDeadband(0.75) // Drive left with negative X (left)
-                    .withRotationalRate(-driver.getRightX() * MaxAngularRate * 1.4) // Drive counterclockwise with negative X (left)
-            )
-        );
+        //Main
+        // drivetrain.setDefaultCommand(
+        //     // Drivetrain will execute this command periodically
+        //     drivetrain.applyRequest(() ->
+        //         drive.withVelocityX(-driver.getLeftY() * MaxSpeed).withDeadband(0.75) // Drive forward with negative Y (forward)
+        //             .withVelocityY(-driver.getLeftX() * MaxSpeed).withDeadband(0.75) // Drive left with negative X (left)
+        //             .withRotationalRate(-driver.getRightX() * MaxAngularRate * 1.4) // Drive counterclockwise with negative X (left)
+        //     )
+        // );
+        //Tester
         // drivetrain.setDefaultCommand(
         //     // Drivetrain will execute this command periodically
         //     drivetrain.applyRequest(() ->
@@ -116,6 +122,15 @@ public class RobotContainer {
         //             .withRotationalRate(-testing.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         //     )
         // );
+        //Flight Stick
+        drivetrain.setDefaultCommand(
+            // Drivetrain will execute this command periodically
+            drivetrain.applyRequest(() ->
+                drive.withVelocityX(-flightStick.getY() * MaxSpeed).withDeadband(0.5) // Drive forward with negative Y (forward)
+                    .withVelocityY(-flightStick.getX() * MaxSpeed).withDeadband(0.5) // Drive left with negative X (left)
+                    .withRotationalRate(-flightStick.getZ() * MaxAngularRate * 1.4) // Drive counterclockwise with negative X (left)
+            )
+        );
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -149,7 +164,10 @@ public class RobotContainer {
         driver.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS)); //Tower shot
         driver.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
         driver.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
+
         driver.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS)); //Corner Shot
+        driver.y().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        driver.y().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
 
 
         //Intake    
@@ -172,10 +190,16 @@ public class RobotContainer {
 
         //Preset Shots:
         operator.a().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS));
+        operator.a().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        operator.a().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
+
         operator.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS));
         operator.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
         operator.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
+
         operator.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.passingShotRPS));
+        operator.y().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        operator.y().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
 
         Trigger stationary = new Trigger(() -> 
             Math.abs(driver.getLeftX()) < 0.2 && 
@@ -237,6 +261,42 @@ public class RobotContainer {
         testing.povLeft().onTrue(new InstantCommand(() -> hood.hoodDown()));
         testing.povUp().onTrue(new InstantCommand(() -> shooter.upPower()));
         testing.povDown().onTrue(new InstantCommand(() -> shooter.downPower()));
+
+
+
+
+        //Flight Stick
+        flightStick.button(1).whileTrue(new AlignOnTheMoveNew(drivetrain, () -> -flightStick.getY(), () -> -flightStick.getX()));
+
+        flightStick.button(1).whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));      
+                 
+        // Reset the field-centric heading on left CIRCLE (David likes circle) press.
+        flightStick.button(11).onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+        //Brake on cross, x wheel position
+        flightStick.button(10).whileTrue(drivetrain.applyRequest(() -> brake));
+
+        //Shoot
+        flightStick.button( 9).whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)).onFalse(new InstantCommand(() -> intake.stopIntake())); //Parallel Command Group, align and Shoot, ends on trigger
+        flightStick.button(9).whileFalse(new InstantCommand(() -> intake.stopIntakeLift())).onFalse(new InstantCommand(() -> intake.runIntake(0)));        
+
+        flightStick.button(3).whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS)); //Tower shot
+        flightStick.button(3).whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        flightStick.button(3).whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
+        flightStick.button(2).whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS)); //Corner Shot
+        flightStick.button(2).whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        flightStick.button(2).whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
+
+
+        //Intake    
+        flightStick.button(6).whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));
+        flightStick.button(6).onTrue(new IntakeOutPower(intake));
+        flightStick.button(6).whileFalse(new InstantCommand(() -> intake.runIntake(0)));
+        flightStick.pov(0).onTrue(new IntakeOutPower(intake));
+        flightStick.pov(180).onTrue(new IntakeInPower(intake));
+
+        
+        flightStick.button(5).whileTrue(new DriveShortestPath(drivetrain, pathing));
 
     }
 

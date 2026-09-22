@@ -103,8 +103,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed).withDeadband(0.75) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed).withDeadband(0.75) // Drive left with negative X (left)
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed).withDeadband(0.6) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed).withDeadband(0.6) // Drive left with negative X (left)
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate * 1.4) // Drive counterclockwise with negative X (left)
             )
         );
@@ -127,8 +127,12 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         driver.rightTrigger().whileTrue(
-            new AlignOnTheMoveNew(
+            new SOTM(
                 drivetrain,
+                shooter,
+                hopper,
+                intake,
+                hood,
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX()
             )
@@ -186,9 +190,20 @@ public class RobotContainer {
         operator.rightBumper().and(stationary).whileTrue(new AlignandShootStationary(drivetrain, shooter, hopper, intake, hood)); //Parallel Command Group, align and Shoot, ends on trigger
         operator.rightBumper().onFalse(new InstantCommand(() -> intake.stopAllIntake()));  
 
-        operator.rightTrigger().and(driver.rightTrigger()).whileTrue(new AutoSOTM(shooter, hopper, hood));
-        operator.rightTrigger().whileTrue(new JitterIntake(intake).repeatedly());
-        operator.rightTrigger().onFalse(new InstantCommand(() -> intake.stopAllIntake()));   
+        // operator.rightTrigger().and(driver.rightTrigger()).whileTrue(new AutoSOTM(shooter, hopper, hood));
+        // operator.rightTrigger().whileTrue(new JitterIntake(intake).repeatedly());
+        // operator.rightTrigger().onFalse(new InstantCommand(() -> intake.stopAllIntake()));   
+        operator.rightTrigger().whileTrue(
+            new SOTM(
+                drivetrain,
+                shooter,
+                hopper,
+                intake,
+                hood,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX()
+            )
+        );
 
        
         operator.leftTrigger().whileTrue(new InstantCommand(() -> intake.runIntake(-0.9)));

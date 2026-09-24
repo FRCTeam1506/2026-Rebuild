@@ -35,7 +35,7 @@ public class AutoSOTM extends Command {
         targetRPS -= 20;
     }
     else {
-      targetRPS += 3.5; //2
+      targetRPS += 3.4; //2
     }
     if (targetRPS > 90) {
       targetRPS = 90;

@@ -154,6 +154,8 @@ public class RobotContainer {
         driver.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
         driver.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
         driver.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS)); //Corner Shot
+        driver.y().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        driver.y().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
 
 
         //Intake    
@@ -176,10 +178,14 @@ public class RobotContainer {
 
         //Preset Shots:
         operator.a().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.closeShotRPS));
+        operator.a().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        operator.a().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
         operator.x().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.cornerShotRPS));
         operator.x().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
         operator.x().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
         operator.y().whileTrue(new ManualShoot(shooter, hopper, hood, PresetShots.passingShotRPS));
+        operator.y().whileTrue(new JitterIntake(intake).repeatedly()); //Tower shot
+        operator.y().whileFalse(new InstantCommand(() -> intake.stopIntakeLift())); //Tower shot
 
         Trigger stationary = new Trigger(() -> 
             Math.abs(driver.getLeftX()) < 0.2 && 

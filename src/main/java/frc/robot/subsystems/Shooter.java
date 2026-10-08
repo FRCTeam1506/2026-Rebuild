@@ -141,6 +141,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumberArray("goal", FieldLocation);
     SmartDashboard.putNumber("Tuner Power", PresetShots.tunerPower);
     SmartDashboard.putNumber("Shooter Power", avgShooterSpeed());
+    SmartDashboard.putNumber("Heading", drivetrain.getState().Pose.getRotation().getDegrees());
     // This method will be called once per scheduler run
 
     simShootPeriodic();

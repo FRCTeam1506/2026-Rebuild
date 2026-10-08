@@ -60,7 +60,7 @@ public class Intake extends SubsystemBase {
       config.CurrentLimits.StatorCurrentLimit = 80;//105
 
       config.CurrentLimits.SupplyCurrentLimitEnable = true;
-      config.CurrentLimits.SupplyCurrentLimit = 30;
+      config.CurrentLimits.SupplyCurrentLimit = 25;
       
       intakeLift.getConfigurator().apply(liftConfig);
   

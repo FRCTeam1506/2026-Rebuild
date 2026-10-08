@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Align.AlignOnTheMoveNew;
+import frc.robot.Commands.Align.TowerAlign;
 import frc.robot.Commands.AutoDrive.DriveToTrench;
 import frc.robot.Commands.AutoPathing.DriveShortestPath;
 import frc.robot.Commands.AutoPathing.DriveToCross;
@@ -103,8 +104,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driver.getLeftY() * MaxSpeed).withDeadband(1) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driver.getLeftX() * MaxSpeed).withDeadband(1) // Drive left with negative X (left)
+                drive.withVelocityX(-driver.getLeftY() * MaxSpeed).withDeadband(100) // Drive forward with negative Y (forward)
+                    .withVelocityY(-driver.getLeftX() * MaxSpeed).withDeadband(100) // Drive left with negative X (left)
                     .withRotationalRate(-driver.getRightX() * MaxAngularRate * 1.4).withDeadband(0.3) // Drive counterclockwise with negative X (left)
             )
         );
@@ -166,7 +167,8 @@ public class RobotContainer {
         driver.povUp().onTrue(new IntakeInPower(intake));
 
         
-        driver.leftBumper().whileTrue(new DriveShortestPath(drivetrain, pathing));
+        // driver.leftBumper().whileTrue(new DriveShortestPath(drivetrain, pathing));
+        driver.leftBumper().whileTrue(new TowerAlign(drivetrain, () -> -driver.getLeftY(), () -> -driver.getLeftX()));
 
         
 
